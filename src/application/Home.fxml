@@ -16,17 +16,17 @@
       </Label>
       <HBox alignment="CENTER">
          <children>
-            <Button fx:id="PractiseButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#practiseButtonClicked" prefHeight="125.0" prefWidth="125.0" text="Practise" HBox.hgrow="NEVER">
+            <Button fx:id="_practiseBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goPractise" prefHeight="125.0" prefWidth="125.0" text="Practise" HBox.hgrow="NEVER">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
             </Button>
-            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="125.0" prefWidth="125.0" text="Play" HBox.hgrow="NEVER">
+            <Button fx:id="_playBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goPlay" prefHeight="125.0" prefWidth="125.0" text="Play" HBox.hgrow="NEVER">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
             </Button>
-            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="125.0" prefWidth="125.0" text="Score" HBox.hgrow="NEVER">
+            <Button fx:id="_scoreBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#showScore" prefHeight="125.0" prefWidth="125.0" text="Score" HBox.hgrow="NEVER">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
@@ -35,12 +35,12 @@
       </HBox>
       <HBox alignment="CENTER">
          <children>
-            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="125.0" prefWidth="125.0" text="Settings" HBox.hgrow="NEVER">
+            <Button fx:id="_settingsBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goSettings" prefHeight="125.0" prefWidth="125.0" text="Settings" HBox.hgrow="NEVER">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
             </Button>
-            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="125.0" prefWidth="125.0" text="Help" HBox.hgrow="NEVER">
+            <Button fx:id="_helpBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#showHelp" prefHeight="125.0" prefWidth="125.0" text="Help" HBox.hgrow="NEVER">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>

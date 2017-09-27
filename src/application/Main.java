@@ -41,9 +41,10 @@ public class Main extends Application {
 		}
 	}
 	
-	public void showFoundationBoard(String string) {
-		// TODO Auto-generated method stub
-		
+	public void showFoundationBoard(String mode) {
+		Scene foundationBoard = loadScene("FoundationBoard.fxml");
+		FoundationBoardController fdtController = (FoundationBoardController)foundationBoard.getUserData();
+		fdtController.setFunction(mode);
 	}
 
 	public void showPractiseScene() {
