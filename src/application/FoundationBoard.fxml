@@ -5,14 +5,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<SplitPane dividerPositions="0.8" maxHeight="-Infinity"
-	maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-	prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8"
-	xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FoundationBoardController">
-	<items>
-		<AnchorPane fx:id="_mainPane" prefHeight="600.0" prefWidth="800.0"
-			SplitPane.resizableWithParent="false" />
-		<AnchorPane fx:id="_statisticsPane" prefHeight="600.0"
-			prefWidth="200.0" SplitPane.resizableWithParent="false" />
-	</items>
-</SplitPane>
+
+<HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FoundationBoardController">
+   <children>
+      <AnchorPane fx:id="_mainPane" prefHeight="600.0" prefWidth="800.0" />
+      <AnchorPane fx:id="_statisticsPane" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="200.0" />
+   </children>
+</HBox>

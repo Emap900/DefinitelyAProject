@@ -26,16 +26,19 @@ public class FoundationBoardController implements Initializable {
 	 */
 	@FXML
 	private AnchorPane _statisticsPane;
-	
+
 	/**
 	 * The only statistics controller in the main scene
 	 */
 	private static StatisticsBarController _statistics;
 
+	/**
+	 * Initialize the controller
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		//TODO
+		// TODO
 		// load statistics scene at the statistics pane
 		_statistics = (StatisticsBarController) replacePaneContent(_statisticsPane, "StatisticsBar.fxml");
 	}
@@ -50,15 +53,23 @@ public class FoundationBoardController implements Initializable {
 		if (function.equals("Practise")) {
 			showPractiseChoosingScene();
 		} else if (function.equals("Play")) {
-			showLoginScene();
+			showModeChoosingScene();
 		}
 	}
-	
+
+	/**
+	 * Show the ModeChoosingScene on the main pane
+	 */
+	private void showModeChoosingScene() {
+		ModeChoosingSceneController modeChoosingSceneController = (ModeChoosingSceneController) replacePaneContent(
+				_mainPane, "ModeChoosingScene.fxml");
+		modeChoosingSceneController.setParent(this);
+	}
+
 	/**
 	 * Show the LoginScene on the main pane
 	 */
 	private void showLoginScene() {
-		// TODO Auto-generated method stub
 		LoginSceneController LoginSceneController = (LoginSceneController) replacePaneContent(_mainPane,
 				"LoginScene.fxml");
 		LoginSceneController.setParent(this);
@@ -68,21 +79,21 @@ public class FoundationBoardController implements Initializable {
 	 * Show the PractiseChoosingScene on the main pane
 	 */
 	public void showPractiseChoosingScene() {
-		//TODO
-		PractiseChoosingSceneController practiseChoosingSceneController = (PractiseChoosingSceneController) replacePaneContent(_mainPane,
-				"PractiseChoosingScene.fxml");
+		PractiseChoosingSceneController practiseChoosingSceneController = (PractiseChoosingSceneController) replacePaneContent(
+				_mainPane, "PractiseChoosingScene.fxml");
 		practiseChoosingSceneController.setParent(this);
 	}
-	
+
 	/**
 	 * Replaces the content in the pane with the pane defined by the FXML file, and
 	 * return the controller for the FXML
 	 * 
 	 * @param pane
 	 * @param fxml
-	 * @return Controller which implements Initializable
+	 * @return 
+	 * @return the corresponding controller for the fxml file
 	 */
-	private Initializable replacePaneContent(Pane pane, String fxml) {
+	private Object replacePaneContent(Pane pane, String fxml) {
 		FXMLLoader loader = new FXMLLoader();
 		InputStream in = Main.class.getResourceAsStream(fxml);
 		loader.setBuilderFactory(new JavaFXBuilderFactory());
@@ -95,6 +106,6 @@ public class FoundationBoardController implements Initializable {
 			e.printStackTrace();
 		}
 
-		return (Initializable) loader.getController();
+		return loader.getController();
 	}
 }

@@ -2,9 +2,10 @@ package application;
 
 public class LoginSceneController {
 
+	private FoundationBoardController _parentController;
+
 	public void setParent(FoundationBoardController parentController) {
-		// TODO Auto-generated method stub
-		
+		_parentController = parentController;
 	}
 
 }

@@ -2,22 +2,17 @@ package application;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 
-public class PractiseChoosingSceneController {
-	
+public class ModeChoosingSceneController {
+
 	@FXML
 	private Button _homeButton;
-	
+
 	@FXML
-	private TextField _numberTextField;
-	
+	private Button _normalModeButton;
+
 	@FXML
-	private Button _specificPractiseButton;
-	
-	@FXML
-	private Button _autoGenerateButton;
-	
+	private Button _endlessModeButton;
 
 	private FoundationBoardController _parentController;
 
@@ -27,17 +22,18 @@ public class PractiseChoosingSceneController {
 	
 	@FXML
 	public void homeButtonClicked() {
-		//TODO
-	}
-	@FXML
-	public void specificPractiseButtonClicked() {
-		//TODO
+		// TODO
 	}
 
 	@FXML
-	public void autoGenerateButtonClicked() {
-		//TODO
+	public void normalModeButtonClicked() {
+		// TODO
 	}
 
+	@FXML
+	public void endlessModeButtonClicked() {
+		// TODO
+	}
+	
 
 }
