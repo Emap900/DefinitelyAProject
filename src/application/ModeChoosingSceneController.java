@@ -5,8 +5,6 @@ import javafx.scene.control.Button;
 
 public class ModeChoosingSceneController {
 
-	@FXML
-	private Button _homeButton;
 
 	@FXML
 	private Button _normalModeButton;
@@ -20,10 +18,6 @@ public class ModeChoosingSceneController {
 		_parentController = parentController;
 	}
 
-	@FXML
-	public void homeButtonClicked() {
-		_parentController.returnHome();
-	}
 
 	@FXML
 	public void normalModeButtonClicked() {

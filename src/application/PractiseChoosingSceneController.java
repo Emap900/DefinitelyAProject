@@ -7,9 +7,6 @@ import javafx.scene.control.TextField;
 public class PractiseChoosingSceneController {
 	
 	@FXML
-	private Button _homeButton;
-	
-	@FXML
 	private TextField _numberTextField;
 	
 	@FXML
@@ -25,10 +22,6 @@ public class PractiseChoosingSceneController {
 		_parentController = parentController;
 	}
 	
-	@FXML
-	public void homeButtonClicked() {
-		_parentController.returnHome();
-	}
 	
 	@FXML
 	public void specificPractiseButtonClicked() {

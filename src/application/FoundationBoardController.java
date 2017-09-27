@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
@@ -26,6 +27,12 @@ public class FoundationBoardController implements Initializable {
 	 */
 	@FXML
 	private AnchorPane _statisticsPane;
+
+	/**
+	 * Home Button
+	 */
+	@FXML
+	private Button _homeBtn;
 
 	private Main _main;
 
@@ -69,11 +76,12 @@ public class FoundationBoardController implements Initializable {
 	}
 
 	/**
-	 * Stop any processes running on this foundation board and go back to the home
-	 * page
+	 * Stop any processes running on this foundation board and switch back to the
+	 * home page.
 	 */
-	public void returnHome() {
-		// TODO Auto-generated method stub
+	@FXML
+	public void homeBtnClicked() {
+		// TODO
 		_main.showHome();
 	}
 

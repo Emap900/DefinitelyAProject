@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
 
-<HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FoundationBoardController">
+<VBox xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FoundationBoardController">
    <children>
-      <AnchorPane fx:id="_mainPane" prefHeight="600.0" prefWidth="800.0" />
-      <AnchorPane fx:id="_statisticsPane" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="200.0" />
+      <HBox prefHeight="50.0">
+         <children>
+            <Button fx:id="_homeBtn" mnemonicParsing="false" onAction="#homeBtnClicked" prefHeight="50.0" prefWidth="100.0" text="&lt;-Home" />
+         </children>
+      </HBox>
+      <HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0">
+         <children>
+            <AnchorPane fx:id="_mainPane" prefHeight="550.0" prefWidth="800.0" />
+            <AnchorPane fx:id="_statisticsPane" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="200.0" />
+         </children>
+      </HBox>
    </children>
-</HBox>
+</VBox>

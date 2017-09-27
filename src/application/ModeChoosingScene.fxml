@@ -3,53 +3,40 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ModeChoosingSceneController">
-   <center>
-      <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+
+<VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ModeChoosingSceneController">
+   <children>
+      <Label text="Choose game mode">
+         <font>
+            <Font name="System Bold" size="25.0" />
+         </font>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </Label>
+      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
          <children>
-            <Label text="Choose game mode">
-               <font>
-                  <Font name="System Bold" size="25.0" />
-               </font>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin></Label>
-            <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-               <children>
-                  <Button fx:id="_normalModeButton" mnemonicParsing="false" onAction="#normalModeButtonClicked" prefHeight="125.0" prefWidth="125.0" text="Normal Mode">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="_endlessModeButton" mnemonicParsing="false" onAction="#endlessModeButtonClicked" prefHeight="125.0" prefWidth="125.0" text="Endless Mode">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </center>
-   <top>
-      <HBox prefHeight="50.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="_homeButton" mnemonicParsing="false" onAction="#homeButtonClicked" prefHeight="50.0" prefWidth="100.0" text="&lt;-Home">
+            <Button fx:id="_normalModeButton" mnemonicParsing="false" onAction="#normalModeButtonClicked" prefHeight="125.0" prefWidth="125.0" text="Normal Mode">
                <font>
                   <Font name="System Bold" size="12.0" />
-               </font></Button>
+               </font>
+               <HBox.margin>
+                  <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="_endlessModeButton" mnemonicParsing="false" onAction="#endlessModeButtonClicked" prefHeight="125.0" prefWidth="125.0" text="Endless Mode">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+               </HBox.margin>
+            </Button>
          </children>
       </HBox>
-   </top>
-</BorderPane>
+   </children>
+</VBox>
