@@ -19,10 +19,10 @@ public class ModeChoosingSceneController {
 	public void setParent(FoundationBoardController parentController) {
 		_parentController = parentController;
 	}
-	
+
 	@FXML
 	public void homeButtonClicked() {
-		// TODO
+		_parentController.returnHome();
 	}
 
 	@FXML
@@ -34,6 +34,5 @@ public class ModeChoosingSceneController {
 	public void endlessModeButtonClicked() {
 		// TODO
 	}
-	
 
 }

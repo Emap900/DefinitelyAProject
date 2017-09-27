@@ -27,8 +27,9 @@ public class PractiseChoosingSceneController {
 	
 	@FXML
 	public void homeButtonClicked() {
-		//TODO
+		_parentController.returnHome();
 	}
+	
 	@FXML
 	public void specificPractiseButtonClicked() {
 		//TODO

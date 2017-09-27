@@ -27,6 +27,8 @@ public class FoundationBoardController implements Initializable {
 	@FXML
 	private AnchorPane _statisticsPane;
 
+	private Main _main;
+
 	/**
 	 * The only statistics controller in the main scene
 	 */
@@ -55,6 +57,24 @@ public class FoundationBoardController implements Initializable {
 		} else if (function.equals("Play")) {
 			showModeChoosingScene();
 		}
+	}
+
+	/**
+	 * Make a link to Main class.
+	 * 
+	 * @param main
+	 */
+	public void setParent(Main main) {
+		_main = main;
+	}
+
+	/**
+	 * Stop any processes running on this foundation board and go back to the home
+	 * page
+	 */
+	public void returnHome() {
+		// TODO Auto-generated method stub
+		_main.showHome();
 	}
 
 	/**
@@ -90,7 +110,7 @@ public class FoundationBoardController implements Initializable {
 	 * 
 	 * @param pane
 	 * @param fxml
-	 * @return 
+	 * @return
 	 * @return the corresponding controller for the fxml file
 	 */
 	private Object replacePaneContent(Pane pane, String fxml) {
@@ -108,4 +128,5 @@ public class FoundationBoardController implements Initializable {
 
 		return loader.getController();
 	}
+
 }
