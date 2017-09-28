@@ -45,12 +45,10 @@ public class Main extends Application {
 		Scene foundationBoard = loadScene("FoundationBoard.fxml");
 		FoundationBoardController fdtController = (FoundationBoardController)foundationBoard.getUserData();
 		fdtController.setFunction(mode);
+		fdtController.setParent(this);
+		showScene(_primaryStage, foundationBoard);
 	}
 
-	public void showPractiseScene() {
-		Scene practise = loadScene("PractiseChoosingScene.fxml");
-		showScene(_primaryStage, practise);
-	}
 	public void showSettingsScene() {
 		Scene settings = loadScene("Setttings.fxml");
 		showScene(_primaryStage, settings);
@@ -113,6 +111,11 @@ public class Main extends Application {
 
 			alert.showAndWait();
 		}
+	}
+
+	public void showHome() {
+		// TODO Auto-generated method stub
+		
 	}
 
 

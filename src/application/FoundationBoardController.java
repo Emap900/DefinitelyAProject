@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -55,6 +56,10 @@ public class FoundationBoardController implements Initializable {
 		// TODO
 		// load statistics scene at the statistics pane
 		_statistics = (StatisticsBarController) replacePaneContent(_statisticsPane, "StatisticsBar.fxml");
+
+		_userModel = UserModel.getInstance();
+		_questionModel = QuestionModel.getInstance();
+
 	}
 
 	/**
@@ -127,17 +132,6 @@ public class FoundationBoardController implements Initializable {
 	}
 
 	/**
-	 * Show the QuestionScene on the main pane
-	 */
-	private void showQuestionScene() {
-		// TODO Auto-generated method stub
-		QuestionSceneController questionSceneController = (QuestionSceneController) replacePaneContent(
-				_mainPane, "QuestionScene.fxml");
-		questionSceneController.setParent(this);
-		//questionSceneController.setQuestion(_questionModel.nextQuestion());
-	}
-
-	/**
 	 * Replaces the content in the pane with the pane defined by the FXML file, and
 	 * return the controller for the FXML
 	 * 
@@ -168,7 +162,7 @@ public class FoundationBoardController implements Initializable {
 	 * @param number
 	 */
 	public void practise(int number) {
-		// TODO ask question model to generate questions of the specific number
+		// TODO ask question model to generate practise questions of the specific number
 
 		showQuestionScene();
 	}
@@ -177,8 +171,9 @@ public class FoundationBoardController implements Initializable {
 	 * Randomly generate numbers to practise
 	 */
 	public void practiseRandomNumber() {
-		// TODO Auto-generated method stub
+		// TODO ask question model to randomly generate practise questions
 
+		showQuestionScene();
 	}
 
 	/**
@@ -187,8 +182,10 @@ public class FoundationBoardController implements Initializable {
 	 * @param playerName
 	 */
 	public void startNormalGame(String playerName) {
-		// TODO Auto-generated method stub
+		// TODO ask question model to generate a list of math questions (give number of
+		// questions)
 
+		showQuestionScene();
 	}
 
 	/**
@@ -197,6 +194,49 @@ public class FoundationBoardController implements Initializable {
 	 * @param playerName
 	 */
 	public void startEndlessGame(String playerName) {
+		// TODO ask question model to generate endless math questions
+
+		showQuestionScene();
+	}
+
+	/**
+	 * Show the QuestionScene on the main pane
+	 */
+	private void showQuestionScene() {
+		// TODO Auto-generated method stub
+		QuestionSceneController questionSceneController = (QuestionSceneController) replacePaneContent(_mainPane,
+				"QuestionScene.fxml");
+		questionSceneController.setParent(this);
+		questionSceneController.setQuestion(_questionModel.currentQuestion(), _questionModel.currentAnswer());
+	}
+
+	/**
+	 * Show the ResultScene on the main pane
+	 */
+	public void showResult() {
+		// TODO Auto-generated method stub
+		Task<Void> check = new Task<Void>() {
+			@Override
+			public Void call() {
+				SpeechRecognizer.checkCorrectness();
+				return null;
+			}
+		};
+		check.setOnSucceeded(rce -> {
+
+		});
+		new Thread(check).start();
+
+	}
+
+	/**
+	 * Show the help information for the specific scene.
+	 * 
+	 * @param sceneName
+	 *            (must be one of the following: "PractiseStartPage",
+	 *            "GameStartPage", "QuestionScene", or "ResultScene")
+	 */
+	public void showHelp(String sceneName) {
 		// TODO Auto-generated method stub
 
 	}

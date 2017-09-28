@@ -10,24 +10,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.QuestionSceneController">
    <children>
-      <HBox alignment="CENTER" prefHeight="300.0">
+      <StackPane prefHeight="300.0">
          <children>
-            <Button fx:id="_previousBtn" mnemonicParsing="false" onAction="#previousBtnClicked" text="Previous" />
-            <StackPane HBox.hgrow="ALWAYS">
-               <children>
-                  <Label fx:id="_question" text="Question">
-                     <font>
-                        <Font size="36.0" />
-                     </font>
-                  </Label>
-               </children>
-            </StackPane>
-            <Button fx:id="_nextBtn" mnemonicParsing="false" onAction="#nextBtnClicked" text="Next" />
+            <Label fx:id="_question" text="Question">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
          </children>
-      </HBox>
+      </StackPane>
       <HBox alignment="CENTER">
          <VBox.margin>
             <Insets />
