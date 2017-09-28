@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 public class FoundationBoardController implements Initializable {
@@ -20,13 +21,13 @@ public class FoundationBoardController implements Initializable {
 	 * scenes switching on it
 	 */
 	@FXML
-	private AnchorPane _mainPane;
+	private HBox _mainPane;
 
 	/**
 	 * This pane is shown on the right side of the scene, which shows the statistics
 	 */
 	@FXML
-	private AnchorPane _statisticsPane;
+	private HBox _statisticsPane;
 
 	/**
 	 * Home Button
@@ -60,9 +61,9 @@ public class FoundationBoardController implements Initializable {
 	 */
 	public void setFunction(String function) {
 		if (function.equals("Practise")) {
-			showPractiseChoosingScene();
+			showPractiseStartPage();
 		} else if (function.equals("Play")) {
-			showModeChoosingScene();
+			showGameStartPage();
 		}
 	}
 
@@ -88,10 +89,10 @@ public class FoundationBoardController implements Initializable {
 	/**
 	 * Show the ModeChoosingScene on the main pane
 	 */
-	private void showModeChoosingScene() {
-		ModeChoosingSceneController modeChoosingSceneController = (ModeChoosingSceneController) replacePaneContent(
-				_mainPane, "ModeChoosingScene.fxml");
-		modeChoosingSceneController.setParent(this);
+	private void showGameStartPage() {
+		GameStartPageController gameStartPageController = (GameStartPageController) replacePaneContent(
+				_mainPane, "GameStartPage.fxml");
+		gameStartPageController.setParent(this);
 	}
 
 	/**
@@ -106,10 +107,10 @@ public class FoundationBoardController implements Initializable {
 	/**
 	 * Show the PractiseChoosingScene on the main pane
 	 */
-	public void showPractiseChoosingScene() {
-		PractiseChoosingSceneController practiseChoosingSceneController = (PractiseChoosingSceneController) replacePaneContent(
-				_mainPane, "PractiseChoosingScene.fxml");
-		practiseChoosingSceneController.setParent(this);
+	public void showPractiseStartPage() {
+		PractiseStartPageController practiseStartPageController = (PractiseStartPageController) replacePaneContent(
+				_mainPane, "PractiseStartPage.fxml");
+		practiseStartPageController.setParent(this);
 	}
 
 	/**
