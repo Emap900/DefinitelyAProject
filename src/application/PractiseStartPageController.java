@@ -30,6 +30,9 @@ public class PractiseStartPageController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
 
+		// disable the specificPractiseButton as initially the user input is empty
+		_specificPractiseButton.setDisable(true);
+
 		/*
 		 * Add a text change listener to the user name text field. When the user input
 		 * is changed, check is the new character the user typed a non-alphanumeric
@@ -39,28 +42,42 @@ public class PractiseStartPageController implements Initializable {
 		 */
 		_numberTextField.textProperty().addListener((observable, oldValue, newValue) -> {
 
+			// boolean value representing that should the specificPractiseButton be disabled
+			boolean toBeDisabled = true;
+
 			if (!newValue.isEmpty()) {
-				
-				// check are all characters in the user input digits 
+
+				// check are all characters in the user input digits
 				boolean isNumber = true;
-				for (char ch:newValue.toCharArray()) {
+				for (char ch : newValue.toCharArray()) {
 					if (!Character.isDigit(ch)) {
 						isNumber = false;
 					}
 				}
-				
-				if (!isNumber) {
+
+				if (!isNumber) { // check is the input a number
 					// unto typing
 					_numberTextField.setText(oldValue);
 					_tipMessage.setTextFill(Color.RED);
-				} else if (Integer.parseInt(newValue) < 0 || Integer.parseInt(newValue) > 99) {
+					toBeDisabled = true;
+				} else if (Integer.parseInt(newValue) < 0 || Integer.parseInt(newValue) > 99) { // check is the input in
+																								// the correct range
 					_tipMessage.setTextFill(Color.RED);
-				} else {
-					//TODO need to set back to default, current just use black
+					toBeDisabled = true;
+				} else { // user input is valid
+					// TODO need to set back to default, current just use black
 					_tipMessage.setTextFill(Color.BLACK);
+					toBeDisabled = false;
 				}
+
+			} else { // if user input is empty
+				// TODO need to set back to default, current just use black
+				_tipMessage.setTextFill(Color.BLACK);
+				toBeDisabled = true;
 			}
 
+			// disable the specificPractiseButton if needed
+			_specificPractiseButton.setDisable(toBeDisabled);
 		});
 	}
 
@@ -70,12 +87,12 @@ public class PractiseStartPageController implements Initializable {
 
 	@FXML
 	public void specificPractiseButtonClicked() {
-		// TODO
+		_parentController.practise(Integer.parseInt(_numberTextField.getText()));
 	}
 
 	@FXML
 	public void autoGenerateButtonClicked() {
-		// TODO
+		_parentController.practiseRandomNumber();
 	}
 
 }

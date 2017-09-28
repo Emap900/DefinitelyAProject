@@ -57,6 +57,9 @@ public class GameStartPageController implements Initializable {
 					// TODO need to set back to default, current just use black
 					_tipMessage.setTextFill(Color.BLACK);
 				}
+			} else { // if user input is empty
+				// TODO need to set back to default, current just use black
+				_tipMessage.setTextFill(Color.BLACK);
 			}
 
 		});
@@ -68,12 +71,23 @@ public class GameStartPageController implements Initializable {
 
 	@FXML
 	public void normalModeButtonClicked() {
-		// TODO
+		if (_userNameTF.getText().isEmpty()) {
+			// if the user didn't enter his/her name, use "Guest Player" as the name and
+			// start the game. As space cannot exist in user's input, there is no need to
+			// worry about that user might type this name as his/her name.
+			_parentController.startNormalGame("Guest Player");
+		} else {
+			_parentController.startNormalGame(_userNameTF.getText());
+		}
 	}
 
 	@FXML
 	public void endlessModeButtonClicked() {
-		// TODO
+		if (_userNameTF.getText().isEmpty()) {
+			_parentController.startEndlessGame("Guest Player");
+		} else {
+			_parentController.startEndlessGame(_userNameTF.getText());
+		}
 	}
 
 }

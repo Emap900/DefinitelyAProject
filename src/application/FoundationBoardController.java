@@ -37,6 +37,10 @@ public class FoundationBoardController implements Initializable {
 
 	private Main _main;
 
+	private QuestionModel _questionModel;
+
+	private UserModel _userModel;
+
 	/**
 	 * The only statistics controller in the main scene
 	 */
@@ -77,6 +81,24 @@ public class FoundationBoardController implements Initializable {
 	}
 
 	/**
+	 * Make a link to the questionModel.
+	 * 
+	 * @param questionModel
+	 */
+	public void setQuestionModel(QuestionModel questionModel) {
+		_questionModel = questionModel;
+	}
+
+	/**
+	 * Make a link to the userModel.
+	 * 
+	 * @param userModel
+	 */
+	public void setUserModel(UserModel userModel) {
+		_userModel = userModel;
+	}
+
+	/**
 	 * Stop any processes running on this foundation board and switch back to the
 	 * home page.
 	 */
@@ -87,30 +109,32 @@ public class FoundationBoardController implements Initializable {
 	}
 
 	/**
-	 * Show the ModeChoosingScene on the main pane
+	 * Show the GameStartPage on the main pane
 	 */
 	private void showGameStartPage() {
-		GameStartPageController gameStartPageController = (GameStartPageController) replacePaneContent(
-				_mainPane, "GameStartPage.fxml");
+		GameStartPageController gameStartPageController = (GameStartPageController) replacePaneContent(_mainPane,
+				"GameStartPage.fxml");
 		gameStartPageController.setParent(this);
 	}
 
 	/**
-	 * Show the LoginScene on the main pane
-	 */
-	private void showLoginScene() {
-		LoginSceneController LoginSceneController = (LoginSceneController) replacePaneContent(_mainPane,
-				"LoginScene.fxml");
-		LoginSceneController.setParent(this);
-	}
-
-	/**
-	 * Show the PractiseChoosingScene on the main pane
+	 * Show the PractiseStartPage on the main pane
 	 */
 	public void showPractiseStartPage() {
 		PractiseStartPageController practiseStartPageController = (PractiseStartPageController) replacePaneContent(
 				_mainPane, "PractiseStartPage.fxml");
 		practiseStartPageController.setParent(this);
+	}
+
+	/**
+	 * Show the QuestionScene on the main pane
+	 */
+	private void showQuestionScene() {
+		// TODO Auto-generated method stub
+		QuestionSceneController questionSceneController = (QuestionSceneController) replacePaneContent(
+				_mainPane, "QuestionScene.fxml");
+		questionSceneController.setParent(this);
+		//questionSceneController.setQuestion(_questionModel.nextQuestion());
 	}
 
 	/**
@@ -136,6 +160,45 @@ public class FoundationBoardController implements Initializable {
 		}
 
 		return loader.getController();
+	}
+
+	/**
+	 * Practise the specific number.
+	 * 
+	 * @param number
+	 */
+	public void practise(int number) {
+		// TODO ask question model to generate questions of the specific number
+
+		showQuestionScene();
+	}
+
+	/**
+	 * Randomly generate numbers to practise
+	 */
+	public void practiseRandomNumber() {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * Start the normal mode game using the player's name.
+	 * 
+	 * @param playerName
+	 */
+	public void startNormalGame(String playerName) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * Start the endless mode game using the player's name.
+	 * 
+	 * @param playerName
+	 */
+	public void startEndlessGame(String playerName) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
