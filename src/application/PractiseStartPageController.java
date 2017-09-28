@@ -60,7 +60,7 @@ public class PractiseStartPageController implements Initializable {
 					_numberTextField.setText(oldValue);
 					_tipMessage.setTextFill(Color.RED);
 					toBeDisabled = true;
-				} else if (Integer.parseInt(newValue) < 0 || Integer.parseInt(newValue) > 99) { // check is the input in
+				} else if (Integer.parseInt(newValue) < 1 || Integer.parseInt(newValue) > 99) { // check is the input in
 																								// the correct range
 					_tipMessage.setTextFill(Color.RED);
 					toBeDisabled = true;
