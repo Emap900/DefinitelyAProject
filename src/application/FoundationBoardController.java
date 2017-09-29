@@ -41,6 +41,8 @@ public class FoundationBoardController implements Initializable {
 	private QuestionModel _questionModel;
 
 	private UserModel _userModel;
+	
+	private Function _function;
 
 	/**
 	 * The only statistics controller in the main scene
@@ -68,11 +70,16 @@ public class FoundationBoardController implements Initializable {
 	 * @param function
 	 */
 	public void setFunction(Function function) {
+		_function = function;
+		
 		if (function == Function.PRACTISE) {
-			showPractiseStartPage();
+			PractiseStartPageController practiseStartPageController = (PractiseStartPageController) replacePaneContent(
+					_mainPane, "PractiseStartPage.fxml");
+			practiseStartPageController.setParent(this);
 		} else if (function == Function.MATH) {
-			showMathStartPage();
-		}
+			MathStartPageController mathStartPageController = (MathStartPageController) replacePaneContent(_mainPane,
+					"MathStartPage.fxml");
+			mathStartPageController.setParent(this);		}
 	}
 
 	/**
@@ -110,24 +117,6 @@ public class FoundationBoardController implements Initializable {
 	public void homeBtnClicked() {
 		// TODO
 		_main.showHome();
-	}
-
-	/**
-	 * Show the MathStartPage on the main pane
-	 */
-	private void showMathStartPage() {
-		MathStartPageController mathStartPageController = (MathStartPageController) replacePaneContent(_mainPane,
-				"MathStartPage.fxml");
-		mathStartPageController.setParent(this);
-	}
-
-	/**
-	 * Show the PractiseStartPage on the main pane
-	 */
-	public void showPractiseStartPage() {
-		PractiseStartPageController practiseStartPageController = (PractiseStartPageController) replacePaneContent(
-				_mainPane, "PractiseStartPage.fxml");
-		practiseStartPageController.setParent(this);
 	}
 
 	/**

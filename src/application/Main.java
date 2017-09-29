@@ -23,9 +23,21 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		_primaryStage = primaryStage;
 		showHome();
-
 	}
 	
+	public void switchScene(Function function) {
+		switch (function) {
+		case PRACTISE:
+		case MATH:
+			showFoundationBoard(function);
+		case SCORE:
+			Scene score = loadScene("SummaryPanel.fxml");
+			//TODO
+		case SETTINGS:
+			Scene setttings = loadScene("Settings.fxml");
+			//TODO
+		}
+	}
 	public void showFoundationBoard(Function function) {
 		Scene foundationBoard = loadScene("FoundationBoard.fxml");
 		FoundationBoardController fdtController = (FoundationBoardController)foundationBoard.getUserData();
@@ -52,7 +64,7 @@ public class Main extends Application {
 	 * @param fxml
 	 * @return Scene loaded from the fxml file
 	 */
-	private Scene loadScene(String fxml) {
+	public Scene loadScene(String fxml) {
 		// TODO
 		//loading fxml from FXML loader
 		FXMLLoader loader = new FXMLLoader();

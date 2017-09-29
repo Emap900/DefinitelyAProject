@@ -1,5 +1,5 @@
 package application;
 
 public enum Function {
-	PRACTISE, MATH;
+	PRACTISE, MATH, SCORE, SETTINGS, HELP;
 }
