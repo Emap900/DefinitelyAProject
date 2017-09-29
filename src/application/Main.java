@@ -51,6 +51,8 @@ public class Main extends Application {
 			Scene settings = loadScene("Settings.fxml");
 			showScene(_primaryStage, settings);
 			//TODO
+		default:
+			break;
 		}
 	}
 	public void showFoundationBoard(Function function) {
