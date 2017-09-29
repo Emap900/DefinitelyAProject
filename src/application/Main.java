@@ -22,23 +22,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		_primaryStage = primaryStage;
-		try {
-			// BorderPane root = (BorderPane)
-			// FXMLLoader.load(getClass().getResource("Home.fxml"));
-			// Scene scene = new Scene(root, 400, 400);
-			// scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			// TODO
-			Scene homePage = loadScene("Home.fxml");
-			HomeController homeController = (HomeController)homePage.getUserData();
-			homeController.setParent(this);
-			//_homePageController = _homePage.getUserData();
-			showScene(primaryStage, homePage);
-			// primaryStage.setScene(scene);
-			// primaryStage.show();
+		showHome();
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public void showFoundationBoard(String mode) {
@@ -114,7 +99,15 @@ public class Main extends Application {
 	}
 
 	public void showHome() {
-		// TODO Auto-generated method stub
+		try {
+			Scene homePage = loadScene("Home.fxml");
+			HomeController homeController = (HomeController)homePage.getUserData();
+			homeController.setParent(this);
+			showScene(_primaryStage, homePage);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 
