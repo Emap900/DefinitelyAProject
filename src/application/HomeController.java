@@ -3,7 +3,6 @@ package application;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
-import application.FoundationBoardController.Function;
 import javafx.event.ActionEvent;
 
 public class HomeController {

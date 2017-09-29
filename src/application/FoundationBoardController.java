@@ -47,10 +47,6 @@ public class FoundationBoardController implements Initializable {
 	 */
 	private static StatisticsBarController _statistics;
 
-	public enum Function {
-		PRACTISE, MATH;
-	}
-
 	/**
 	 * Initialize the controller
 	 */
@@ -175,6 +171,7 @@ public class FoundationBoardController implements Initializable {
 	 */
 	public void practiseRandomNumber() {
 		// TODO ask question model to randomly generate practise questions
+		_questionModel.setMode(Mode.NORMALMATH);
 
 		showQuestionScene();
 	}
@@ -187,7 +184,7 @@ public class FoundationBoardController implements Initializable {
 	public void startNormalGame(String playerName) {
 		// TODO ask question model to generate a list of math questions (give number of
 		// questions)
-		// _questionModel.setMode(Mode.NORMALMATH);
+		_questionModel.setMode(Mode.NORMALMATH);
 
 		showQuestionScene();
 	}

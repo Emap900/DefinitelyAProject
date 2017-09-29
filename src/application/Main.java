@@ -3,7 +3,6 @@ package application;
 import java.io.IOException;
 import java.io.InputStream;
 
-import application.FoundationBoardController.Function;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
