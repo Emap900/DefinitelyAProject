@@ -12,28 +12,29 @@ public final class SpeechRecognizer {
 	 * The Maori number dictionary from 1 to 99
 	 */
 	private static final HashMap<String, String> _dictionary = loadDictionary();
-//	/**
-//	 * The only database for the whole program
-//	 */
-//	private static final Database _database = MainController.getDatabase();
+	// /**
+	// * The only database for the whole program
+	// */
+	// private static final Database _database = MainController.getDatabase();
 
-	public static void checkCorrectness() {
-//		//String numberValue = _database.currentNumber();
-//		String numberValue = "0";
-//		String recognizedWord;
-//		try {
-//			recognizedWord = recognizeRecording();
-//			String correctWord = _dictionary.get(numberValue);
-//			System.out.println(correctWord);
-//			System.out.println(recognizedWord);
-//			if (recognizedWord.equals(correctWord)) {
-//				_database.updateResult(recognizedWord, true);
-//			} else {
-//				_database.updateResult(recognizedWord, false);
-//			}
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+	public static boolean checkCorrectness() {
+		return false;
+		// //String numberValue = _database.currentNumber();
+		// String numberValue = "0";
+		// String recognizedWord;
+		// try {
+		// recognizedWord = recognizeRecording();
+		// String correctWord = _dictionary.get(numberValue);
+		// System.out.println(correctWord);
+		// System.out.println(recognizedWord);
+		// if (recognizedWord.equals(correctWord)) {
+		// _database.updateResult(recognizedWord, true);
+		// } else {
+		// _database.updateResult(recognizedWord, false);
+		// }
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
 	}
 
 	/**
@@ -47,25 +48,27 @@ public final class SpeechRecognizer {
 	 */
 	private static String recognizeRecording() throws IOException {
 		return null;
-//		
-//		new BashProcess("./MagicStaff.sh", "speechRecognize", _database.currentNumber());
-//
-//		List<String> htkResult = Files.readAllLines(Paths.get("recout.mlf"));
-//
-//		String result = "";
-//		for (String s : htkResult) {
-//			System.out.println(s);
-//			if (!s.startsWith("#") && !s.startsWith("\"") && !s.startsWith(".") && !s.equals("sil")) {
-//				result = result + s + " ";
-//			}
-//		}
-//
-//		// remove the last space
-//		if (result.endsWith(" ")) {
-//			result = result.substring(0, result.length() - 1);
-//		}
-//
-//		return result;
+		//
+		// new BashProcess("./MagicStaff.sh", "speechRecognize",
+		// _database.currentNumber());
+		//
+		// List<String> htkResult = Files.readAllLines(Paths.get("recout.mlf"));
+		//
+		// String result = "";
+		// for (String s : htkResult) {
+		// System.out.println(s);
+		// if (!s.startsWith("#") && !s.startsWith("\"") && !s.startsWith(".") &&
+		// !s.equals("sil")) {
+		// result = result + s + " ";
+		// }
+		// }
+		//
+		// // remove the last space
+		// if (result.endsWith(" ")) {
+		// result = result.substring(0, result.length() - 1);
+		// }
+		//
+		// return result;
 	}
 
 	/**

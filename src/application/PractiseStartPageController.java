@@ -87,12 +87,12 @@ public class PractiseStartPageController implements Initializable {
 
 	@FXML
 	public void specificPractiseButtonClicked() {
-		_parentController.practise(Integer.parseInt(_numberTextField.getText()));
+		_parentController.startPractise(Integer.parseInt(_numberTextField.getText()));
 	}
 
 	@FXML
 	public void autoGenerateButtonClicked() {
-		_parentController.practiseRandomNumber();
+		_parentController.startPractise(null);
 	}
 
 }

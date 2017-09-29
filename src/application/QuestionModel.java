@@ -2,9 +2,25 @@ package application;
 
 public class QuestionModel {
 
+	private static QuestionModel _modelInstance;
+
+	/**
+	 * Constructor
+	 */
+	private QuestionModel() {
+
+	}
+
+	/**
+	 * Get the instance of the singleton class QuestionModel
+	 * 
+	 * @return the only instance of QuestionModel
+	 */
 	public static QuestionModel getInstance() {
-		// TODO Auto-generated method stub
-		return null;
+		if (_modelInstance == null) {
+			_modelInstance = new QuestionModel();
+		}
+		return _modelInstance;
 	}
 
 	/**

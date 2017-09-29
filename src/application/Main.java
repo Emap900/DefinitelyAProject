@@ -56,8 +56,8 @@ public class Main extends Application {
 	public void showFoundationBoard(Function function) {
 		Scene foundationBoard = loadScene("FoundationBoard.fxml");
 		FoundationBoardController fdtController = (FoundationBoardController)foundationBoard.getUserData();
-		fdtController.setFunction(function);
 		fdtController.setParent(this);
+		fdtController.setFunction(function);
 		showScene(_primaryStage, foundationBoard);
 	}
 
