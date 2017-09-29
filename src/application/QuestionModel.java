@@ -27,4 +27,16 @@ public class QuestionModel {
 		return null;
 	}
 
+	/**
+	 * Set the mode of the math aid (pratice, normal math questions, or endless math
+	 * questions)
+	 * 
+	 * @param mode
+	 *            (PRACTISE, NORMALMATH, ENDLESSMATH)
+	 */
+	public void setMode(Mode mode) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

@@ -47,6 +47,10 @@ public class FoundationBoardController implements Initializable {
 	 */
 	private static StatisticsBarController _statistics;
 
+	public enum Function {
+		PRACTISE, MATH;
+	}
+
 	/**
 	 * Initialize the controller
 	 */
@@ -66,13 +70,12 @@ public class FoundationBoardController implements Initializable {
 	 * Set the function of the board: Play or Practise
 	 * 
 	 * @param function
-	 *            (either "Play" or "Practise")
 	 */
-	public void setFunction(String function) {
-		if (function.equals("Practise")) {
+	public void setFunction(Function function) {
+		if (function == Function.PRACTISE) {
 			showPractiseStartPage();
-		} else if (function.equals("Play")) {
-			showGameStartPage();
+		} else if (function == Function.MATH) {
+			showMathStartPage();
 		}
 	}
 
@@ -114,12 +117,12 @@ public class FoundationBoardController implements Initializable {
 	}
 
 	/**
-	 * Show the GameStartPage on the main pane
+	 * Show the MathStartPage on the main pane
 	 */
-	private void showGameStartPage() {
-		GameStartPageController gameStartPageController = (GameStartPageController) replacePaneContent(_mainPane,
-				"GameStartPage.fxml");
-		gameStartPageController.setParent(this);
+	private void showMathStartPage() {
+		MathStartPageController mathStartPageController = (MathStartPageController) replacePaneContent(_mainPane,
+				"MathStartPage.fxml");
+		mathStartPageController.setParent(this);
 	}
 
 	/**
@@ -184,6 +187,7 @@ public class FoundationBoardController implements Initializable {
 	public void startNormalGame(String playerName) {
 		// TODO ask question model to generate a list of math questions (give number of
 		// questions)
+		// _questionModel.setMode(Mode.NORMALMATH);
 
 		showQuestionScene();
 	}

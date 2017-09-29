@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
-public class GameStartPageController implements Initializable {
+public class MathStartPageController implements Initializable {
 
 	@FXML
 	private Button _normalModeButton;
