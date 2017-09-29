@@ -3,46 +3,27 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.StatisticsBarController">
    <children>
-      <HBox alignment="CENTER">
+      <Label fx:id="_titleLabel" text="&lt;title&gt;">
+         <font>
+            <Font size="14.0" />
+         </font>
          <VBox.margin>
             <Insets left="10.0" right="10.0" top="10.0" />
          </VBox.margin>
-         <children>
-            <Label text="Hi! ">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="_userNameLabel" text="&lt;User Name&gt;">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-         </children>
-      </HBox>
-      <HBox alignment="CENTER">
+      </Label>
+      <Label fx:id="_infoLabel" text="&lt;information&gt;">
          <VBox.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </VBox.margin>
-         <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" text="Score: " textAlignment="CENTER">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="_scoreLabel" text="&lt;Score&gt;">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-         </children>
-      </HBox>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
       <ListView fx:id="_resultListView" fixedCellSize="55.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
    </children>
 </VBox>
