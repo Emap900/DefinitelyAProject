@@ -10,7 +10,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
 
 public class Main extends Application {
@@ -19,12 +18,24 @@ public class Main extends Application {
 	//private Scene _homePage;
 	// private HomePageController HomePage;
 	private Stage _primaryStage;
+	private Stage _helpStage;
 	@Override
 	public void start(Stage primaryStage) {
 		_primaryStage = primaryStage;
 		showHome();
 	}
-	
+
+	public void showStage(){
+		if (_helpStage != null) {
+			_helpStage.show();
+			_helpStage.toFront();
+		}else {
+			_helpStage = new Stage();
+			Scene homePage = loadScene("Help.fxml");
+			showScene(_helpStage, homePage);
+		}
+	}
+
 	public void switchScene(Function function) {
 		switch (function) {
 		case PRACTISE:
@@ -32,9 +43,11 @@ public class Main extends Application {
 			showFoundationBoard(function);
 		case SCORE:
 			Scene score = loadScene("SummaryPanel.fxml");
+			showScene(_primaryStage, score);
 			//TODO
 		case SETTINGS:
-			Scene setttings = loadScene("Settings.fxml");
+			Scene settings = loadScene("Settings.fxml");
+			showScene(_primaryStage, settings);
 			//TODO
 		}
 	}
