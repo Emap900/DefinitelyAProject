@@ -3,6 +3,7 @@ package application;
 import java.io.IOException;
 import java.io.InputStream;
 
+import application.FoundationBoardController.Function;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -26,10 +27,10 @@ public class Main extends Application {
 
 	}
 	
-	public void showFoundationBoard(String mode) {
+	public void showFoundationBoard(Function function) {
 		Scene foundationBoard = loadScene("FoundationBoard.fxml");
 		FoundationBoardController fdtController = (FoundationBoardController)foundationBoard.getUserData();
-		fdtController.setFunction(mode);
+		fdtController.setFunction(function);
 		fdtController.setParent(this);
 		showScene(_primaryStage, foundationBoard);
 	}
