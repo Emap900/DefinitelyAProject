@@ -25,14 +25,16 @@ public class Main extends Application {
 		showHome();
 	}
 
-	public void showStage(){
+	public void Help(Function f){
 		if (_helpStage != null) {
 			_helpStage.show();
 			_helpStage.toFront();
 		}else {
 			_helpStage = new Stage();
-			Scene homePage = loadScene("Help.fxml");
-			showScene(_helpStage, homePage);
+			Scene helpScene = loadScene("Help.fxml");
+			HelpController helpController = (HelpController)helpScene.getUserData();
+			helpController.initData(f);
+			showScene(_helpStage, helpScene);
 		}
 	}
 
