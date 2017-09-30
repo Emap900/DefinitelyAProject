@@ -211,6 +211,12 @@ public class FoundationBoardController implements Initializable {
 			controller.resultIsCorrect(isCorrect);
 			// // TODO get the user's answer
 			controller.setUserAnswer("To be implemented");
+
+			// TODO check is the question the final one
+			// if (!_questionModel.hasNext()) {
+			// controller.setFinal(true);
+			// }
+
 		});
 		new Thread(check).start();
 

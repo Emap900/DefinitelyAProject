@@ -122,4 +122,22 @@ public class ResultSceneController implements Initializable {
 		// TODO Auto-generated method stub
 
 	}
+
+	/**
+	 * Tell ResultSceneController that this question is the final question and
+	 * disable the "next question" button.
+	 * 
+	 * @param isFinal
+	 */
+	public void setFinal(boolean isFinal) {
+		// TODO Auto-generated method stub
+		if (isFinal) {
+			_nextBtn.setText("Final question");
+			_nextBtn.setDisable(true);
+		} else {
+			_nextBtn.setText("Next question");
+			_nextBtn.setDisable(false);
+		}
+
+	}
 }
