@@ -3,6 +3,7 @@ package application;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import javafx.concurrent.Task;
@@ -20,6 +21,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.util.converter.CurrencyStringConverter;
 
 public class FoundationBoardController implements Initializable {
 
@@ -52,7 +54,13 @@ public class FoundationBoardController implements Initializable {
 
 	private String _playerName;
 
-	private int _score;
+	private int _score = 0;
+
+	private Mode _mode;
+
+	private double _hardnessFactor = 1.0;
+
+	private double _percentCorrectness = 0.0;
 
 	/**
 	 * The only statistics controller in the main scene
@@ -134,15 +142,16 @@ public class FoundationBoardController implements Initializable {
 	 *            (either a number or null)
 	 */
 	public void startPractise(Integer number) {
+		_mode = Mode.PRACTISE;
 		// TODO ask question model to generate practise questions of a specific number
 		// or random numbers
 
 		// if (number != null) {
 		//
 		// }
-
+		_score = 0;
 		_statistics.setTitle("Practising");
-		_statistics.setInfo("You got " + 0 + " questions correct.");
+		_statistics.setInfo("You got " + _score + " questions correct.");
 
 		showQuestionScene();
 	}
@@ -156,12 +165,14 @@ public class FoundationBoardController implements Initializable {
 	 */
 	public void startMathGame(Mode gameMode, String playerName) {
 
+		_mode = gameMode;
 		// TODO ask question model to generate a list of math questions or endless
 		// questions
 
+		_score = 0;
 		_playerName = playerName;
 		_statistics.setTitle("Hi! " + playerName);
-		_statistics.setInfo("Score: " + 0);
+		_statistics.setInfo("Score: " + _score);
 
 		showQuestionScene();
 	}
@@ -169,7 +180,7 @@ public class FoundationBoardController implements Initializable {
 	/**
 	 * Show the QuestionScene on the main pane
 	 */
-	private void showQuestionScene() {
+	public void showQuestionScene() {
 		QuestionSceneController controller = (QuestionSceneController) replacePaneContent(_mainPane,
 				"QuestionScene.fxml");
 		controller.setParent(this);
@@ -231,6 +242,42 @@ public class FoundationBoardController implements Initializable {
 	}
 
 	/**
+	 * Record the correctness of the current question and show next question on the
+	 * question scene.
+	 */
+	public void showNextQuestion() {
+		// TODO Auto-generated method stub
+		boolean isCorrect = true;
+		// TODO Ask question model for the correctness of the user's answer to current
+		// question
+		// append result
+		_statistics.appendResult(isCorrect);
+		// update _hardness factor
+		_hardnessFactor = calculateHardnessFactor();
+		if (isCorrect) {
+			if (_mode == Mode.PRACTISE) {
+				_score++;
+				_statistics.setInfo("You got " + _score + " questions correct.");
+			} else if (_mode == Mode.ENDLESSMATH) {
+				_score = (int) (_hardnessFactor * _statistics.getNumResults() * 10);
+				_statistics.setInfo("Score: " + _score);
+			} else if (_mode == Mode.NORMALMATH) {
+				// TODO get total number of questions
+				int numQuestions = 20;
+				// new%correctness = num of questions correct / total num of questions =
+				// (old%correctness * total num of questions + 1)/total num of questions
+				_percentCorrectness = (_percentCorrectness * numQuestions + 1) / numQuestions;
+				_score = (int) (_percentCorrectness * 100 * _hardnessFactor * (1 + numQuestions / 100));
+				_statistics.setInfo("Score: " + _score);
+			}
+		}
+
+		// TODO ask question model to go to next question
+		showQuestionScene();
+
+	}
+
+	/**
 	 * Replaces the content in the pane with the pane defined by the FXML file, and
 	 * return the controller for the FXML
 	 * 
@@ -252,6 +299,42 @@ public class FoundationBoardController implements Initializable {
 		}
 
 		return loader.getController();
+	}
+
+	/**
+	 * Calculate the hardness factor of the questions already done.
+	 * <p>
+	 * The hardness factor is calculated as such: the hardness factor of all the
+	 * questions that are already done is the average of the hardness factors of
+	 * each questions. <br/>
+	 * The hardness factor of a question is calculated as such: if the pronunciation
+	 * of the answer for the question is one word, the hardness factor is 1; if the
+	 * pronunciation is two words, the hardness factor is 1.2; if the pronunciation
+	 * is three words, the hardness factor is 1.4; if the pronunciation is four
+	 * words, the hardness factor is 1.6
+	 * </p>
+	 * 
+	 * @return the hardness factor of the questions that are already done
+	 */
+	private double calculateHardnessFactor() {
+		int numQuesDone = _statistics.getNumResults();
+		double prevFactor = _hardnessFactor;
+		double currentQuesHardness;
+		// Integer currentAns = new Integer(_questionModel.currentAnswer());
+		Integer currentAns = new Integer(20);
+		if (currentAns >= 1 && currentAns <= 10) {
+			currentQuesHardness = 1.0;
+		} else if (Arrays.asList(20, 30, 40, 50, 60, 70, 80, 90).contains(currentAns)) {
+			currentQuesHardness = 1.2;
+		} else if (currentAns > 10 && currentAns < 20) {
+			currentQuesHardness = 1.4;
+		} else {
+			currentQuesHardness = 1.6;
+		}
+
+		double hardnessFactor = ((prevFactor * numQuesDone - 1) + currentQuesHardness) / numQuesDone;
+
+		return hardnessFactor;
 	}
 
 }

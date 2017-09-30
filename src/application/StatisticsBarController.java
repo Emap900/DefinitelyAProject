@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.paint.Color;
 
 public class StatisticsBarController {
 
@@ -33,6 +34,41 @@ public class StatisticsBarController {
 	 */
 	public void setInfo(String info) {
 		_infoLabel.setText(info);
+	}
+
+	/**
+	 * Append the correctness of the current number to the list view of the
+	 * statistics bar. Each time appendResult is called, there will be a new record
+	 * added, and the private field of the StatisticsBarController which stores
+	 * number of questions finished will increment by one. Only call this method
+	 * when the current question is finished.
+	 * 
+	 * @param isCorrect
+	 */
+	public void appendResult(boolean isCorrect) {
+		// TODO Auto-generated method stub
+		Label result = new Label();
+		// calculate the question number of the new result to append
+		int questionNumber = _resultListView.getItems().size() + 1;
+		if (isCorrect) {
+			result.setText("Question " + questionNumber + ": Correct");
+			result.setTextFill(Color.LIGHTGREEN);
+		} else {
+			result.setText("Question " + questionNumber + ": Wrong");
+			result.setTextFill(Color.RED);
+		}
+		_resultListView.getItems().add(result);
+	}
+
+	/**
+	 * Get the number of results currently stores in StatisticsBarController (number
+	 * of questions already done)
+	 * 
+	 * @return number of results currently stored
+	 */
+	public int getNumResults() {
+		// TODO Auto-generated method stub
+		return _resultListView.getItems().size();
 	}
 
 }
