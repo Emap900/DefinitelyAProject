@@ -1,25 +1,30 @@
 package application;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.io.File;
+import java.net.MalformedURLException;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.TextField;
+
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class HelpController{
+public class HelpController {
 	@FXML
-	private ImageView image;
+	private Button previous;
 	@FXML
-	private TextField txt; 			 	
-
+	private ImageView imageView;
+	@FXML
+	private Button next;
+	
 	public void initData(Function f) {
-		//txt.setText("abc");
-		 //TODO Auto-generated method stub
-		Image img = new Image("file:123.PNG");
-		image = new ImageView(img);
+		try {
+			Image img = new Image(new File("123.PNG").toURI().toURL().toString());
+			imageView.setImage(img);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

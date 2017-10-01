@@ -103,7 +103,7 @@ public class Main extends Application {
 	}
 
 	/**
-	 * Make the scene shown on the stage. If the scene is null or the scene cannot
+	 * Make the scene showing on the stage. If the scene is null or the scene cannot
 	 * be set, an error dialog will be popped up.
 	 * 
 	 * @param stage
