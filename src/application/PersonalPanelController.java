@@ -1,25 +1,17 @@
 package application;
 
+import javafx.fxml.FXML;
+
 public class PersonalPanelController {
 
-	public void setParent(FoundationBoardController parentController) {
+	public void setParent(FoundationBoardController foundationBoardController) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
-	public void setParent(Main main) {
+	public void showPersonalHistory(String _playerName) {
 		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 * Display the player's personal history.
-	 * 
-	 * @param playerName
-	 */
-	public void showPersonalHistory(String playerName) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 }
