@@ -54,7 +54,7 @@
                         <Insets bottom="30.0" left="30.0" right="30.0" top="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="_finishBtn" mnemonicParsing="false" onAction="#finishBtnClicked" prefHeight="40.0" prefWidth="200.0" text="Finish and go to summary">
+                  <Button fx:id="_finishBtn" mnemonicParsing="false" onAction="#finishBtnClicked" prefHeight="40.0" prefWidth="200.0" text="Skip the rest and finish">
                      <HBox.margin>
                         <Insets bottom="30.0" left="30.0" right="30.0" top="20.0" />
                      </HBox.margin>

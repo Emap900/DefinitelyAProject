@@ -23,4 +23,18 @@ public class UserModel {
 		return _modelInstance;
 	}
 
+	/**
+	 * Add a record to the player's personal history and update both the personal
+	 * history and global history.
+	 * 
+	 * @param playerName
+	 * @param gameMode
+	 *            (either NORMALMATH or ENDLESSMATH)
+	 * @param score
+	 */
+	public void appendRecord(String playerName, Mode gameMode, int score) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
