@@ -25,6 +25,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.util.converter.CurrencyStringConverter;
 
 public class FoundationBoardController implements Initializable {
@@ -48,6 +49,9 @@ public class FoundationBoardController implements Initializable {
 	@FXML
 	private Button _homeBtn;
 
+	@FXML
+	private Button _helpBtn;
+
 	private Main _main;
 
 	private QuestionModel _questionModel;
@@ -65,8 +69,6 @@ public class FoundationBoardController implements Initializable {
 	private double _hardnessFactor = 1.0;
 
 	private double _percentCorrectness = 0.0;
-
-	private boolean _finished = false;
 
 	/**
 	 * The only statistics controller in the main scene
@@ -133,7 +135,7 @@ public class FoundationBoardController implements Initializable {
 	@FXML
 	public void backToHome() {
 
-		if (!_finished) {
+		if (_function != Function.SCORE) {
 			// TODO discard current changes, stop current practise/game, reset question
 			// model
 		}
@@ -231,15 +233,11 @@ public class FoundationBoardController implements Initializable {
 	}
 
 	/**
-	 * Show the help information for the specific scene.
-	 * 
-	 * @param sceneName
-	 *            (must be one of the following: "PractiseStartPage",
-	 *            "GameStartPage", "QuestionScene", or "ResultScene")
+	 * Show the help information for practise or math questions depending on current
+	 * function of the foundation board
 	 */
-	public void showHelp(String sceneName) {
-		// TODO Auto-generated method stub
-
+	public void showHelp() {
+		_main.Help(_function);
 	}
 
 	/**
@@ -268,6 +266,45 @@ public class FoundationBoardController implements Initializable {
 		// TODO ask question model to go to next question
 		showQuestionScene();
 
+	}
+
+	/**
+	 * Finish practising/math gaming and go back to home (if is under practise mode)
+	 * or go to personal summary (if is under math mode).
+	 */
+	public void finish() {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Confirm Finish");
+		alert.setHeaderText("You are going to finish answering questions");
+		if (_mode == Mode.PRACTISE) {
+			alert.setContentText("Do you want to finish practising and return to home page?");
+		} else if (_mode == Mode.NORMALMATH) {
+			alert.setContentText("Do you want to skip the rest questions and save your result? "
+					+ "(The rest of the questions will be marked wrong)");
+		} else {
+			alert.setContentText("Do you want to skip the rest questions and save your current result?");
+		}
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK) {
+			updateScore();
+			_function = Function.SCORE;
+			// remove previous recording
+			new BashProcess("./MagicStaff.sh", "remove", _questionModel.currentAnswer());
+			if (_mode == Mode.PRACTISE) {
+
+				// TODO reset QuestionModel
+
+				// return home
+				backToHome();
+			} else {
+				_userModel.appendRecord(_playerName, _mode, _score);
+				PersonalPanelController controller = (PersonalPanelController) replacePaneContent(_mainPane,
+						"PersonalPanel.fxml");
+				controller.setParent(this);
+				controller.showPersonalHistory(_playerName);
+			}
+		}
 	}
 
 	/**
@@ -358,45 +395,6 @@ public class FoundationBoardController implements Initializable {
 		double hardnessFactor = ((prevFactor * numQuesDone - 1) + currentQuesHardness) / numQuesDone;
 
 		return hardnessFactor;
-	}
-
-	/**
-	 * Change the finished property to true and go back to home (if is under
-	 * practise mode) or go to personal summary (if is under math mode).
-	 */
-	public void finish() {
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Confirm Finish");
-		alert.setHeaderText("You are going to finish answering questions");
-		if (_mode == Mode.PRACTISE) {
-			alert.setContentText("Do you want to finish practising and return to home page?");
-		} else if (_mode == Mode.NORMALMATH) {
-			alert.setContentText("Do you want to skip the rest questions and save your result? "
-					+ "(The rest of the questions will be marked wrong)");
-		} else {
-			alert.setContentText("Do you want to skip the rest questions and save your current result?");
-		}
-
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.OK) {
-			updateScore();
-			_finished = true;
-			// remove previous recording
-			new BashProcess("./MagicStaff.sh", "remove", _questionModel.currentAnswer());
-			if (_mode == Mode.PRACTISE) {
-
-				// TODO reset QuestionModel
-
-				// return home
-				backToHome();
-			} else {
-				_userModel.appendRecord(_playerName, _mode, _score);
-				PersonalPanelController controller = (PersonalPanelController) replacePaneContent(_mainPane,
-						"PersonalPanel.fxml");
-				controller.setParent(this);
-				controller.showPersonalHistory(_playerName);
-			}
-		}
 	}
 
 }

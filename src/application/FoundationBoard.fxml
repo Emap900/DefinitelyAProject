@@ -13,7 +13,16 @@
       </HBox>
       <HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1000.0" VBox.vgrow="ALWAYS">
          <children>
-            <HBox fx:id="_mainPane" alignment="CENTER" prefWidth="800.0" HBox.hgrow="ALWAYS" />
+            <VBox alignment="CENTER" prefWidth="800.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox fx:id="_mainPane" alignment="CENTER" prefWidth="800.0" VBox.vgrow="ALWAYS" />
+                  <HBox alignment="BOTTOM_LEFT" prefHeight="50.0">
+                     <children>
+                        <Button fx:id="_helpBtn" mnemonicParsing="false" onAction="#showHelp" prefHeight="50.0" prefWidth="50.0" text="Help" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
             <HBox fx:id="_statisticsPane" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" />
          </children>
       </HBox>
