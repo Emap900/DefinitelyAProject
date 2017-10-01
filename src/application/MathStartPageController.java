@@ -41,15 +41,15 @@ public class MathStartPageController implements Initializable {
 
 			if (!newValue.isEmpty()) {
 
-				// check are all characters in the user input alphanumeric
-				boolean isAlphanumeric = true;
+				// check if the user input only contains alphanumeric characters or underscores
+				boolean isValid = true;
 				for (char ch : newValue.toCharArray()) {
-					if (!Character.isDigit(ch) && !Character.isLetter(ch)) {
-						isAlphanumeric = false;
+					if (!Character.isDigit(ch) && !Character.isLetter(ch) && ch != '_') {
+						isValid = false;
 					}
 				}
 
-				if (!isAlphanumeric) {
+				if (!isValid) {
 					// unto typing
 					_userNameTF.setText(oldValue);
 					_tipMessage.setTextFill(Color.RED);
