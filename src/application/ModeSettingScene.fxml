@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.GridPane?>
+
+
+<GridPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <HBox alignment="CENTER" prefHeight="600.0" prefWidth="1000.0">
+         <children>
+            <Button fx:id="normalBtn" mnemonicParsing="false" onAction="#goNormal" text="Normal" />
+            <Region prefHeight="200.0" prefWidth="200.0" />
+            <Button fx:id="endlessBtn" mnemonicParsing="false" onAction="#goEndless" text="Endless" />
+         </children>
+      </HBox>
+   </children>
+</GridPane>

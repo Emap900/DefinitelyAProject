@@ -18,6 +18,7 @@ public class QuestionModel {
 	 * Constructor
 	 */
 	private QuestionModel() {
+		//load premade question as a list into the program
 		BashProcess preloadQuestions = new BashProcess("./BashCommands", "load");
 		_preloadQAPairs = preloadQuestions.getresult();
 	}
