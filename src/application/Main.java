@@ -12,6 +12,12 @@ import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 
+/**
+ * Note: Casting used in creating new instance of controller, inappropriate use may lead to a failure.
+ * 
+ * @author Eric Chen
+ *
+ */
 public class Main extends Application {
 
 	//private HomeController _homePageController;
