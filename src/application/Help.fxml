@@ -6,10 +6,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.HelpController">
+<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.HelpController">
    <children>
-      <Button fx:id="previous" mnemonicParsing="false" text="Button" />
-      <ImageView fx:id="imageView" fitHeight="600.0" fitWidth="750.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="next" mnemonicParsing="false" text="Button" />
+      <Button fx:id="previous" mnemonicParsing="false" text="Button" HBox.hgrow="ALWAYS" />
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <ImageView fx:id="imageView" fitHeight="300.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true" />
+            <Label text="Label" />
+         </children>
+      </VBox>
+      <Button fx:id="next" mnemonicParsing="false" text="Button" HBox.hgrow="ALWAYS" />
    </children>
 </HBox>
