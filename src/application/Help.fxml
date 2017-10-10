@@ -12,7 +12,7 @@
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
          <children>
             <ImageView fx:id="imageView" fitHeight="300.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true" />
-            <Label text="Label" />
+            <Label fx:id="instruction" text="Label" />
          </children>
       </VBox>
       <Button fx:id="next" mnemonicParsing="false" text="Button" HBox.hgrow="ALWAYS" />

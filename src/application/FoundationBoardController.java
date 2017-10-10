@@ -260,7 +260,7 @@ public class FoundationBoardController implements Initializable {
 	 */
 	public void showNextQuestion() {
 
-		updateScore();
+		//updateScore();
 
 		// remove previous recording
 		new BashProcess("./MagicStaff.sh", "remove", _questionModel.currentAnswer());
@@ -288,7 +288,7 @@ public class FoundationBoardController implements Initializable {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK) {
-			updateScore();
+			//updateScore();
 			_function = Function.SCORE;
 			// remove previous recording
 			new BashProcess("./MagicStaff.sh", "remove", _questionModel.currentAnswer());
