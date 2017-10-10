@@ -1,5 +1,15 @@
 package application;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,13 +20,26 @@ public class UserModel {
 	/**
 	 * A map that has players' names as keys, and lists of result pairs as values.
 	 */
-	private static Map<String, List<ResultPair>> _userRecords;
+	private static Map<String, User> _users;
 
 	/**
 	 * Constructor
 	 */
 	private UserModel() {
-		_userRecords = loadUserRecords();
+		_users = new HashMap<String, User>();
+		File folder = new File("usrRecords");
+
+		// generate new User Objects for the local files existed
+		File[] fileList = folder.listFiles();
+
+		for (File file : fileList) {
+			if (file.isFile()) {
+				// read the user's name
+				String fileName = file.getName();
+				String userName = fileName.substring(0, fileName.lastIndexOf("."));
+				_users.put(userName, new User(userName));
+			}
+		}
 	}
 
 	/**
@@ -35,110 +58,225 @@ public class UserModel {
 	 * Add a record to the player's personal history and update both the personal
 	 * history and global history.
 	 * 
-	 * @param playerName
+	 * @param userName
 	 * @param gameMode
 	 *            (either NORMALMATH or ENDLESSMATH)
 	 * @param score
 	 */
-	public void appendRecord(String playerName, Mode gameMode, int score) {
+	public void appendRecord(String userName, Mode gameMode, int score) {
 		// TODO Auto-generated method stub
+		if (!_users.containsKey(userName)) {
+			User user = new User(userName);
+			user.appendNewRecord(gameMode, score);
+			_users.put(userName, user);
+		} else {
+			_users.get(userName).appendNewRecord(gameMode, score);
+		}
 
 	}
 
-	/**
-	 * Load the user records from local files
-	 * 
-	 * @return user record map
-	 */
-	private Map<String, List<ResultPair>> loadUserRecords() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	private class User {
 
-	/**
-	 * 
-	 * The class stores a result pair which is a pair of the game mode and score. It
-	 * overrides java.lang.Object's toString() method and returns a string of
-	 * specific ResultPair entry format: "[mode (Normal/Endless)],[score (an integer
-	 * number)]". This toString method must be used when write the result pair into
-	 * a local file, and when read from the local file, the unmodified lines of the
-	 * file can be used to construct ResultPairs. This ensures the robustness when
-	 * writing to and reading from local files.
-	 *
-	 */
-	private class ResultPair {
-		private final Mode _mode;
-		private final int _score;
+		private final String _name;
+		private final int PRACTISE = 0;
+		private final int NORMAL = 1;
+		private final int ENDLESS = 2;
+		private Map<Integer, List<Integer>> _results;
+		private Mode _latestGameMode;
+		private Integer _latestGameScore;
+		private File _localFile;
 
-		ResultPair(Mode gameMode, int score) {
-			this._mode = gameMode;
-			this._score = score;
-		}
+		User(String name) {
+			_name = name;
+			_results = new HashMap<Integer, List<Integer>>();
 
-		/**
-		 * Construct a result pair using an entry string in ResultPair entry format:
-		 * "[mode (Normal/Endless)],[score (an integer number)]"
-		 * 
-		 * @param entry
-		 */
-		ResultPair(String entry) {
-			String[] pair = entry.split(",");
-			if (pair[0].equals("Normal")) {
-				this._mode = Mode.NORMALMATH;
-			} else if (pair[0].equals("Endless")) {
-				this._mode = Mode.ENDLESSMATH;
+			// load or create local file which stores user records
+			// TODO currently using windows syntax, going to change that into Linux syntax
+			_localFile = new File("usrRecords\\" + name + ".csv");
+			if (!_localFile.exists()) {
+				// create file if does not exist
+				try {
+					_localFile.createNewFile();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			} else {
-				this._mode = null;
+				// read all the game records of the user
+				List<String> recordList;
+				try {
+					recordList = Files.readAllLines(Paths.get(_localFile.toURI()));
+
+					if (!recordList.isEmpty()) {
+						// initialize a new user
+						for (String record : recordList) {
+							String[] entry = record.split(",");
+							// add the records to field _results
+							if (entry[0].equals("Normal")) {
+								this.addToResults(NORMAL, Integer.parseInt(entry[1]));
+							} else if (entry[0].equals("Endless")) {
+								this.addToResults(ENDLESS, Integer.parseInt(entry[1]));
+							}
+						}
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
 			}
-			_score = Integer.parseInt(pair[1]);
 		}
 
 		/**
-		 * Return a string in a ResultPair entry format: "[mode (Normal/Endless)],[score
-		 * (an integer number)]"
-		 */
-		@Override
-		public String toString() {
-			String mode = "Unknown";
-			if (_mode == Mode.NORMALMATH) {
-				mode = "Normal";
-			} else if (_mode == Mode.ENDLESSMATH) {
-				mode = "Endless";
-			}
-			return mode + "," + _score;
-		}
-
-		/**
+		 * Add a new record to the user.
 		 * 
-		 * @return true if the result pair is a result pair for a normal mode math game
+		 * @param gameMode
+		 * @param score
 		 */
-		public boolean isNormalMode() {
-			if (this._mode == Mode.NORMALMATH) {
-				return true;
+		public void appendNewRecord(Mode gameMode, int score) {
+			int mode;
+			switch (gameMode) {
+			case NORMALMATH:
+				mode = NORMAL;
+				break;
+			case ENDLESSMATH:
+				mode = ENDLESS;
+				break;
+			default:
+				throw new RuntimeException("Game mode can only be NORMALMATH or ENDLESSMATH");
+			}
+
+			// add the record to field _results
+			addToResults(mode, score);
+
+			// append the record to the local file
+			try {
+				FileWriter fw = new FileWriter(_localFile, true);
+				if (mode == NORMAL) {
+					fw.append("Normal" + "," + score + "\n");
+				} else if (mode == ENDLESS) {
+					fw.append("Endless" + "," + score + "\n");
+				}
+				fw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			_latestGameMode = gameMode;
+			_latestGameScore = score;
+		}
+
+		private void addToResults(int mode, int score) {
+			if (!_results.containsKey(mode)) {
+				List<Integer> resultList = new ArrayList<Integer>();
+				resultList.add(score);
+				_results.put(mode, resultList);
 			} else {
-				return false;
+				_results.get(mode).add(score);
 			}
 		}
 
 		/**
 		 * 
-		 * @return true if the result pair is a result pair for an endless mode math
-		 *         game
+		 * @return Name of the player.
 		 */
-		public boolean isEndlessMode() {
-			if (this._mode == Mode.ENDLESSMATH) {
-				return true;
+		public String getName() {
+			return _name;
+		}
+
+		/**
+		 * @return The game mode of the latest game.
+		 */
+		public String reportLatestGameMode() {
+			if (_latestGameMode == null) {
+				return "No Record";
 			} else {
-				return false;
+				switch (_latestGameMode) {
+				case NORMALMATH:
+					return "Normal Mode";
+				case ENDLESSMATH:
+					return "Endless Mode";
+				default:
+					return "Practise";
+				}
 			}
 		}
 
 		/**
 		 * 
-		 * @return the score of the result pair
+		 * @return The score of the latest game
 		 */
-		public int getScore() {
-			return _score;
+		public String reportLatestGameScore() {
+			if (_latestGameScore == null) {
+				return "No Record";
+			} else {
+				return _latestGameScore.toString();
+			}
+		}
+
+		/**
+		 * 
+		 * @param gameMode
+		 * @return An int array of the score history of the game mode, null will be
+		 *         returned if there is no record
+		 */
+		public int[] getHistory(Mode gameMode) {
+			List<Integer> resultList;
+			// get the score history of the specific game mode
+			switch (gameMode) {
+			case NORMALMATH:
+				resultList = _results.get(NORMAL);
+				break;
+			case ENDLESSMATH:
+				resultList = _results.get(ENDLESS);
+				break;
+			default:
+				resultList = _results.get(PRACTISE);
+			}
+
+			if (resultList != null) {
+				// if the history is not empty, turn it into an int array and return
+				int[] history = new int[resultList.size()];
+				for (int i = 0; i < resultList.size(); i++) {
+					history[i] = resultList.get(i);
+				}
+				return history;
+			} else {
+				// otherwise return null
+				return null;
+			}
+		}
+
+		/**
+		 * Search through the score history of normal mode games and return the highest
+		 * score. Performance is not optimized as the length of the score history will
+		 * be small.
+		 * 
+		 * @return personal highest score of the normal mode games
+		 */
+		public int getNormalModePersonalBest() {
+			List<Integer> resultList = _results.get(NORMAL);
+			return findMax(resultList);
+		}
+
+		/**
+		 * Search through the score history of endless mode games and return the highest
+		 * score. Performance is not optimized as the length of the score history will
+		 * be small.
+		 * 
+		 * @return personal highest score of the endless mode games
+		 */
+		public int getEndlessModePersonalBest() {
+			List<Integer> resultList = _results.get(ENDLESS);
+			return findMax(resultList);
+		}
+
+		private int findMax(List<Integer> resultList) {
+			int max = resultList.get(0);
+			for (int i = 1; i < resultList.size(); i++) {
+				if (resultList.get(i) > max) {
+					max = resultList.get(i);
+				}
+			}
+			return max;
 		}
 
 	}
