@@ -1,8 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-<GridPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
-</GridPane>
 
+<GridPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <HBox prefHeight="600.0" prefWidth="1000.0">
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="1000.0">
+               <children>
+                  <Label text="Choose a question set and generate your own question list!" />
+                  <Region prefHeight="100.0" prefWidth="1000.0" />
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <ComboBox fx:id="quesitonSetComboBox" prefWidth="300.0" />
+                        <Region prefHeight="100.0" prefWidth="50.0" />
+                        <Button fx:id="editQuestionSetBtn" mnemonicParsing="false" text="edit" />
+                     </children>
+                  </HBox>
+                  <Label fx:id="questionListLabel" text="Question list name comes here" />
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="You can randomly generate a question list with " />
+                        <TextField fx:id="numOfQuestionsTxetFieldForRandom" prefWidth="80.0" />
+                        <Label text=" questions " />
+                        <Button fx:id="pickARandomListBtn" mnemonicParsing="false" text="Pick!" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Or you can pick the questions your self: " />
+                        <Button fx:id="pickYourselfBtn" mnemonicParsing="false" text="Pick yourself !" />
+                     </children>
+                  </HBox>
+                  <Button fx:id="confirmBtn" mnemonicParsing="false" text="Confirm" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</GridPane>
