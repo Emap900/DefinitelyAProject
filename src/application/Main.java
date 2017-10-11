@@ -55,8 +55,9 @@ public class Main extends Application {
 			//TODO
 		case SETTINGS:
 			Scene settings = loadScene("Settings.fxml");
+			SettingsController settingsController = (SettingsController)settings.getUserData();
+			settingsController.setParent(this);
 			showScene(_primaryStage, settings);
-			//TODO
 		default:
 			break;
 		}
@@ -115,7 +116,7 @@ public class Main extends Application {
 	 * @param stage
 	 * @param scene
 	 */
-	private void showScene(Stage stage, Scene scene) {
+	public void showScene(Stage stage, Scene scene) {
 		try {
 			if (scene == null) {
 				throw new RuntimeException();
