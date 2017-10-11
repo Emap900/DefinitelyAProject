@@ -54,6 +54,8 @@ public class Main extends Application {
 			break;
 		case SCORE:
 			Scene score = loadScene("LeaderBoard.fxml");
+			LeaderBoardController controller = (LeaderBoardController) score.getUserData();
+			controller.setParent(this);
 			showScene(_primaryStage, score);
 			break;
 		// TODO

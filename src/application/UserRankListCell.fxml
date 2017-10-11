@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.text.Font?>
+
+
+<HBox fx:id="_cell" alignment="CENTER" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
+   <children>
+      <Label fx:id="_rankLabel" text="&lt;Rank&gt;">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+         <HBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </HBox.margin>
+      </Label>
+      <Label fx:id="_nameLabel" text="&lt;name&gt;">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <HBox.margin>
+            <Insets bottom="5.0" left="20.0" right="5.0" top="5.0" />
+         </HBox.margin>
+      </Label>
+      <Region HBox.hgrow="ALWAYS" />
+      <Label fx:id="_scoreLabel" text="&lt;Score&gt;">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+         <HBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </HBox.margin>
+      </Label>
+   </children>
+</HBox>

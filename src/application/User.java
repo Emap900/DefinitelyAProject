@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class User {
 
-	private final int PRACTISE = 0;
+	private final String _name;
 	private final int NORMAL = 1;
 	private final int ENDLESS = 2;
 	private Map<Integer, List<Integer>> _results;
@@ -21,6 +21,7 @@ public class User {
 	private File _localFile;
 
 	User(String name) {
+		_name = name;
 		_results = new HashMap<Integer, List<Integer>>();
 
 		// load or create local file which stores user records
@@ -107,6 +108,10 @@ public class User {
 		}
 	}
 
+	public String getName() {
+		return _name;
+	}
+
 	/**
 	 * @return The game mode of the latest game.
 	 */
@@ -140,8 +145,8 @@ public class User {
 	/**
 	 * 
 	 * @param gameMode
-	 * @return An int array of the score history of the game mode, null will be
-	 *         returned if there is no record
+	 * @return An int array of the score history of the game mode, an array of size
+	 *         1 which only contains a 0 will be returned if there is no record
 	 */
 	public int[] getHistory(Mode gameMode) {
 		List<Integer> resultList;
@@ -157,16 +162,19 @@ public class User {
 			throw new RuntimeException("Mode can only be NORMALMATH or ENDLESSMATH");
 		}
 
+		int[] history;
 		if (resultList != null) {
 			// if the history is not empty, turn it into an int array and return
-			int[] history = new int[resultList.size()];
+			history = new int[resultList.size()];
 			for (int i = 0; i < resultList.size(); i++) {
 				history[i] = resultList.get(i);
 			}
 			return history;
 		} else {
 			// otherwise return null
-			return null;
+			history = new int[1];
+			history[0] = 0;
+			return history;
 		}
 	}
 
@@ -175,7 +183,8 @@ public class User {
 	 * return the highest score. Performance is not optimized as the length of the
 	 * score history will be small.
 	 * 
-	 * @return personal highest score of the normal mode or endless mode games
+	 * @return personal highest score of the normal mode or endless mode games, 0
+	 *         will be returned if the user has no record in this game mode
 	 */
 	public Integer getPersonalBest(Mode gameMode) {
 		List<Integer> resultList;
@@ -183,13 +192,13 @@ public class User {
 		case NORMALMATH:
 			resultList = _results.get(NORMAL);
 			if (resultList == null) {
-				return null;
+				return 0;
 			}
 			return findMax(resultList);
 		case ENDLESSMATH:
 			resultList = _results.get(ENDLESS);
 			if (resultList == null) {
-				return null;
+				return 0;
 			}
 			return findMax(resultList);
 		default:

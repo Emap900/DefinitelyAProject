@@ -1,7 +1,10 @@
 package application;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserModel {
@@ -87,13 +90,28 @@ public class UserModel {
 	 * 
 	 * @param gameMode
 	 * @param userName
-	 * @return the rank of the user in the given game mode
+	 * @return the string representation of the rank of the user in the given game
+	 *         mode
 	 */
 	public String getRank(Mode gameMode, String userName) {
 		if (_users.get(userName) == null) {
 			return "No Record";
 		}
 
+		// calculate rank of the user in the given mode
+		int rank = calculateRank(gameMode, userName);
+
+		return "" + rank;
+
+	}
+
+	/**
+	 * 
+	 * @param gameMode
+	 * @param userName
+	 * @return the rank of the user in the given mode
+	 */
+	private int calculateRank(Mode gameMode, String userName) {
 		int rank;
 		Integer personalBest, usrBest;
 		switch (gameMode) {
@@ -106,7 +124,7 @@ public class UserModel {
 					rank++;
 				}
 			}
-			return "" + rank;
+			return rank;
 		case ENDLESSMATH:
 			personalBest = _users.get(userName).getPersonalBest(Mode.ENDLESSMATH);
 			rank = 1;
@@ -116,11 +134,28 @@ public class UserModel {
 					rank++;
 				}
 			}
-			return "" + rank;
+			return rank;
 		default:
 			throw new RuntimeException("Mode can only be NORMALMATH or ENDLESSMATH");
 		}
+	}
 
+	/**
+	 * 
+	 * @param gameMode
+	 * @param userName
+	 * @return the string representation of the highest score of the user in the
+	 *         given game mode
+	 */
+	public String getPersonalBest(Mode gameMode, String userName) {
+		if (_users.get(userName) == null) {
+			return "No Record";
+		}
+
+		// calculate personal best
+		int personalBest = calculatePersonalBest(gameMode, userName);
+
+		return "" + personalBest;
 	}
 
 	/**
@@ -129,23 +164,18 @@ public class UserModel {
 	 * @param userName
 	 * @return the highest score of the user in the given game mode
 	 */
-	public String getPersonalBest(Mode gameMode, String userName) {
-		if (_users.get(userName) == null) {
-			return "No Record";
-		}
-
+	private int calculatePersonalBest(Mode gameMode, String userName) {
 		int personalBest;
 		switch (gameMode) {
 		case NORMALMATH:
 			personalBest = _users.get(userName).getPersonalBest(Mode.NORMALMATH);
-			return "" + personalBest;
+			return personalBest;
 		case ENDLESSMATH:
 			personalBest = _users.get(userName).getPersonalBest(Mode.ENDLESSMATH);
-			return "" + personalBest;
+			return personalBest;
 		default:
 			throw new RuntimeException("Mode can only be NORMALMATH or ENDLESSMATH");
 		}
-
 	}
 
 	/**
@@ -168,6 +198,23 @@ public class UserModel {
 			throw new RuntimeException("Mode can only be NORMALMATH or ENDLESSMATH");
 		}
 
+	}
+
+	public List<UserDataTuple> getRankingList(Mode gameMode) {
+		// TODO Auto-generated method stub
+		List<UserDataTuple> ranking = new ArrayList<UserDataTuple>();
+
+		for (User usr : _users.values()) {
+			String name = usr.getName();
+			int rank = calculateRank(gameMode, name);
+			int highestScore = calculatePersonalBest(gameMode, name);
+			ranking.add(new UserDataTuple(name, rank, highestScore));
+		}
+
+		// sort the ranking list
+		Collections.sort(ranking);
+
+		return ranking;
 	}
 
 }
