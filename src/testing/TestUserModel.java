@@ -12,7 +12,7 @@ public class TestUserModel {
 	@Test
 	public void test() {
 		UserModel model = UserModel.getInstance();
-		model.appendRecord("abc", Mode.ENDLESSMATH, 110);
+		model.appendRecord("Demo", Mode.ENDLESSMATH, 110);
 	}
 
 }

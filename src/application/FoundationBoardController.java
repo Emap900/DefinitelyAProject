@@ -60,9 +60,9 @@ public class FoundationBoardController implements Initializable {
 
 	private Function _function;
 
-	private String _playerName;
+	private String _userName;
 
-	private int _score = 0;
+	private int _score = 100;
 
 	private Mode _mode;
 
@@ -100,22 +100,27 @@ public class FoundationBoardController implements Initializable {
 		_statisticsPane.getChildren().setAll(statisticsBar.getRoot());
 		_statistics = (StatisticsBarController) statisticsBar.getUserData();
 
-		if (function == Function.PRACTISE) {
+		switch (function) {
+		case PRACTISE:
 			_statistics.setTitle("Practise Mode");
 			_statistics.setInfo("Practise Maori pronunciation.");
 
 			// show practise start page
-			PractiseStartPageController controller = (PractiseStartPageController) replacePaneContent(_mainPane,
+			PractiseStartPageController pController = (PractiseStartPageController) replacePaneContent(_mainPane,
 					"PractiseStartPage.fxml");
-			controller.setParent(this);
-		} else if (function == Function.MATH) {
+			pController.setParent(this);
+			break;
+		case MATH:
 			_statistics.setTitle("Math Game Mode");
 			_statistics.setInfo("Answer math questions in Maori.");
 
 			// show math start page
-			MathStartPageController controller = (MathStartPageController) replacePaneContent(_mainPane,
+			MathStartPageController mController = (MathStartPageController) replacePaneContent(_mainPane,
 					"MathStartPage.fxml");
-			controller.setParent(this);
+			mController.setParent(this);
+			break;
+		default:
+			throw new RuntimeException("Function can only be PRACTISE or MATH");
 		}
 	}
 
@@ -159,8 +164,8 @@ public class FoundationBoardController implements Initializable {
 		// if (number != null) {
 		//
 		// }
-		
-		_score = 0; //score 0 does not make sense here (EC)
+
+		_score = 0; // score 0 does not make sense here (EC)
 		_statistics.setTitle("Practising");
 		_statistics.setInfo("You got " + _score + " questions correct.");
 
@@ -181,7 +186,7 @@ public class FoundationBoardController implements Initializable {
 		// questions
 
 		_score = 0;
-		_playerName = playerName;
+		_userName = playerName;
 		_statistics.setTitle("Hi! " + playerName);
 		_statistics.setInfo("Score: " + _score);
 
@@ -260,7 +265,7 @@ public class FoundationBoardController implements Initializable {
 	 */
 	public void showNextQuestion() {
 
-		//updateScore();
+		// updateScore();
 
 		// remove previous recording
 		new BashProcess("./MagicStaff.sh", "remove", _questionModel.currentAnswer());
@@ -288,7 +293,7 @@ public class FoundationBoardController implements Initializable {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK) {
-			//updateScore();
+			// updateScore();
 			_function = Function.SCORE;
 			// remove previous recording
 			new BashProcess("./MagicStaff.sh", "remove", _questionModel.currentAnswer());
@@ -299,11 +304,8 @@ public class FoundationBoardController implements Initializable {
 				// return home
 				backToHome();
 			} else {
-				_userModel.appendRecord(_playerName, _mode, _score);
-				PersonalPanelController controller = (PersonalPanelController) replacePaneContent(_mainPane,
-						"PersonalPanel.fxml");
-				controller.setParent(this);
-				controller.showPersonalHistory(_playerName);
+				_userModel.appendRecord(_userName, _mode, _score);
+				_main.showPersonalPanel(_userName);
 			}
 		}
 	}
@@ -331,72 +333,80 @@ public class FoundationBoardController implements Initializable {
 
 		return loader.getController();
 	}
-//
-//	/**
-//	 * Append the result of the current question and recalculate the score.
-//	 */
-//	private void updateScore() {
-//		boolean isCorrect = true;
-//		// TODO Ask question model for the correctness of the user's answer to current
-//		// question
-//		// append result
-//		_statistics.appendResult(isCorrect);
-//		// update _hardness factor
-//		_hardnessFactor = calculateHardnessFactor();
-//		if (isCorrect) {
-//			if (_mode == Mode.PRACTISE) {
-//				_score++;
-//				_statistics.setInfo("You got " + _score + " questions correct.");
-//			} else if (_mode == Mode.ENDLESSMATH) {
-//				_score = (int) (_hardnessFactor * _statistics.getNumResults() * 10);
-//				_statistics.setInfo("Score: " + _score);
-//			} else if (_mode == Mode.NORMALMATH) {
-//				// TODO get total number of questions
-//				int numQuestions = 20;
-//				// new%correctness = num of questions correct / total num of questions =
-//				// (old%correctness * total num of questions + 1)/total num of questions
-//				_percentCorrectness = (_percentCorrectness * numQuestions + 1) / numQuestions;
-//				_score = (int) (_percentCorrectness * 100 * _hardnessFactor * (1 + numQuestions / 100));
-//				_statistics.setInfo("Score: " + _score);
-//			}
-//		}
-//	}
-//
-//	//below functionality is beyond the responsibility of this class
-//	/**
-//	 * Calculate the hardness factor of the questions already done.
-//	 * <p>
-//	 * The hardness factor is calculated as such: the hardness factor of all the
-//	 * questions that are already done is the average of the hardness factors of
-//	 * each questions. <br/>
-//	 * The hardness factor of a question is calculated as such: if the pronunciation
-//	 * of the answer for the question is one word, the hardness factor is 1; if the
-//	 * pronunciation is two words, the hardness factor is 1.2; if the pronunciation
-//	 * is three words, the hardness factor is 1.4; if the pronunciation is four
-//	 * words, the hardness factor is 1.6
-//	 * </p>
-//	 * 
-//	 * @return the hardness factor of the questions that are already done
-//	 */
-//	private double calculateHardnessFactor() {
-//		int numQuesDone = _statistics.getNumResults();
-//		double prevFactor = _hardnessFactor;
-//		double currentQuesHardness;
-//		// Integer currentAns = new Integer(_questionModel.currentAnswer());
-//		Integer currentAns = new Integer(20);
-//		if (currentAns >= 1 && currentAns <= 10) {
-//			currentQuesHardness = 1.0;
-//		} else if (Arrays.asList(20, 30, 40, 50, 60, 70, 80, 90).contains(currentAns)) {
-//			currentQuesHardness = 1.2;
-//		} else if (currentAns > 10 && currentAns < 20) {
-//			currentQuesHardness = 1.4;
-//		} else {
-//			currentQuesHardness = 1.6;
-//		}
-//
-//		double hardnessFactor = ((prevFactor * numQuesDone - 1) + currentQuesHardness) / numQuesDone;
-//
-//		return hardnessFactor;
-//	}
+	//
+	// /**
+	// * Append the result of the current question and recalculate the score.
+	// */
+	// private void updateScore() {
+	// boolean isCorrect = true;
+	// // TODO Ask question model for the correctness of the user's answer to
+	// current
+	// // question
+	// // append result
+	// _statistics.appendResult(isCorrect);
+	// // update _hardness factor
+	// _hardnessFactor = calculateHardnessFactor();
+	// if (isCorrect) {
+	// if (_mode == Mode.PRACTISE) {
+	// _score++;
+	// _statistics.setInfo("You got " + _score + " questions correct.");
+	// } else if (_mode == Mode.ENDLESSMATH) {
+	// _score = (int) (_hardnessFactor * _statistics.getNumResults() * 10);
+	// _statistics.setInfo("Score: " + _score);
+	// } else if (_mode == Mode.NORMALMATH) {
+	// // TODO get total number of questions
+	// int numQuestions = 20;
+	// // new%correctness = num of questions correct / total num of questions =
+	// // (old%correctness * total num of questions + 1)/total num of questions
+	// _percentCorrectness = (_percentCorrectness * numQuestions + 1) /
+	// numQuestions;
+	// _score = (int) (_percentCorrectness * 100 * _hardnessFactor * (1 +
+	// numQuestions / 100));
+	// _statistics.setInfo("Score: " + _score);
+	// }
+	// }
+	// }
+	//
+	// //below functionality is beyond the responsibility of this class
+	// /**
+	// * Calculate the hardness factor of the questions already done.
+	// * <p>
+	// * The hardness factor is calculated as such: the hardness factor of all the
+	// * questions that are already done is the average of the hardness factors of
+	// * each questions. <br/>
+	// * The hardness factor of a question is calculated as such: if the
+	// pronunciation
+	// * of the answer for the question is one word, the hardness factor is 1; if
+	// the
+	// * pronunciation is two words, the hardness factor is 1.2; if the
+	// pronunciation
+	// * is three words, the hardness factor is 1.4; if the pronunciation is four
+	// * words, the hardness factor is 1.6
+	// * </p>
+	// *
+	// * @return the hardness factor of the questions that are already done
+	// */
+	// private double calculateHardnessFactor() {
+	// int numQuesDone = _statistics.getNumResults();
+	// double prevFactor = _hardnessFactor;
+	// double currentQuesHardness;
+	// // Integer currentAns = new Integer(_questionModel.currentAnswer());
+	// Integer currentAns = new Integer(20);
+	// if (currentAns >= 1 && currentAns <= 10) {
+	// currentQuesHardness = 1.0;
+	// } else if (Arrays.asList(20, 30, 40, 50, 60, 70, 80,
+	// 90).contains(currentAns)) {
+	// currentQuesHardness = 1.2;
+	// } else if (currentAns > 10 && currentAns < 20) {
+	// currentQuesHardness = 1.4;
+	// } else {
+	// currentQuesHardness = 1.6;
+	// }
+	//
+	// double hardnessFactor = ((prevFactor * numQuesDone - 1) +
+	// currentQuesHardness) / numQuesDone;
+	//
+	// return hardnessFactor;
+	// }
 
 }
