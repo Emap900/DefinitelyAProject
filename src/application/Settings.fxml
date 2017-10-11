@@ -5,8 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-
-<GridPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SettingsController">
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>
@@ -25,6 +24,10 @@
                         <ComboBox fx:id="quesitonSetComboBox" prefWidth="300.0" />
                         <Region prefHeight="100.0" prefWidth="50.0" />
                         <Button fx:id="editQuestionSetBtn" mnemonicParsing="false" text="edit" />
+                        <Region prefHeight="100.0" prefWidth="50.0" />
+                        <Button fx:id="addNewSetBtn" mnemonicParsing="false" onAction="#addNewSet" text="Add" />
+                        <Region prefHeight="100.0" prefWidth="50.0" />
+                        <Button fx:id="deleteSetBtn" mnemonicParsing="false" onAction="#deleteSet" text="Delete" />
                      </children>
                   </HBox>
                   <Label fx:id="questionListLabel" text="Question list name comes here" />
@@ -33,16 +36,16 @@
                         <Label text="You can randomly generate a question list with " />
                         <TextField fx:id="numOfQuestionsTxetFieldForRandom" prefWidth="80.0" />
                         <Label text=" questions " />
-                        <Button fx:id="pickARandomListBtn" mnemonicParsing="false" text="Pick!" />
+                        <Button fx:id="pickARandomListBtn" mnemonicParsing="false" onAction="#pickRandomList" text="Pick!" />
                      </children>
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <Label text="Or you can pick the questions your self: " />
-                        <Button fx:id="pickYourselfBtn" mnemonicParsing="false" text="Pick yourself !" />
+                        <Button fx:id="pickYourselfBtn" mnemonicParsing="false" onAction="#pickCustomizedList" text="pick  yourself" />
                      </children>
                   </HBox>
-                  <Button fx:id="confirmBtn" mnemonicParsing="false" text="Confirm" />
+                  <Button fx:id="confirmBtn" mnemonicParsing="false" onAction="#confirmSetting" text="Confirm" />
                </children>
             </VBox>
          </children>
