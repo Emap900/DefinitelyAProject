@@ -38,21 +38,27 @@ public class SettingsController {
 	
 	private Stage _editPanelStage;
 	private Main _main;
+	private QuestionModel _questionModel; 
 
 	public void setParent(Main main) {
 		_main = main;
+		_questionModel = QuestionModel.getInstance();
 	}
 
+	
 	// Event Listener on Button[#addNewSetBtn].onAction
 	@FXML
 	public void addNewSet(ActionEvent event) {
-		TextInputDialog dialog = new TextInputDialog("walter");
+		TextInputDialog dialog = new TextInputDialog();
 		dialog.setTitle("Text Input Dialog");
 		dialog.setHeaderText("Look, a Text Input Dialog");
 		dialog.setContentText("Please enter your name:");
 		
 		Optional<String> result = dialog.showAndWait();
-		result.ifPresent(name -> openeditPanel(name));
+		if (result.isPresent()){
+			_questionModel.createLocalQuestionSet(result.get());
+			openeditPanel(result.get());
+		}
 	}
 	// Event Listener on Button[#deleteSetBtn].onAction
 	@FXML

@@ -2,12 +2,21 @@ package application;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Scanner;
+import java.util.Set;
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 /**
  * This class will handle local question list as well as question lists in the program.
  * The computed score for any single question therefore come from here and should be stored 
@@ -22,33 +31,31 @@ public class QuestionModel {
 
 	private static QuestionModel _modelInstance;
 	
+	//for preload question set
+	private Set<QuestionSet> _sets;
 	private List<String> _preloadQAPairs;
 	
-	private List<String> _currentQuestionList;
-	
-	//includes the question just done (for calculating score)
-	private List<String> _questionsDid;
-	
-	private int _numOfquestionsGotCorrect;
-	
-	
+	//for current question
 	private String _currentQuestion;
-	
 	private String _currentAnswer;
-	
 	private int _currentTrial;
-
-	private int _lengthOfQuestionList;
-	
-	private boolean _isFinished;
-	
-	private boolean _isPractise;
-	
-	private int _currentScore;
-	
+	private double _pronounciationHardnessFactor;
 	private Map<String, String> _maoriCache;
 	
-	private double _pronounciationHardnessFactor;
+	
+	//for question list
+	private List<String> _questionsDid;
+	private int _lengthOfQuestionList;
+	private boolean _isFinished;
+	private List<String> _currentQuestionList;
+	private int _numOfquestionsGotCorrect;
+	private int _currentScore;
+	
+	//for mode
+	private boolean _isPractise;
+	
+	
+	
 	
 	public boolean isFinished() {
 		return _isFinished;
@@ -59,6 +66,7 @@ public class QuestionModel {
 	 */
 	private QuestionModel() {
 		//load premade question as a list into the program
+		_sets = new HashSet();
 		_maoriCache = new HashMap();
 		_maoriCache.put("expected", null);
 		_maoriCache.put("actual", null);
@@ -79,6 +87,7 @@ public class QuestionModel {
 		}
 	}
 
+	
 	/**
 	 * Get the instance of the singleton class QuestionModel
 	 * 
@@ -95,10 +104,33 @@ public class QuestionModel {
 		
 	}
 	
-	public void generateQuestionListFromUserDefine(String listName) {
-		
+	public void generateQuestionListFromUserDefine(String listName, boolean random) {
+		if (random) {
+			
+		}
 	}
 	
+	public void createLocalQuestionSet(String filename) {
+		for(QuestionSet set : _sets) {
+			if(set.getSetName().equals(filename)) {
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("Confirmation Dialog");
+				alert.setHeaderText("Look, a Confirmation Dialog");
+				alert.setContentText("Are you ok with this?");
+
+				Optional<ButtonType> result = alert.showAndWait();
+				if (result.get() == ButtonType.OK){
+					set.delete();
+					_sets.remove(set);
+					_sets.add(new QuestionSet(filename));
+				}
+			}
+		}
+	}
+	
+	public void storeQuestionSet() {
+		
+	}
 	//return true on success, return false on the last QAPairs in the list
 	public boolean goNext() {
 		return false;
@@ -116,6 +148,21 @@ public class QuestionModel {
 		}
 	}
 	
+	public void loadLocalLists() {
+		File folder = new File("QuestionSets");
+		
+		File[] fileList = folder.listFiles();
+		
+		for (File file : fileList) {
+			if (file.isFile()) {
+				// read the sets' name
+				String fileName = file.getName();
+				String setName = fileName.substring(0, fileName.lastIndexOf("."));
+				_sets.add(new QuestionSet(setName));
+			}
+		}
+	
+	}
 	private List<String> getEasyList(){
 		
 		
@@ -150,8 +197,8 @@ public class QuestionModel {
 	 * @return current answer
 	 */
 	public String currentAnswer() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return _currentAnswer;
 	}
 	
 	public void setLengthOfQuestionList(int length) {

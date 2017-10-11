@@ -26,10 +26,13 @@ public class Main extends Application {
 	// private HomePageController HomePage;
 	private Stage _primaryStage;
 	private Stage _helpStage;
+	
+	private QuestionModel _questionModel;
 
 	@Override
 	public void start(Stage primaryStage) {
 		_primaryStage = primaryStage;
+		_questionModel.getInstance();
 		showHome();
 	}
 
