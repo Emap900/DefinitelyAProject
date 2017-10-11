@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
@@ -8,25 +9,32 @@
 <GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.QuestionSetEditPanelController">
    <columnConstraints>
       <ColumnConstraints />
+      <ColumnConstraints />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints />
+      <RowConstraints />
    </rowConstraints>
    <children>
-      <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="800.0">
+      <VBox prefHeight="600.0" prefWidth="1000.0" GridPane.columnIndex="1">
          <children>
-            <ListView fx:id="listOfQuestions" prefHeight="350.0" prefWidth="700.0" />
-            <HBox alignment="CENTER" prefHeight="150.0" prefWidth="800.0">
+            <HBox alignment="CENTER" cacheShape="false" prefHeight="400.0" prefWidth="1000.0">
                <children>
-                  <Button fx:id="addQuestionBtn" mnemonicParsing="false" onAction="#addNewQuestion" text="Add" />
-                  <Region prefHeight="150.0" prefWidth="100.0" />
-                  <Button fx:id="delteQuestionBtn" mnemonicParsing="false" onAction="#delteQuestion" text="Delete" />
+                  <JFXListView fx:id="questionSetList" prefHeight="200.0" prefWidth="400.0" />
+                  <Label prefWidth="200.0" text="           &gt;" />
+                  <JFXListView fx:id="questionList" prefHeight="200.0" prefWidth="400.0" />
                </children>
             </HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="200.0" prefWidth="1000.0">
                <children>
-                  <Button fx:id="confirmBtn" mnemonicParsing="false" onAction="#confirmAndExit" text="Confirm" />
-                  <Region prefHeight="100.0" prefWidth="50.0" />
+                  <JFXButton fx:id="addQuestionBtn" onAction="#addNewQuestion" text="Add..." />
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="500.0">
+                     <children>
+                        <Region prefHeight="100.0" prefWidth="500.0" />
+                        <JFXButton fx:id="confirmBtn" onAction="#confirmCreation" text="Confirm" />
+                     </children>
+                  </VBox>
+                  <JFXButton fx:id="delteQuestionBtn" onAction="#deleteSelectedQuestion" text="Delete..." />
                </children>
             </HBox>
          </children>
