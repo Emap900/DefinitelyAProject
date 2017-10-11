@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,10 +16,10 @@ public class User {
 	private final String _name;
 	private final int NORMAL = 1;
 	private final int ENDLESS = 2;
+	private final File _localFile;
 	private Map<Integer, List<Integer>> _results;
 	private Mode _latestGameMode;
 	private Integer _latestGameScore;
-	private File _localFile;
 
 	User(String name) {
 		_name = name;
@@ -36,7 +37,7 @@ public class User {
 			}
 		} else {
 			// read all the game records of the user
-			List<String> recordList;
+			Collection<String> recordList;
 			try {
 				recordList = Files.readAllLines(Paths.get(_localFile.toURI()));
 
@@ -44,12 +45,16 @@ public class User {
 					// initialize a new user
 					for (String record : recordList) {
 						String[] entry = record.split(",");
-						// add the records to field _results
+						// add the records to field _results and renew latest record
 						if (entry[0].equals("Normal")) {
 							this.addToResults(NORMAL, Integer.parseInt(entry[1]));
+							_latestGameMode = Mode.NORMALMATH;
 						} else if (entry[0].equals("Endless")) {
 							this.addToResults(ENDLESS, Integer.parseInt(entry[1]));
+							_latestGameMode = Mode.NORMALMATH;
 						}
+						_latestGameScore = Integer.parseInt(entry[1]);
+
 					}
 				}
 			} catch (IOException e) {

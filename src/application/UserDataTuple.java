@@ -35,4 +35,16 @@ public class UserDataTuple implements Comparable<UserDataTuple> {
 
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+
+		if (obj instanceof UserDataTuple) {
+			String otherName = ((UserDataTuple) obj)._name;
+			return this._name.equals(otherName);
+		} else {
+			return super.equals(obj);
+		}
+	}
+
 }
