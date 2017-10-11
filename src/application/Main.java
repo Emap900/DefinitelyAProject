@@ -53,7 +53,7 @@ public class Main extends Application {
 			showFoundationBoard(function);
 			break;
 		case SCORE:
-			Scene score = loadScene("SummaryPanel.fxml");
+			Scene score = loadScene("LeaderBoard.fxml");
 			showScene(_primaryStage, score);
 			break;
 		// TODO
