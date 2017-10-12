@@ -12,10 +12,13 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXButton;
+
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.media.AudioClip;
 
@@ -23,15 +26,21 @@ public class ResultSceneController {
 	@FXML
 	private Label _correctness;
 	@FXML
-	private Label _answerLabel;
+	private HBox _usrAnsBox;
 	@FXML
-	private Button _replayBtn;
+	private Label _usrAnsLabel;
 	@FXML
-	private Button _retryBtn;
+	private HBox _correctAnsBox;
 	@FXML
-	private Button _nextBtn;
+	private Label _correctAnsLabel;
 	@FXML
-	private Button _finishBtn;
+	private JFXButton _replayBtn;
+	@FXML
+	private JFXButton _retryBtn;
+	@FXML
+	private JFXButton _nextBtn;
+	@FXML
+	private JFXButton _finishBtn;
 	private FoundationBoardController _parentController;
 
 	// Event Listener on Button[#_replayBtn].onAction
@@ -86,15 +95,22 @@ public class ResultSceneController {
 	 */
 	public void resultIsCorrect(boolean isCorrect) {
 		if (!isCorrect) {
-			if (_parentController.canRetry()) {
-				_retryBtn.setVisible(true);
-			} else {
-				_retryBtn.setVisible(false);
-			}
 			_correctness.setText("Wrong");
 		} else {
-			_retryBtn.setVisible(false);
 			_correctness.setText("Correct");
+		}
+	}
+
+	/**
+	 * Tell controller if the user has another chance to retry
+	 * 
+	 * @param canRetry
+	 */
+	public void setCanRetry(boolean canRetry) {
+		if (canRetry) {
+			_retryBtn.setDisable(false);
+		} else {
+			_retryBtn.setDisable(true);
 		}
 	}
 
@@ -104,7 +120,10 @@ public class ResultSceneController {
 	 * @param userAnswer
 	 */
 	public void setUserAnswer(String userAnswer) {
-		_answerLabel.setText(userAnswer);
+		if (userAnswer != null && !userAnswer.isEmpty()) {
+			_usrAnsLabel.setText(userAnswer);
+			_usrAnsBox.setVisible(true);
+		}
 	}
 
 	/**
@@ -122,5 +141,17 @@ public class ResultSceneController {
 			_nextBtn.setDisable(false);
 		}
 
+	}
+
+	/**
+	 * Show the hint which is the correct answer (Maori word) for the question
+	 * 
+	 * @param correctWord
+	 */
+	public void showCorrectAnswer(String correctWord) {
+		if (correctWord != null && !correctWord.isEmpty()) {
+			_correctAnsLabel.setText(correctWord);
+			_correctAnsBox.setVisible(true);
+		}
 	}
 }

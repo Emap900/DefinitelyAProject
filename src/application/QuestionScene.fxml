@@ -10,22 +10,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.QuestionSceneController">
+<VBox alignment="TOP_CENTER" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.QuestionSceneController">
    <children>
-      <HBox alignment="CENTER" prefHeight="260.0" style="-fx-background-color: #1976d2;">
+      <HBox alignment="CENTER" prefHeight="260.0">
          <children>
-            <Label fx:id="_question" text="Question" textFill="WHITE">
+            <Label fx:id="_question" text="Question">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>
             </Label>
          </children>
          <VBox.margin>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            <Insets />
          </VBox.margin>
-         <effect>
-            <DropShadow blurType="GAUSSIAN" height="25.0" radius="12.0" width="25.0" />
-         </effect>
       </HBox>
       <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
          <VBox.margin>
@@ -48,4 +45,7 @@
          </children>
       </HBox>
    </children>
+   <effect>
+      <DropShadow blurType="GAUSSIAN" color="#00000080" height="50.0" radius="24.5" width="50.0" />
+   </effect>
 </VBox>

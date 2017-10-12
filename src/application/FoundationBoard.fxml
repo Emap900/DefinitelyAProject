@@ -37,7 +37,16 @@
          <children>
             <VBox alignment="CENTER" prefWidth="800.0" HBox.hgrow="ALWAYS">
                <children>
-                  <HBox fx:id="_mainPane" alignment="CENTER" VBox.vgrow="ALWAYS" />
+                  <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                     <children>
+                        <HBox fx:id="_mainPane" alignment="CENTER" HBox.hgrow="ALWAYS">
+                           <padding>
+                              <Insets bottom="60.0" left="80.0" right="80.0" top="60.0" />
+                           </padding>
+                        </HBox>
+                        <JFXDrawer fx:id="_statisticsBar" defaultDrawerSize="200.0" direction="RIGHT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="500.0" />
+                     </children>
+                  </HBox>
                   <HBox alignment="BOTTOM_CENTER" prefHeight="50.0">
                      <children>
                         <Button fx:id="_helpBtn" mnemonicParsing="false" onAction="#showHelp" prefHeight="50.0" prefWidth="50.0" text="Help" />
@@ -88,7 +97,6 @@
                   </HBox>
                </children>
             </VBox>
-            <JFXDrawer fx:id="_statisticsBar" defaultDrawerSize="200.0" direction="RIGHT" />
          </children>
       </HBox>
    </children>
