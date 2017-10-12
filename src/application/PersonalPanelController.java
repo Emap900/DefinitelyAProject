@@ -65,6 +65,7 @@ public class PersonalPanelController {
 		// show data of normal mode
 		_normalModeRank.setText(model.getRank(Mode.NORMALMATH, userName)); // rank
 		_normalModeScore.setText(model.getPersonalBest(Mode.NORMALMATH, userName)); // score
+
 		// add history to the chart
 		int[] history = model.getPersonalHistory(Mode.NORMALMATH, userName);
 		XYChart.Series<String, Number> serie = new Series<String, Number>();
@@ -76,6 +77,7 @@ public class PersonalPanelController {
 		// show data of endless mode
 		_endlessModeRank.setText(model.getRank(Mode.ENDLESSMATH, userName)); // rank
 		_endlessModeScore.setText(model.getPersonalBest(Mode.ENDLESSMATH, userName)); // score
+
 		// add history to the chart
 		history = model.getPersonalHistory(Mode.ENDLESSMATH, userName);
 		serie = new Series<String, Number>();

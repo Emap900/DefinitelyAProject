@@ -22,7 +22,7 @@
             <Circle fill="WHITE" radius="70.0" stroke="TRANSPARENT" strokeType="INSIDE" />
             <HBox alignment="CENTER">
                <children>
-                  <Label text="90">
+                  <Label fx:id="_percentageLabel" text="90">
                      <font>
                         <Font name="System Bold" size="50.0" />
                      </font>
@@ -42,7 +42,7 @@
             </HBox>
          </children>
       </StackPane>
-      <BarChart horizontalGridLinesVisible="false" legendVisible="false" verticalGridLinesVisible="false">
+      <BarChart fx:id="_barChart" horizontalGridLinesVisible="false" legendVisible="false" verticalGridLinesVisible="false">
         <xAxis>
           <CategoryAxis side="BOTTOM" />
         </xAxis>

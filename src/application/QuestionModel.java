@@ -332,4 +332,9 @@ public class QuestionModel {
 		// TODO Auto-generated method stub
 
 	}
+
+	public int getScore() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

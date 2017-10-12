@@ -328,6 +328,17 @@ public class FoundationBoardController implements Initializable {
 	 */
 	public void showNextQuestion() {
 
+		// append the new result
+		appendResult();
+
+		// ask question model to go to next question
+		_questionModel.goNext();
+		showQuestionScene();
+
+	}
+
+	private void appendResult() {
+		// TODO Auto-generated method stub
 		// if in practise mode, add this wrong record to the wrong questions map
 		if (_mode == Mode.PRACTISE) {
 			String currentQuestion = _questionModel.currentQuestion();
@@ -344,10 +355,6 @@ public class FoundationBoardController implements Initializable {
 
 		// remove previous recording
 		new BashProcess("./MagicStaff.sh", "remove", _questionModel.currentAnswer());
-		// ask question model to go to next question
-		_questionModel.goNext();
-		showQuestionScene();
-
 	}
 
 	/**
@@ -369,13 +376,16 @@ public class FoundationBoardController implements Initializable {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK) {
-			_function = Function.SCORE;
-			// remove previous recording
-			new BashProcess("./MagicStaff.sh", "remove", _questionModel.currentAnswer());
-			if (_mode == Mode.PRACTISE) {
 
-				// reset QuestionModel
-				_questionModel.clearQuestionsToAsk();
+			// append the result
+			appendResult();
+
+			_function = Function.SCORE;
+
+			// reset QuestionModel
+			_questionModel.clearQuestionsToAsk();
+
+			if (_mode == Mode.PRACTISE) {
 				showPractiseSummary();
 			} else {
 				_userModel.appendRecord(_userName, _mode, _score);
@@ -389,6 +399,9 @@ public class FoundationBoardController implements Initializable {
 		PractiseSummarySceneController controller = (PractiseSummarySceneController) replacePaneContent(_mainPane,
 				"PractiseSummaryScene.fxml");
 		controller.setParent(this);
+		double correctRate = (double) _questionModel.getScore() / _statistics.getNumOfRecords();
+		controller.setCorrectRate(correctRate);
+		controller.setWrongAnswerChartData(_wrongQuestions);
 	}
 
 	/**

@@ -10,33 +10,9 @@ import javafx.scene.paint.Color;
 
 public class StatisticsBarController {
 
-	// @FXML
-	// private Label _titleLabel;
-	//
-	// @FXML
-	// private Label _infoLabel;
-
 	// TODO
 	@FXML
 	private ListView<Node> _resultListView;
-
-//	/**
-//	 * Set the title to show on statistics bar
-//	 * 
-//	 * @param title
-//	 */
-//	public void setTitle(String title) {
-//		_titleLabel.setText(title);
-//	}
-
-	// /**
-	// * Set the information to show on statistics bar
-	// *
-	// * @param info
-	// */
-	// public void setInfo(String info) {
-	// _infoLabel.setText(info);
-	// }
 
 	/**
 	 * Append the correctness of the current number to the list view of the
@@ -58,6 +34,14 @@ public class StatisticsBarController {
 			result.setTextFill(Color.RED);
 		}
 		_resultListView.getItems().add(result);
+	}
+
+	/**
+	 * 
+	 * @return number of questions been recorded in the statistics bar
+	 */
+	public int getNumOfRecords() {
+		return _resultListView.getItems().size();
 	}
 
 }
