@@ -163,8 +163,9 @@ public class FoundationBoardController implements Initializable {
 	private void backToHome() {
 
 		if (_function != Function.SCORE) {
-			// TODO discard current changes, stop current practise/game, reset question
+			// discard current changes, stop current practise/game, reset question
 			// model
+			_questionModel.clearQuestionsToAsk();
 		}
 
 		_main.showHome();
@@ -180,13 +181,12 @@ public class FoundationBoardController implements Initializable {
 	 */
 	public void startPractise(Integer number) {
 		_mode = Mode.PRACTISE;
-		// TODO ask question model to generate practise questions of a specific number
-		// or random numbers
 
 		if (number != null) {
-			// TODO
-			// _questionModel.setSpecificPractiseNumber(number);
+			_questionModel.setSpecificPractiseNumber(number);
 		}
+
+		_questionModel.generateQuestions();
 
 		_modeLabel.setText("Practise Maori Pronunciation");
 
@@ -210,12 +210,11 @@ public class FoundationBoardController implements Initializable {
 	public void startMathGame(Mode gameMode, String playerName) {
 
 		_mode = gameMode;
-		// TODO ask question model to generate a list of math questions or endless
-		// questions
 
 		switch (gameMode) {
 		case NORMALMATH:
 			_mode = Mode.NORMALMATH;
+			_questionModel.setMode(Mode.NORMALMATH);
 
 			_modeLabel.setText("Maths Game: Normal Mode");
 
@@ -223,7 +222,8 @@ public class FoundationBoardController implements Initializable {
 			_scoreLabel.setText("0");
 			_numQLeftLabel.setText("TODO");
 
-			// TODO ask question model to generate a list of math questions
+			// ask question model to generate a list of math questions
+			_questionModel.generateQuestions();
 
 			break;
 		case ENDLESSMATH:
@@ -235,7 +235,8 @@ public class FoundationBoardController implements Initializable {
 			_scoreLabel.setText("0");
 			_numQLeftLabel.setText("Infinite");
 
-			// TODO ask question model to generate a list of math questions
+			// ask question model to generate a list of math questions
+			_questionModel.generateQuestions();
 
 			break;
 		default:
@@ -257,10 +258,8 @@ public class FoundationBoardController implements Initializable {
 		QuestionSceneController controller = (QuestionSceneController) replacePaneContent(_mainPane,
 				"QuestionScene.fxml");
 		controller.setParent(this);
-		// controller.setQuestion(_questionModel.currentQuestion(),
-		// _questionModel.currentAnswer());
-		// TODO ask for current question and answer
-		controller.setQuestion("To be implement", "To be implement");
+		// ask for current question and answer
+		controller.setQuestion(_questionModel.currentQuestion(), _questionModel.currentAnswer());
 	}
 
 	/**
@@ -275,8 +274,8 @@ public class FoundationBoardController implements Initializable {
 			}
 		};
 		check.setOnSucceeded(rce -> {
-			// TODO ask question model for correctness of the current question
-			boolean isCorrect = false;
+			// ask question model for correctness of the current question
+			boolean isCorrect = _questionModel.isUserCorrect();
 			// show result scene
 			ResultSceneController controller = (ResultSceneController) replacePaneContent(_mainPane,
 					"ResultScene.fxml");
@@ -285,16 +284,15 @@ public class FoundationBoardController implements Initializable {
 			// set the required info of the result controller
 			controller.resultIsCorrect(isCorrect);
 
-			// TODO check if the user has a chance to retry
-			// controller.setCanRetry(_questionModel.canRetry());
-			// controller.setUserAnswer(_questionModel.answerOfUser());
+			// check if the user has a chance to retry
+			controller.setCanRetry(_questionModel.canRetry());
+			controller.setUserAnswer(_questionModel.answerOfUser());
 
-			// TODO if is in practise mode and the user's answer in incorrect, show the
-			// correct
-			// answer in result scene
-			// if (_mode == Mode.PRACTISE && !_questionModel.isUserCorrect()) {
-			// controller.showCorrectAnswer(_questionModel.correctWord());
-			// }
+			// if is in practise mode and the user's answer in incorrect, show the
+			// correct answer in result scene
+			if (_mode == Mode.PRACTISE && !_questionModel.isUserCorrect()) {
+				controller.showCorrectAnswer(_questionModel.correctWord());
+			}
 
 			// check is the question the final one
 			if (_questionModel.isFinished()) {
@@ -341,12 +339,12 @@ public class FoundationBoardController implements Initializable {
 			}
 		}
 
-		// TODO append the result to the statistics bar
-		// _statistics.appendResult(_questionModel.isUserCorrect());
+		// append the result to the statistics bar
+		_statistics.appendResult(_questionModel.isUserCorrect());
 
 		// remove previous recording
 		new BashProcess("./MagicStaff.sh", "remove", _questionModel.currentAnswer());
-		// TODO ask question model to go to next question
+		// ask question model to go to next question
 		_questionModel.goNext();
 		showQuestionScene();
 
@@ -371,13 +369,13 @@ public class FoundationBoardController implements Initializable {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK) {
-			// updateScore();
 			_function = Function.SCORE;
 			// remove previous recording
 			new BashProcess("./MagicStaff.sh", "remove", _questionModel.currentAnswer());
 			if (_mode == Mode.PRACTISE) {
 
-				// TODO reset QuestionModel
+				// reset QuestionModel
+				_questionModel.clearQuestionsToAsk();
 				showPractiseSummary();
 			} else {
 				_userModel.appendRecord(_userName, _mode, _score);

@@ -17,6 +17,7 @@ public class QuestionSet {
 	private String _nameOfSet;
 	private Map<String, String> _QAPairs;
 	private File _theSet;
+
 	public QuestionSet(String nameOfSet) {
 		_nameOfSet = nameOfSet;
 		_theSet = new File(_nameOfSet + ".csv");
@@ -46,7 +47,7 @@ public class QuestionSet {
 		}
 		_QAPairs = new HashMap<String, String>();
 	}
-	
+
 	public void addQAPair(String question, String answer) {
 		_QAPairs.put(question, answer);
 	}
@@ -54,14 +55,16 @@ public class QuestionSet {
 	public String getSetName() {
 		return _nameOfSet;
 	}
-	
-	public List<List> generateUserDefined(){
+
+	public List<List> generateUserDefined() {
 		return null;
 	}
-	public List<List> generateRandomQuestionList(int numOfQuestions){
+
+	public List<List> generateRandomQuestionList(int numOfQuestions) {
 		List<List> randomList = new ArrayList<List>();
-		for (int i=0; i<numOfQuestions; i++) {
-			String question = (String) _QAPairs.keySet().toArray()[new Random().nextInt(_QAPairs.keySet().toArray().length)];
+		for (int i = 0; i < numOfQuestions; i++) {
+			String question = (String) _QAPairs.keySet().toArray()[new Random()
+					.nextInt(_QAPairs.keySet().toArray().length)];
 			String answer = _QAPairs.get(question);
 			List<String> pair = new ArrayList<String>();
 			pair.add(question);
@@ -73,7 +76,7 @@ public class QuestionSet {
 
 	public void delete() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 }
