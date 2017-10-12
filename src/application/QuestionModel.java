@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -42,6 +44,10 @@ import javafx.scene.control.ButtonType;
  * current answer is stored, current trial is stored, whether if the next
  * question existed is stored, the list of questions user done is stored
  * 
+ * scoring system (to be detailed)
+ * 
+ * trigger the loop (to be detailed)
+ * 
  */
 
 // generate question, trial number, correct answer, score of game, isfinished?,
@@ -51,7 +57,7 @@ public class QuestionModel {
 	private static QuestionModel _modelInstance;
 
 	// for preload question set
-	private Set<QuestionSet> _sets;
+	private Map<String, QuestionSet> _sets;
 	private List<String> _preloadQAPairs;
 
 	// for current question
@@ -62,6 +68,7 @@ public class QuestionModel {
 	private Map<String, String> _maoriCache;
 
 	// for question list
+	private List<List> _generatedQuestionList;
 	private List<String> _questionsDid;
 	private int _lengthOfQuestionList;
 	private boolean _isFinished;
@@ -81,7 +88,7 @@ public class QuestionModel {
 	 */
 	private QuestionModel() {
 		// load premade question as a list into the program
-		_sets = new HashSet();
+		_sets = new HashMap();
 		_maoriCache = new HashMap();
 		_maoriCache.put("expected", null);
 		_maoriCache.put("actual", null);
@@ -114,33 +121,142 @@ public class QuestionModel {
 		return _modelInstance;
 	}
 
+	//load local question sets
+	public void loadLocalLists() {
+		File folder = new File("QuestionSets");
+
+		File[] fileList = folder.listFiles();
+
+		for (File file : fileList) {
+			if (file.isFile()) {
+				// read the sets' name
+				String fileName = file.getName();
+				String setName = fileName.substring(0, fileName.lastIndexOf("."));
+				_sets.put(setName, new QuestionSet(setName));
+			}
+		}
+	}
+
+	//create new question set
+	public void createLocalQuestionSet(String setName) {
+		if (isQuestionSetExist(setName)) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Duplicate flag");
+			alert.setHeaderText("Look, a Confirmation Dialog");
+			alert.setContentText("Are you ok with this?");
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK) {
+				_sets.get(setName).delete();
+				_sets.remove(setName);
+				_sets.put(setName, new QuestionSet(setName));
+			} 
+		} else {
+			_sets.put(setName, new QuestionSet(setName));
+		}
+	}
+
+	//delete existing question set
+	//TODO possibility of combining delete confirmation dialogs? How to handle with different 
+	public void deleteLocalQuestionSet(String setName) {
+		
+		if(isQuestionSetExist(setName)) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("confirm delete");
+			alert.setHeaderText("Look, a Confirmation Dialog");
+			alert.setContentText("Are you ok with this?");
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK) {
+				_sets.get(setName).delete();
+				_sets.remove(setName);
+			}
+		} else {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("setDidNotFound Dialog");
+			alert.setHeaderText(null);
+			alert.setContentText("I have a great message for you!");
+
+			alert.showAndWait();
+		}
+	}
+	
+	//check if a questionSet is existed in sets
+	private boolean isQuestionSetExist(String setName) {
+		QuestionSet value = _sets.get(setName);
+		if(value != null) {
+			return true;
+		}
+		return false;
+	}
+
+	//add new question to existing question set
+	public void addQuestionToQuestionSet(String setName, String question, String answer) {
+		if(!isQuestionSetExist(setName)) {
+			noSetFoundDialog();
+		} else {
+			_sets.get(setName).addQAPair(question, answer);
+		}
+	}
+
+	//delete question from existing question set
+	public void deleteQuestionFromQuestionSet(String setName) {
+		if(!isQuestionSetExist(setName)) {
+			noSetFoundDialog();
+		} else {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("confirm delete");
+			alert.setHeaderText("Look, a Confirmation Dialog");
+			alert.setContentText("Are you ok with this?");
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK) {
+				_sets.get(setName).delete();
+			}
+		}
+	}
+
+	//no set found dialog
+	private void noSetFoundDialog() {
+		Alert alert = new Alert(AlertType.WARNING);
+		alert.setTitle("Warning Dialog");
+		alert.setHeaderText("No set found");
+		alert.setContentText("Careful with the next step!");
+		alert.showAndWait();
+	}
+
 	public void generateQuestionListFromPreload(String hardness) {
 
 	}
 
-	public void generateQuestionListFromUserDefine(String listName, boolean random) {
-		if (random) {
+	//generate a random list of questions from selected question set given number of questions, this function may or may not be called multiple times for each run depends on the design choice
+	public void generateQuestionListRandom(String setName, int numOfQuestions) {
 
+		_generatedQuestionList = _sets.get(setName).generateRandomQuestionList(numOfQuestions);
+	}
+	
+	//append question to a list when user want to pick up their own list of questions Note: the field need to be cleared in certain stages at least before user want to rebuild a list 
+	public void addQuestionToListForUserDefine(String question, String answer) {
+		List<String> pair = new ArrayList();
+		pair.add(question);
+		pair.add(answer);
+		_generatedQuestionList.add(pair);
+	}
+	
+	//randomize the order of generated question list, necessarily for each run of game for user picked list
+	public void randomizeQuestionListFromUserDefineWithSelfPick(boolean randomize) {
+		if(_generatedQuestionList == null) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Warning Dialog");
+			alert.setHeaderText("List is empty");
+			alert.setContentText("Careful with the next step!");
+			alert.showAndWait();
+		} else {
+			Collections.shuffle(_generatedQuestionList);
 		}
 	}
 
-	public void createLocalQuestionSet(String filename) {
-		for (QuestionSet set : _sets) {
-			if (set.getSetName().equals(filename)) {
-				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("Confirmation Dialog");
-				alert.setHeaderText("Look, a Confirmation Dialog");
-				alert.setContentText("Are you ok with this?");
-
-				Optional<ButtonType> result = alert.showAndWait();
-				if (result.get() == ButtonType.OK) {
-					set.delete();
-					_sets.remove(set);
-					_sets.add(new QuestionSet(filename));
-				}
-			}
-		}
-	}
+	
 
 	// return true on success, return false on the last QAPairs in the list
 	public boolean goNext() {
@@ -159,21 +275,7 @@ public class QuestionModel {
 		}
 	}
 
-	public void loadLocalLists() {
-		File folder = new File("QuestionSets");
-
-		File[] fileList = folder.listFiles();
-
-		for (File file : fileList) {
-			if (file.isFile()) {
-				// read the sets' name
-				String fileName = file.getName();
-				String setName = fileName.substring(0, fileName.lastIndexOf("."));
-				_sets.add(new QuestionSet(setName));
-			}
-		}
-
-	}
+	
 
 	private List<String> getEasyList() {
 
