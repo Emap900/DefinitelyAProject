@@ -47,7 +47,7 @@
                         <JFXDrawer fx:id="_statisticsBar" defaultDrawerSize="200.0" direction="RIGHT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="500.0" />
                      </children>
                   </HBox>
-                  <HBox alignment="BOTTOM_CENTER" prefHeight="50.0">
+                  <HBox alignment="BOTTOM_CENTER" minHeight="-Infinity" prefHeight="50.0">
                      <children>
                         <Button fx:id="_helpBtn" mnemonicParsing="false" onAction="#showHelp" prefHeight="50.0" prefWidth="50.0" text="Help" />
                         <Region HBox.hgrow="ALWAYS" />

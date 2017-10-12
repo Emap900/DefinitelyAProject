@@ -184,7 +184,8 @@ public class FoundationBoardController implements Initializable {
 		// or random numbers
 
 		if (number != null) {
-			_questionModel.setSpecificPractiseNumber(number);
+			// TODO
+			// _questionModel.setSpecificPractiseNumber(number);
 		}
 
 		_modeLabel.setText("Practise Maori Pronunciation");
@@ -284,15 +285,16 @@ public class FoundationBoardController implements Initializable {
 			// set the required info of the result controller
 			controller.resultIsCorrect(isCorrect);
 
-			// check if the user has a chance to retry
-			controller.setCanRetry(_questionModel.canRetry());
-			controller.setUserAnswer(_questionModel.answerOfUser());
+			// TODO check if the user has a chance to retry
+			// controller.setCanRetry(_questionModel.canRetry());
+			// controller.setUserAnswer(_questionModel.answerOfUser());
 
-			// if is in practise mode and the user's answer in incorrect, show the correct
+			// TODO if is in practise mode and the user's answer in incorrect, show the
+			// correct
 			// answer in result scene
-			if (_mode == Mode.PRACTISE && !_questionModel.isUserCorrect()) {
-				controller.showCorrectAnswer(_questionModel.correctWord());
-			}
+			// if (_mode == Mode.PRACTISE && !_questionModel.isUserCorrect()) {
+			// controller.showCorrectAnswer(_questionModel.correctWord());
+			// }
 
 			// check is the question the final one
 			if (_questionModel.isFinished()) {
@@ -339,8 +341,8 @@ public class FoundationBoardController implements Initializable {
 			}
 		}
 
-		// append the result to the statistics bar
-		_statistics.appendResult(_questionModel.isUserCorrect());
+		// TODO append the result to the statistics bar
+		// _statistics.appendResult(_questionModel.isUserCorrect());
 
 		// remove previous recording
 		new BashProcess("./MagicStaff.sh", "remove", _questionModel.currentAnswer());
@@ -386,7 +388,9 @@ public class FoundationBoardController implements Initializable {
 
 	private void showPractiseSummary() {
 		// TODO Auto-generated method stub
-
+		PractiseSummarySceneController controller = (PractiseSummarySceneController) replacePaneContent(_mainPane,
+				"PractiseSummaryScene.fxml");
+		controller.setParent(this);
 	}
 
 	/**
