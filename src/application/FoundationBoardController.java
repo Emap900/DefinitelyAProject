@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -29,6 +31,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.util.converter.CurrencyStringConverter;
 
@@ -78,6 +81,12 @@ public class FoundationBoardController implements Initializable {
 
 	private String _userName;
 
+	/**
+	 * A map that has keys that are the answer to the questions that the user did
+	 * wrong, and values of the number of times user got it wrong
+	 */
+	private Map<String, Integer> _wrongQuestions = new HashMap<String, Integer>();
+
 	private int _score = 100;
 
 	private Mode _mode;
@@ -112,16 +121,11 @@ public class FoundationBoardController implements Initializable {
 	 */
 	public void setFunction(Function function) {
 		_function = function;
-		//
-		// // load statistics scene at the statistics pane
-		// Scene statisticsBar = _main.loadScene("StatisticsBar.fxml");
-		// _statisticsBar.getChildren().setAll(statisticsBar.getRoot());
-		// _statistics = (StatisticsBarController) statisticsBar.getUserData();
 
 		switch (function) {
 		case PRACTISE:
-			_statistics.setTitle("Practise Mode");
-			_statistics.setInfo("Practise Maori pronunciation.");
+			// _statistics.setTitle("Practise Mode");
+			// _statistics.setInfo("Practise Maori pronunciation.");
 
 			// show practise start page
 			PractiseStartPageController pController = (PractiseStartPageController) replacePaneContent(_mainPane,
@@ -129,8 +133,8 @@ public class FoundationBoardController implements Initializable {
 			pController.setParent(this);
 			break;
 		case MATH:
-			_statistics.setTitle("Math Game Mode");
-			_statistics.setInfo("Answer math questions in Maori.");
+			// _statistics.setTitle("Math Game Mode");
+			// _statistics.setInfo("Answer math questions in Maori.");
 
 			// show math start page
 			MathStartPageController mController = (MathStartPageController) replacePaneContent(_mainPane,
@@ -156,7 +160,7 @@ public class FoundationBoardController implements Initializable {
 	 * home page.
 	 */
 	@FXML
-	public void backToHome() {
+	private void backToHome() {
 
 		if (_function != Function.SCORE) {
 			// TODO discard current changes, stop current practise/game, reset question
@@ -179,9 +183,9 @@ public class FoundationBoardController implements Initializable {
 		// TODO ask question model to generate practise questions of a specific number
 		// or random numbers
 
-		// if (number != null) {
-		//
-		// }
+		if (number != null) {
+			_questionModel.setSpecificPractiseNumber(number);
+		}
 
 		_modeLabel.setText("Practise Maori Pronunciation");
 
@@ -189,8 +193,8 @@ public class FoundationBoardController implements Initializable {
 		_scoreLabel.setText("0");
 		_numQLeftLabel.setText("Infinite");
 
-		_statistics.setTitle("Practising");
-		_statistics.setInfo("You got " + _score + " questions correct.");
+		// _statistics.setTitle("Practising");
+		// _statistics.setInfo("You got " + _score + " questions correct.");
 
 		showQuestionScene();
 	}
@@ -239,8 +243,8 @@ public class FoundationBoardController implements Initializable {
 
 		_score = 0;
 		_userName = playerName;
-		_statistics.setTitle("Hi! " + playerName);
-		_statistics.setInfo("Score: " + _score);
+		// _statistics.setTitle("Hi! " + playerName);
+		// _statistics.setInfo("Score: " + _score);
 
 		showQuestionScene();
 	}
@@ -276,14 +280,24 @@ public class FoundationBoardController implements Initializable {
 			ResultSceneController controller = (ResultSceneController) replacePaneContent(_mainPane,
 					"ResultScene.fxml");
 			controller.setParent(this);
-			controller.resultIsCorrect(isCorrect);
-			// // TODO get the user's answer
-			controller.setUserAnswer("To be implemented");
 
-			// TODO check is the question the final one
-			// if (!_questionModel.hasNext()) {
-			// controller.setFinal(true);
-			// }
+			// set the required info of the result controller
+			controller.resultIsCorrect(isCorrect);
+
+			// check if the user has a chance to retry
+			controller.setCanRetry(_questionModel.canRetry());
+			controller.setUserAnswer(_questionModel.answerOfUser());
+
+			// if is in practise mode and the user's answer in incorrect, show the correct
+			// answer in result scene
+			if (_mode == Mode.PRACTISE && !_questionModel.isUserCorrect()) {
+				controller.showCorrectAnswer(_questionModel.correctWord());
+			}
+
+			// check is the question the final one
+			if (_questionModel.isFinished()) {
+				controller.setFinal(true);
+			}
 
 		});
 		new Thread(check).start();
@@ -291,7 +305,7 @@ public class FoundationBoardController implements Initializable {
 	}
 
 	@FXML
-	public void showStatisticsBar(ActionEvent event) {
+	private void showStatisticsBar(ActionEvent event) {
 		if (_statisticsBar.isHidden()) {
 			_statisticsBar.open();
 		} else {
@@ -303,21 +317,9 @@ public class FoundationBoardController implements Initializable {
 	 * Show the help information for practise or math questions depending on current
 	 * function of the foundation board
 	 */
-	public void showHelp(ActionEvent event) {
+	@FXML
+	private void showHelp(ActionEvent event) {
 		_main.Help(_function);
-	}
-
-	/**
-	 * 
-	 * @return true if the user can have another try, false if there is no another
-	 *         chance
-	 */
-	public boolean canRetry() {
-		boolean canRetry = false;
-		if (_function == Function.MATH) {
-			// TODO ask question model if user has another chance
-		}
-		return false;
 	}
 
 	/**
@@ -326,11 +328,24 @@ public class FoundationBoardController implements Initializable {
 	 */
 	public void showNextQuestion() {
 
-		// updateScore();
+		// if in practise mode, add this wrong record to the wrong questions map
+		if (_mode == Mode.PRACTISE) {
+			String currentQuestion = _questionModel.currentQuestion();
+			if (_wrongQuestions.get(currentQuestion) == null) {
+				_wrongQuestions.put(currentQuestion, 1);
+			} else {
+				int numGetWrong = _wrongQuestions.get(currentQuestion);
+				_wrongQuestions.put(currentQuestion, numGetWrong++);
+			}
+		}
+
+		// append the result to the statistics bar
+		_statistics.appendResult(_questionModel.isUserCorrect());
 
 		// remove previous recording
 		new BashProcess("./MagicStaff.sh", "remove", _questionModel.currentAnswer());
 		// TODO ask question model to go to next question
+		_questionModel.goNext();
 		showQuestionScene();
 
 	}
@@ -344,7 +359,7 @@ public class FoundationBoardController implements Initializable {
 		alert.setTitle("Confirm Finish");
 		alert.setHeaderText("You are going to finish answering questions");
 		if (_mode == Mode.PRACTISE) {
-			alert.setContentText("Do you want to finish practising and return to home page?");
+			alert.setContentText("Do you want to finish practising and show summary?");
 		} else if (_mode == Mode.NORMALMATH) {
 			alert.setContentText("Do you want to skip the rest questions and save your result? "
 					+ "(The rest of the questions will be marked wrong)");
@@ -361,14 +376,17 @@ public class FoundationBoardController implements Initializable {
 			if (_mode == Mode.PRACTISE) {
 
 				// TODO reset QuestionModel
-
-				// return home
-				backToHome();
+				showPractiseSummary();
 			} else {
 				_userModel.appendRecord(_userName, _mode, _score);
 				_main.showPersonalPanel(_userName);
 			}
 		}
+	}
+
+	private void showPractiseSummary() {
+		// TODO Auto-generated method stub
+
 	}
 
 	/**
@@ -386,6 +404,8 @@ public class FoundationBoardController implements Initializable {
 		loader.setLocation(Main.class.getResource(fxml));
 		try {
 			Pane content = (Pane) loader.load(in);
+			HBox.setHgrow(content, Priority.ALWAYS);
+			VBox.setVgrow(content, Priority.ALWAYS);
 			pane.getChildren().setAll(content);
 			in.close();
 		} catch (IOException e) {
