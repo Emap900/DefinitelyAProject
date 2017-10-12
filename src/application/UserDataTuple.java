@@ -44,7 +44,7 @@ public class UserDataTuple implements Comparable<UserDataTuple> {
 			return this._name.equals(otherName);
 		} else {
 			return super.equals(obj);
-		}
+		} 
 	}
 
 }

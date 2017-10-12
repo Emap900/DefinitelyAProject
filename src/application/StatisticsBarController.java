@@ -1,5 +1,7 @@
 package application;
 
+import java.util.Map;
+
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -17,6 +19,12 @@ public class StatisticsBarController {
 	// TODO
 	@FXML
 	private ListView<Node> _resultListView;
+
+	/**
+	 * A map that has keys that are the answer to the questions that the user did
+	 * wrong, and values of the number of times user got it wrong
+	 */
+	private Map<String, Integer> _wrongQuestions;
 
 	/**
 	 * Set the title to show on statistics bar
@@ -39,13 +47,12 @@ public class StatisticsBarController {
 	/**
 	 * Append the correctness of the current number to the list view of the
 	 * statistics bar. Each time appendResult is called, there will be a new record
-	 * added, and the private field of the StatisticsBarController which stores
-	 * number of questions finished will increment by one. Only call this method
-	 * when the current question is finished.
+	 * added. Only call this method when the current question is finished.
 	 * 
+	 * @param correctAns
 	 * @param isCorrect
 	 */
-	public void appendResult(boolean isCorrect) {
+	public void appendResult(String correctAns, boolean isCorrect) {
 		// TODO Auto-generated method stub
 		Label result = new Label();
 		// calculate the question number of the new result to append
@@ -56,6 +63,14 @@ public class StatisticsBarController {
 		} else {
 			result.setText("Question " + questionNumber + ": Wrong");
 			result.setTextFill(Color.RED);
+
+			// update wrong questions map
+			if (!_wrongQuestions.containsKey(correctAns)) {
+				_wrongQuestions.put(correctAns, 1);
+			} else {
+				int timesGotWrong = _wrongQuestions.get(correctAns);
+				_wrongQuestions.put(correctAns, timesGotWrong++);
+			}
 		}
 		_resultListView.getItems().add(result);
 	}

@@ -1,42 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXProgressBar?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.QuestionSceneController">
+<VBox alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.QuestionSceneController">
    <children>
-      <StackPane prefHeight="300.0">
+      <HBox alignment="CENTER" prefHeight="260.0" style="-fx-background-color: #1976d2;">
          <children>
-            <Label fx:id="_question" text="Question">
+            <Label fx:id="_question" text="Question" textFill="WHITE">
                <font>
-                  <Font size="36.0" />
+                  <Font name="System Bold" size="36.0" />
                </font>
             </Label>
          </children>
-      </StackPane>
+         <VBox.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </VBox.margin>
+         <effect>
+            <DropShadow blurType="GAUSSIAN" height="25.0" radius="12.0" width="25.0" />
+         </effect>
+      </HBox>
       <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
          <VBox.margin>
-            <Insets />
+            <Insets bottom="20.0" />
          </VBox.margin>
          <children>
-            <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="130.0" prefWidth="130.0">
+            <StackPane maxHeight="-Infinity" maxWidth="-Infinity">
                <children>
-                  <ProgressIndicator fx:id="_progressInd" progress="0.0" StackPane.alignment="CENTER">
-                     <padding>
-                        <Insets bottom="-16.0" />
-                     </padding>
-                     <StackPane.margin>
-                        <Insets />
-                     </StackPane.margin>
-                  </ProgressIndicator>
-                  <Button fx:id="_recordBtn" mnemonicParsing="false" onAction="#recordBtnClicked" text="Press To Record" textAlignment="CENTER" />
+                  <JFXProgressBar fx:id="_progressBar" prefHeight="30.0" prefWidth="500.0" progress="0.0" />
+                  <JFXButton fx:id="_recordBtn" onAction="#recordBtnClicked" prefHeight="30.0" prefWidth="500.0" text="Record">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
                </children>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" color="#00000099" height="25.0" radius="12.0" width="25.0" />
+               </effect>
             </StackPane>
          </children>
       </HBox>

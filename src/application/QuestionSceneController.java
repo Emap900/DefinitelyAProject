@@ -15,6 +15,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 
+import com.jfoenix.controls.JFXProgressBar;
+
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 
@@ -24,7 +26,7 @@ public class QuestionSceneController {
 	@FXML
 	private Label _question;
 	@FXML
-	private ProgressIndicator _progressInd;
+	private JFXProgressBar _progressBar;
 	@FXML
 	private Button _recordBtn;
 	private FoundationBoardController _parentController;
@@ -70,10 +72,10 @@ public class QuestionSceneController {
 
 			@Override
 			public void run() {
-				_progressInd.setProgress(i / total);
+				_progressBar.setProgress(i / total);
 				i++;
 				if (i == (int) total) {
-					_progressInd.setProgress(100);
+					_progressBar.setProgress(100);
 					timer.cancel();
 				}
 			}
@@ -116,7 +118,7 @@ public class QuestionSceneController {
 				// new BashProcess("./MagicStaff.sh", "record", _answer);
 
 				try {
-					Thread.sleep(500);
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

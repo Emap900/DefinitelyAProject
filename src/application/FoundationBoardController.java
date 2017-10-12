@@ -7,7 +7,11 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDrawer;
+
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -30,6 +34,15 @@ import javafx.util.converter.CurrencyStringConverter;
 
 public class FoundationBoardController implements Initializable {
 
+	@FXML
+	private Label _modeLabel;
+
+	@FXML
+	private Label _scoreLabel;
+
+	@FXML
+	private Label _numQLeftLabel;
+
 	/**
 	 * This pane is shown on the left side of the scene, which can have different
 	 * scenes switching on it
@@ -41,13 +54,16 @@ public class FoundationBoardController implements Initializable {
 	 * This pane is shown on the right side of the scene, which shows the statistics
 	 */
 	@FXML
-	private HBox _statisticsPane;
+	private JFXDrawer _statisticsBar;
 
 	/**
 	 * Home Button
 	 */
 	@FXML
-	private Button _homeBtn;
+	private JFXButton _homeBtn;
+
+	@FXML
+	private HBox _infoBar;
 
 	@FXML
 	private Button _helpBtn;
@@ -66,10 +82,6 @@ public class FoundationBoardController implements Initializable {
 
 	private Mode _mode;
 
-	private double _hardnessFactor = 1.0;
-
-	private double _percentCorrectness = 0.0;
-
 	/**
 	 * The only statistics controller in the main scene
 	 */
@@ -84,6 +96,12 @@ public class FoundationBoardController implements Initializable {
 		_userModel = UserModel.getInstance();
 		_questionModel = QuestionModel.getInstance();
 
+		_infoBar.setVisible(false);
+
+		// load statistics bar
+		Pane statBar = new Pane();
+		_statistics = (StatisticsBarController) replacePaneContent(statBar, "StatisticsBar.fxml");
+		_statisticsBar.setSidePane(statBar);
 	}
 
 	/**
@@ -94,11 +112,11 @@ public class FoundationBoardController implements Initializable {
 	 */
 	public void setFunction(Function function) {
 		_function = function;
-
-		// load statistics scene at the statistics pane
-		Scene statisticsBar = _main.loadScene("StatisticsBar.fxml");
-		_statisticsPane.getChildren().setAll(statisticsBar.getRoot());
-		_statistics = (StatisticsBarController) statisticsBar.getUserData();
+		//
+		// // load statistics scene at the statistics pane
+		// Scene statisticsBar = _main.loadScene("StatisticsBar.fxml");
+		// _statisticsBar.getChildren().setAll(statisticsBar.getRoot());
+		// _statistics = (StatisticsBarController) statisticsBar.getUserData();
 
 		switch (function) {
 		case PRACTISE:
@@ -165,7 +183,12 @@ public class FoundationBoardController implements Initializable {
 		//
 		// }
 
-		_score = 0; // score 0 does not make sense here (EC)
+		_modeLabel.setText("Practise Maori Pronunciation");
+
+		_infoBar.setVisible(true);
+		_scoreLabel.setText("0");
+		_numQLeftLabel.setText("Infinite");
+
 		_statistics.setTitle("Practising");
 		_statistics.setInfo("You got " + _score + " questions correct.");
 
@@ -184,6 +207,35 @@ public class FoundationBoardController implements Initializable {
 		_mode = gameMode;
 		// TODO ask question model to generate a list of math questions or endless
 		// questions
+
+		switch (gameMode) {
+		case NORMALMATH:
+			_mode = Mode.NORMALMATH;
+
+			_modeLabel.setText("Maths Game: Normal Mode");
+
+			_infoBar.setVisible(true);
+			_scoreLabel.setText("0");
+			_numQLeftLabel.setText("TODO");
+
+			// TODO ask question model to generate a list of math questions
+
+			break;
+		case ENDLESSMATH:
+			_mode = Mode.ENDLESSMATH;
+
+			_modeLabel.setText("Maths Game: Endless Mode");
+
+			_infoBar.setVisible(true);
+			_scoreLabel.setText("0");
+			_numQLeftLabel.setText("Infinite");
+
+			// TODO ask question model to generate a list of math questions
+
+			break;
+		default:
+			throw new RuntimeException("Game mode can only be NORMALMATH or ENDLESSMATH");
+		}
 
 		_score = 0;
 		_userName = playerName;
@@ -238,11 +290,20 @@ public class FoundationBoardController implements Initializable {
 
 	}
 
+	@FXML
+	public void showStatisticsBar(ActionEvent event) {
+		if (_statisticsBar.isHidden()) {
+			_statisticsBar.open();
+		} else {
+			_statisticsBar.close();
+		}
+	}
+
 	/**
 	 * Show the help information for practise or math questions depending on current
 	 * function of the foundation board
 	 */
-	public void showHelp() {
+	public void showHelp(ActionEvent event) {
 		_main.Help(_function);
 	}
 
@@ -333,80 +394,5 @@ public class FoundationBoardController implements Initializable {
 
 		return loader.getController();
 	}
-	//
-	// /**
-	// * Append the result of the current question and recalculate the score.
-	// */
-	// private void updateScore() {
-	// boolean isCorrect = true;
-	// // TODO Ask question model for the correctness of the user's answer to
-	// current
-	// // question
-	// // append result
-	// _statistics.appendResult(isCorrect);
-	// // update _hardness factor
-	// _hardnessFactor = calculateHardnessFactor();
-	// if (isCorrect) {
-	// if (_mode == Mode.PRACTISE) {
-	// _score++;
-	// _statistics.setInfo("You got " + _score + " questions correct.");
-	// } else if (_mode == Mode.ENDLESSMATH) {
-	// _score = (int) (_hardnessFactor * _statistics.getNumResults() * 10);
-	// _statistics.setInfo("Score: " + _score);
-	// } else if (_mode == Mode.NORMALMATH) {
-	// // TODO get total number of questions
-	// int numQuestions = 20;
-	// // new%correctness = num of questions correct / total num of questions =
-	// // (old%correctness * total num of questions + 1)/total num of questions
-	// _percentCorrectness = (_percentCorrectness * numQuestions + 1) /
-	// numQuestions;
-	// _score = (int) (_percentCorrectness * 100 * _hardnessFactor * (1 +
-	// numQuestions / 100));
-	// _statistics.setInfo("Score: " + _score);
-	// }
-	// }
-	// }
-	//
-	// //below functionality is beyond the responsibility of this class
-	// /**
-	// * Calculate the hardness factor of the questions already done.
-	// * <p>
-	// * The hardness factor is calculated as such: the hardness factor of all the
-	// * questions that are already done is the average of the hardness factors of
-	// * each questions. <br/>
-	// * The hardness factor of a question is calculated as such: if the
-	// pronunciation
-	// * of the answer for the question is one word, the hardness factor is 1; if
-	// the
-	// * pronunciation is two words, the hardness factor is 1.2; if the
-	// pronunciation
-	// * is three words, the hardness factor is 1.4; if the pronunciation is four
-	// * words, the hardness factor is 1.6
-	// * </p>
-	// *
-	// * @return the hardness factor of the questions that are already done
-	// */
-	// private double calculateHardnessFactor() {
-	// int numQuesDone = _statistics.getNumResults();
-	// double prevFactor = _hardnessFactor;
-	// double currentQuesHardness;
-	// // Integer currentAns = new Integer(_questionModel.currentAnswer());
-	// Integer currentAns = new Integer(20);
-	// if (currentAns >= 1 && currentAns <= 10) {
-	// currentQuesHardness = 1.0;
-	// } else if (Arrays.asList(20, 30, 40, 50, 60, 70, 80,
-	// 90).contains(currentAns)) {
-	// currentQuesHardness = 1.2;
-	// } else if (currentAns > 10 && currentAns < 20) {
-	// currentQuesHardness = 1.4;
-	// } else {
-	// currentQuesHardness = 1.6;
-	// }
-	//
-	// double hardnessFactor = ((prevFactor * numQuesDone - 1) +
-	// currentQuesHardness) / numQuesDone;
-	//
-	// return hardnessFactor;
-	// }
 
 }
