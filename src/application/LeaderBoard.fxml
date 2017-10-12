@@ -13,7 +13,7 @@
 
 <VBox prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LeaderBoardController">
    <children>
-      <HBox alignment="CENTER" prefHeight="50.0" style="-fx-background-color: #1976d2;">
+      <HBox alignment="CENTER" minHeight="-Infinity" prefHeight="50.0" style="-fx-background-color: #1976d2;">
          <children>
             <JFXButton onAction="#backToHome" prefHeight="50.0" prefWidth="150.0" text="Home" textFill="WHITE">
                <font>
@@ -78,7 +78,7 @@
                   </JFXListView>
                </children>
                <HBox.margin>
-                  <Insets bottom="30.0" />
+                  <Insets />
                </HBox.margin>
             </VBox>
             <Region prefWidth="50.0" />
@@ -109,13 +109,18 @@
                   </JFXListView>
                </children>
                <HBox.margin>
-                  <Insets bottom="30.0" />
+                  <Insets />
                </HBox.margin>
             </VBox>
          </children>
          <padding>
             <Insets left="50.0" right="50.0" />
          </padding>
+      </HBox>
+      <HBox minHeight="-Infinity" prefHeight="50.0">
+         <children>
+            <JFXButton onAction="#showHelp" prefHeight="50.0" prefWidth="50.0" text="Help" />
+         </children>
       </HBox>
    </children>
 </VBox>

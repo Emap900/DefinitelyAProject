@@ -39,6 +39,11 @@ public class LeaderBoardController implements Initializable {
 		_main.showPersonalPanel(_selectedUser);
 	}
 
+	@FXML
+	void showHelp(ActionEvent event) {
+		_main.Help(Function.SCORE);
+	}
+
 	public void setParent(Main main) {
 		_main = main;
 	}
@@ -108,7 +113,7 @@ public class LeaderBoardController implements Initializable {
 				ObservableList<UserDataTuple> nMatchedList = FXCollections.observableArrayList();
 				// find and set matched records in normal mode list view
 				for (UserDataTuple item : _normalModeListView.getItems()) {
-					if (item.getName().contains(newValue)) {
+					if (item.getName().toLowerCase().contains(newValue.toLowerCase())) {
 						nMatchedList.add(item);
 					}
 				}
@@ -117,7 +122,7 @@ public class LeaderBoardController implements Initializable {
 				// find and set matched records in endless mode list view
 				ObservableList<UserDataTuple> eMatchedList = FXCollections.observableArrayList();
 				for (UserDataTuple item : _endlessModeListView.getItems()) {
-					if (item.getName().contains(newValue)) {
+					if (item.getName().toLowerCase().contains(newValue.toLowerCase())) {
 						eMatchedList.add(item);
 					}
 				}

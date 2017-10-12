@@ -13,7 +13,7 @@
 
 <VBox xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FoundationBoardController">
    <children>
-      <HBox alignment="CENTER" prefHeight="50.0" style="-fx-background-color: #1976d2;">
+      <HBox alignment="CENTER" minHeight="-Infinity" prefHeight="50.0" style="-fx-background-color: #1976d2;">
          <children>
             <JFXButton fx:id="_homeBtn" onAction="#backToHome" prefHeight="50.0" prefWidth="150.0" text="Home" textFill="WHITE">
                <font>

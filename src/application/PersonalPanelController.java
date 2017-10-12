@@ -49,6 +49,11 @@ public class PersonalPanelController {
 		_main.switchScene(Function.SCORE);
 	}
 
+	@FXML
+	void showHelp(ActionEvent event) {
+		_main.Help(Function.SCORE);
+	}
+
 	public void setParent(Main main) {
 		_main = main;
 	}
