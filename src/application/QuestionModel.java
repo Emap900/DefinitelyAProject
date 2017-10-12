@@ -24,6 +24,22 @@ import javafx.scene.control.ButtonType;
  * 
  * This class gethering input from local question list, user input (customized question list),
  * and correctness from recognizing system.
+ * 
+ * The class then should have following functionalities: 
+ * 
+ * load local questionSets
+ * create new questionSets (warn user when name of question set duplicate)
+ * delete existing questionSets
+ * add new question to existing questionSet
+ * delete questions from existing questionSet (allow multiple selection)
+ * 
+ * generate a random question list from a given question set and number of questions are given
+ * store a user picked question list and give the functionality of randomize it
+ * 
+ * the class should be able to iterating an generated list (also have a default if no instructions given)
+ * during the iteration: current question is stored, current answer is stored, current trial is stored, 
+ * whether if the next question existed is stored, the list of questions user done is stored
+ * 
  */
 
 //generate question, trial number, correct answer, score of game, isfinished?, is the question,
@@ -42,7 +58,6 @@ public class QuestionModel {
 	private double _pronounciationHardnessFactor;
 	private Map<String, String> _maoriCache;
 	
-	
 	//for question list
 	private List<String> _questionsDid;
 	private int _lengthOfQuestionList;
@@ -52,7 +67,7 @@ public class QuestionModel {
 	private int _currentScore;
 	
 	//for mode
-	private boolean _isPractise;
+	private Mode _currentMode;
 	
 	
 	
@@ -128,9 +143,6 @@ public class QuestionModel {
 		}
 	}
 	
-	public void storeQuestionSet() {
-		
-	}
 	//return true on success, return false on the last QAPairs in the list
 	public boolean goNext() {
 		return false;
@@ -187,8 +199,7 @@ public class QuestionModel {
 	 * @return current question
 	 */
 	public String currentQuestion() {
-		// TODO Auto-generated method stub
-		return null;
+		return _currentQuestion;
 	}
 
 	/**
@@ -213,7 +224,7 @@ public class QuestionModel {
 	 *            (PRACTISE, NORMALMATH, ENDLESSMATH)
 	 */
 	public void setMode(Mode mode) {
-		// TODO Auto-generated method stub
+		_currentMode = mode;
 	}
 	
 	public void updateResult(String maoriWord, boolean correctness){

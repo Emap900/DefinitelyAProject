@@ -1,6 +1,7 @@
 package application;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
@@ -8,7 +9,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 
+import java.net.URL;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 
@@ -16,7 +19,7 @@ import javafx.scene.control.Label;
 
 import javafx.scene.control.ComboBox;
 
-public class SettingsController {
+public class SettingsController implements Initializable{
 	@FXML
 	private ComboBox quesitonSetComboBox;
 	@FXML
@@ -45,6 +48,11 @@ public class SettingsController {
 		_questionModel = QuestionModel.getInstance();
 	}
 
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	// Event Listener on Button[#addNewSetBtn].onAction
 	@FXML
