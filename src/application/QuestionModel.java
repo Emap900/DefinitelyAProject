@@ -68,8 +68,12 @@ public class QuestionModel {
 	private String _currentAnswer;
 	private int _currentTrial;
 	private double _pronounciationHardnessFactor;
-	private Map<String, String> _maoriCache;
+	private String _recognizedWord;
+	private String _correctWord;
+	private boolean _correctness;
 
+	//for practise
+	private boolean repeatPractise;
 	// for question list
 	private List<List> _generatedQuestionList;
 	
@@ -359,7 +363,9 @@ public class QuestionModel {
 	}
 
 	public void updateResult(String recognizedWord, String correctWord, boolean correctness) {
-
+		_recognizedWord = recognizedWord;
+		_correctWord = correctWord;
+		_correctness = correctness;
 	}
 
 	private void computeScore(Mode mode) {
@@ -408,19 +414,26 @@ public class QuestionModel {
 	 * @param number
 	 */
 	public void setSpecificPractiseNumber(Integer number) {
-		// TODO Auto-generated method stub
-
+		_
 	}
 
-	//return user
+	//return user answered word
 	public String answerOfUser() {
-		// TODO Auto-generated method stub
+		if(_recognizedWord != null) {
+			return _Word;
+		}else {
+			System.err.println("no word stored");
+		}
 		return null;
 	}
 
 	//return correct maori word
 	public String correctWord() {
-		// TODO Auto-generated method stub
+		if(_correctWord != null) {
+			return _correctWord;
+		}else {
+			System.err.println("no word stored");
+		}
 		return null;
 	}
 	
