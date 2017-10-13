@@ -73,8 +73,10 @@ public class ResultSceneController {
 	public void setUserAnswer(String userAnswer) {
 		if (userAnswer != null && !userAnswer.isEmpty()) {
 			_usrAnsLabel.setText(userAnswer);
-			_usrAnsBox.setVisible(true);
+		} else {
+			_usrAnsLabel.setText("No Answer");
 		}
+		_usrAnsBox.setVisible(true);
 	}
 
 	/**
@@ -112,7 +114,7 @@ public class ResultSceneController {
 			@Override
 			public Void call() {
 				System.gc();
-	
+
 				try {
 					AudioClip replay = new AudioClip(
 							new File(QuestionModel.getInstance().currentAnswer() + ".wav").toURI().toURL().toString());

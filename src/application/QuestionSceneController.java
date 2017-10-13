@@ -64,6 +64,7 @@ public class QuestionSceneController implements Initializable {
 	public void recordBtnClicked(ActionEvent event) {
 
 		// TODO ask questionModel to increment trial number
+		_parentController.incrementTrial();
 		_recordBtn.setText("Recording...");
 		_recordBtn.setDisable(true);
 		Timer timer = new Timer();

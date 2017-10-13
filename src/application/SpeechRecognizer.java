@@ -22,6 +22,7 @@ public final class SpeechRecognizer {
 			recognizedWord = recognizeRecording();
 			String correctWord = _dictionary.get(numberValue);
 			if (recognizedWord.equals(correctWord)) {
+				// TODO also give question model the correct words
 				_questionModel.updateResult(recognizedWord, true);
 				return true;
 			} else {

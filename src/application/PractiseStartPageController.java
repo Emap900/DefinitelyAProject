@@ -58,11 +58,15 @@ public class PractiseStartPageController implements Initializable {
 					// unto typing
 					_numberTextField.setText(oldValue);
 					_tipMessage.setTextFill(Color.RED);
-					toBeDisabled = true;
+					// toBeDisabled = true;
 				} else if (Integer.parseInt(newValue) < 1 || Integer.parseInt(newValue) > 99) { // check is the input in
 					_numberTextField.setText(oldValue); // the correct range
 					_tipMessage.setTextFill(Color.RED);
-					toBeDisabled = false;
+
+					if (!oldValue.isEmpty()) {
+						toBeDisabled = false;
+					}
+
 				} else { // user input is valid
 					// TODO need to set back to default, current just use black
 					_tipMessage.setTextFill(Color.BLACK);
