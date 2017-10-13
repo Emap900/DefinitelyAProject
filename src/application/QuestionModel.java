@@ -358,7 +358,7 @@ public class QuestionModel {
 		_currentMode = mode;
 	}
 
-	public void updateResult(String maoriWord, boolean correctness) {
+	public void updateResult(String recognizedWord, String correctWord, boolean correctness) {
 
 	}
 
@@ -412,15 +412,18 @@ public class QuestionModel {
 
 	}
 
-	/**
-	 * 
-	 * @return the user's answer (Maori word)
-	 */
+	//return user
 	public String answerOfUser() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	//return correct maori word
+	public String correctWord() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	/**
 	 * 
 	 * @return true if the user's answer is correct, otherwise false
@@ -428,15 +431,6 @@ public class QuestionModel {
 	public boolean isUserCorrect() {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	/**
-	 * 
-	 * @return the correct Maori word
-	 */
-	public String correctWord() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	public int getScore() {
