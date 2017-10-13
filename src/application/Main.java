@@ -88,10 +88,6 @@ public class Main extends Application {
 		showScene(_primaryStage, settings);
 	}
 
-	public static void main(String[] args) {
-		launch(args);
-	}
-
 	/**
 	 * Get a FXMLLoader that loads the fxml file into a scene and set the default
 	 * style sheet application.css as its style sheet. The scene has its controller
@@ -167,6 +163,10 @@ public class Main extends Application {
 		controller.setParent(this);
 		controller.showPersonalHistory(userName);
 		showScene(_primaryStage, personal);
+	}
+	
+	public static void main(String[] args) {
+		launch(args);
 	}
 
 }

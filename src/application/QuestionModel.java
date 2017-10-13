@@ -59,11 +59,12 @@ public class QuestionModel {
 
 	// for preload question set
 	private Map<String, QuestionSet> _sets;
-	private List<List> _preloadSortedQuestionSet;
+	private List<List<String>> _preloadSortedQuestionSet;
 	
 	private Map<String, String> _maoriDictionary;
 
 	// for current question
+	private int _currentIndex;
 	private String _currentQuestion;
 	private String _currentAnswer;
 	private int _currentTrial;
@@ -72,7 +73,10 @@ public class QuestionModel {
 
 	// for question list
 	private List<List> _generatedQuestionList;
-	private List<String> _questionsDid;
+	
+	//TODO I think below _toDoList can be a stack rather than a list, subject to change later
+	private List<List> _toDoList; //this should be a copy of generated list in the begining of each game but reduce its size as the game going
+	private List<List> _questionsDid;
 	private int _lengthOfQuestionList;
 	private boolean _isFinished;
 	private List<String> _currentQuestionList;
@@ -93,6 +97,12 @@ public class QuestionModel {
 		// load premade question as a list into the program
 		_sets = new HashMap();
 		_maoriCache = new HashMap();
+		_preloadSortedQuestionSet = new ArrayList();
+		
+		_maoriDictionary = new HashMap();
+		
+		_currentIndex = 0;
+		
 		_maoriCache.put("expected", null);
 		_maoriCache.put("actual", null);
 		_pronounciationHardnessFactor = 0;
@@ -111,6 +121,8 @@ public class QuestionModel {
 				List<String> QAPairl = new ArrayList<String>();
 				QAPairl.add(QAPair[0]);
 				QAPairl.add(QAPair[1]);
+				System.out.println(QAPair[0]);
+				System.out.println(QAPair[1]);
 				_preloadSortedQuestionSet.add(QAPairl);
 			}
 			
@@ -288,59 +300,38 @@ public class QuestionModel {
 		}
 	}
 
-	//giving out current question
-	
-
-	// return true on success, return false on the last QAPairs in the list
-	public boolean goNext() {
-		return false;
-
-	}
-
-	public void generateAPremadeListD(String hardness) {
-		switch (hardness) {
-		case "easy":
-			_currentQuestionList = getEasyList();
-		case "medium":
-			_currentQuestionList = getMediumList();
-		case "hard":
-			_currentQuestionList = getHardList();
+	//start question list processing for gaming part (not practise part)
+	public void triggerGameStart() {
+		if(_generatedQuestionList == null) {
+			System.err.println("there is no generated question list to start");
+		}else {
+			_toDoList = _generatedQuestionList;
 		}
 	}
-
 	
-
-	private List<String> getEasyList() {
-
-		return _currentQuestionList;
-
+	//check if all questions are done
+	public boolean hasNext() {
+		return (!(_toDoList == null));
+	}
+	//retrieve a QA pair to use
+	public void NextQA() {
+		List<String> currentQA = _toDoList.get(0);
+		_currentQuestion = currentQA.get(0);
+		_currentAnswer = currentQA.get(1);
+		_questionsDid.add(currentQA);
+		_toDoList = _toDoList.subList(1, _toDoList.size());
+	}
+	//TODO clear data for gaming
+	public void clear() {
+		
 	}
 
-	private List<String> getMediumList() {
-
-		return _currentQuestionList;
-
-	}
-
-	private List<String> getHardList() {
-		return _currentQuestionList;
-
-	}
-
-	/**
-	 * Get the current question
-	 * 
-	 * @return current question
-	 */
+	//get current question
 	public String currentQuestion() {
 		return _currentQuestion;
 	}
 
-	/**
-	 * Get the current answer
-	 * 
-	 * @return current answer
-	 */
+	//get current answer
 	public String currentAnswer() {
 
 		return _currentAnswer;

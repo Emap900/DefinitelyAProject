@@ -304,7 +304,7 @@ public class FoundationBoardController implements Initializable {
 		appendResult();
 
 		// ask question model to go to next question
-		_questionModel.goNext();
+		_questionModel.NextQA();
 		showQuestionScene();
 
 	}
