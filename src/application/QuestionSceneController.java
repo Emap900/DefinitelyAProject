@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
@@ -102,6 +103,9 @@ public class QuestionSceneController implements Initializable {
 					props.load(reader);
 
 					recordingTime = props.getProperty("recordingTime");
+					if (recordingTime == null) {
+						recordingTime = "3.0";
+					}
 
 					reader.close();
 				} catch (FileNotFoundException e) {
