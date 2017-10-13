@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -58,7 +59,7 @@ public class QuestionModel {
 
 	// for preload question set
 	private Map<String, QuestionSet> _sets;
-	private List<String> _preloadQAPairs;
+	private List<List> _preloadSortedQuestionSet;
 
 	// for current question
 	private String _currentQuestion;
@@ -102,7 +103,16 @@ public class QuestionModel {
 				list.add(s.next());
 			}
 			s.close();
-			_preloadQAPairs = list;
+			for(int i=0; i<list.size(); i++) {
+				String[] QAPair = list.get(i).split(",");
+				List<String> QAPairl = new ArrayList<String>();
+				QAPairl.add(QAPair[0]);
+				QAPairl.add(QAPair[1]);
+				_preloadSortedQuestionSet.add(QAPairl);
+			}
+			
+			//give a default list of questions with medium hardness
+			generateQuestionListFromPreload("medium", 10);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -225,8 +235,27 @@ public class QuestionModel {
 		alert.showAndWait();
 	}
 
-	public void generateQuestionListFromPreload(String hardness) {
-
+	//generate a random list of question with certain hardness given number of questions, using the preloadset of questions
+	public void generateQuestionListFromPreload(String hardness, int numOfQuestions) {
+		Random r = new Random();
+		int barrier = 100;
+		switch(hardness) {
+		case "easy":
+			for (int i=0; i<numOfQuestions; i++) {
+				int Result = r.nextInt(barrier) + barrier*0;
+				_generatedQuestionList.add(_preloadSortedQuestionSet.get(Result));
+			}
+		case "mdedium":
+			for (int i=0; i<numOfQuestions; i++) {
+				int Result = r.nextInt(barrier) +barrier*1;
+				_generatedQuestionList.add(_preloadSortedQuestionSet.get(Result));
+			}
+		case "hard":
+			for (int i=0; i<numOfQuestions; i++) {
+				int Result = r.nextInt(barrier) +barrier*2;
+				_generatedQuestionList.add(_preloadSortedQuestionSet.get(Result));
+			}
+		}
 	}
 
 	//generate a random list of questions from selected question set given number of questions, this function may or may not be called multiple times for each run depends on the design choice
