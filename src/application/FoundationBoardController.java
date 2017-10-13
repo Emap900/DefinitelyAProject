@@ -1,11 +1,15 @@
 package application;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
@@ -67,6 +71,8 @@ public class FoundationBoardController implements Initializable {
 	 */
 	private Map<String, Integer> _wrongQuestions = new HashMap<String, Integer>();
 	private Mode _mode;
+	private int _trailNum;
+	private int _maxTrailNum;
 	/**
 	 * The only statistics controller in the main scene
 	 */
@@ -82,6 +88,30 @@ public class FoundationBoardController implements Initializable {
 		_questionModel = QuestionModel.getInstance();
 
 		_infoBar.setVisible(false);
+
+		_trailNum = 0;
+
+		// load local config file and get the maximum trail number
+		File configFile = new File("config.properties");
+		// default number of chances to retry is 2
+		String maxTrailNumber = "2";
+		try {
+			FileReader reader = new FileReader(configFile);
+			Properties props = new Properties();
+			props.load(reader);
+
+			maxTrailNumber = props.getProperty("maxTrailNumber");
+			if (maxTrailNumber == null) {
+				maxTrailNumber = "2";
+			}
+
+			reader.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		_maxTrailNum = Integer.parseInt(maxTrailNumber);
 
 		// load statistics bar
 		Pane statBar = new Pane();
@@ -100,6 +130,7 @@ public class FoundationBoardController implements Initializable {
 
 		switch (function) {
 		case PRACTISE:
+			_modeLabel.setText("Practise");
 
 			// show practise start page
 			PractiseStartPageController pController = (PractiseStartPageController) replacePaneContent(_mainPane,
@@ -108,6 +139,7 @@ public class FoundationBoardController implements Initializable {
 			break;
 
 		case MATH:
+			_modeLabel.setText("Math Game");
 
 			// show math start page
 			MathStartPageController mController = (MathStartPageController) replacePaneContent(_mainPane,
@@ -244,26 +276,26 @@ public class FoundationBoardController implements Initializable {
 			// ask question model for correctness of the current question
 			boolean isCorrect = _questionModel.isUserCorrect();
 			// show result scene
-			ResultSceneController controller = (ResultSceneController) replacePaneContent(_mainPane,
+			ResultSceneController resultController = (ResultSceneController) replacePaneContent(_mainPane,
 					"ResultScene.fxml");
-			controller.setParent(this);
+			resultController.setParent(this);
 
 			// set the required info of the result controller
-			controller.resultIsCorrect(isCorrect);
+			resultController.resultIsCorrect(isCorrect);
 
 			// check if the user has a chance to retry
-			controller.setCanRetry(_questionModel.canRetry());
-			controller.setUserAnswer(_questionModel.answerOfUser());
+			resultController.setCanRetry(_trailNum < _maxTrailNum);
+			resultController.setUserAnswer(_questionModel.answerOfUser());
 
 			// if is in practise mode and the user's answer in incorrect, show the
 			// correct answer in result scene
 			if (_mode == Mode.PRACTISE && !_questionModel.isUserCorrect()) {
-				controller.showCorrectAnswer(_questionModel.correctWord());
+				resultController.showCorrectAnswer(_questionModel.correctWord());
 			}
 
 			// check is the question the final one
 			if (_questionModel.isFinished()) {
-				controller.setFinal(true);
+				resultController.setFinal(true);
 			}
 
 		});
@@ -303,34 +335,13 @@ public class FoundationBoardController implements Initializable {
 		// append the new result
 		appendResult();
 
+		// reset trail number
+		_trailNum = 0;
+
 		// ask question model to go to next question
 		_questionModel.goNext();
 		showQuestionScene();
 
-	}
-
-	/**
-	 * Append the new result to the statistics bar and delete the temperate recorded
-	 * sound file. If in practise mode and user got the question wrong, make a
-	 * record of this question in the _wrongQuestion map.
-	 */
-	private void appendResult() {
-		// if in practise mode, add this wrong record to the wrong questions map
-		if (_mode == Mode.PRACTISE) {
-			String currentQuestion = _questionModel.currentQuestion();
-			if (_wrongQuestions.get(currentQuestion) == null) {
-				_wrongQuestions.put(currentQuestion, 1);
-			} else {
-				int numGetWrong = _wrongQuestions.get(currentQuestion);
-				_wrongQuestions.put(currentQuestion, numGetWrong++);
-			}
-		}
-
-		// append the result to the statistics bar
-		_statistics.appendResult(_questionModel.isUserCorrect());
-
-		// remove previous recording
-		new BashProcess("./MagicStaff.sh", "remove", _questionModel.currentAnswer());
 	}
 
 	/**
@@ -371,11 +382,36 @@ public class FoundationBoardController implements Initializable {
 	}
 
 	/**
+	 * Append the new result to the statistics bar and delete the temperate recorded
+	 * sound file. If in practise mode and user got the question wrong, make a
+	 * record of this question in the _wrongQuestion map.
+	 */
+	private void appendResult() {
+		// if in practise mode, add this wrong record to the wrong questions map
+		if (_mode == Mode.PRACTISE) {
+			String currentQuestion = _questionModel.currentQuestion();
+			if (_wrongQuestions.get(currentQuestion) == null) {
+				_wrongQuestions.put(currentQuestion, 1);
+			} else {
+				int numGetWrong = _wrongQuestions.get(currentQuestion);
+				_wrongQuestions.put(currentQuestion, numGetWrong++);
+			}
+		}
+
+		// append the result to the statistics bar
+		_statistics.appendResult(_questionModel.isUserCorrect());
+
+		// remove previous recording
+		new BashProcess("./MagicStaff.sh", "remove", _questionModel.currentAnswer());
+	}
+
+	/**
 	 * Show the summary scene for the practise
 	 */
 	private void showPractiseSummary() {
 		PractiseSummarySceneController controller = (PractiseSummarySceneController) replacePaneContent(_mainPane,
 				"PractiseSummaryScene.fxml");
+		controller.setParent(this);
 		double correctRate = (double) _questionModel.getScore() / _statistics.getNumOfRecords();
 		controller.setCorrectRate(correctRate);
 		controller.setWrongAnswerChartData(_wrongQuestions);
@@ -405,6 +441,11 @@ public class FoundationBoardController implements Initializable {
 		}
 
 		return loader.getController();
+	}
+
+	public void incrementTrial() {
+		// TODO Auto-generated method stub
+		_trailNum++;
 	}
 
 }
