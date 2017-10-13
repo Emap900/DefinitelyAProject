@@ -359,7 +359,7 @@ public class FoundationBoardController implements Initializable {
 			_function = Function.SCORE;
 
 			// reset QuestionModel
-			_questionModel.clearQuestionsToAsk();
+			_questionModel.clear();
 
 			if (_mode == Mode.PRACTISE) {
 				showPractiseSummary();

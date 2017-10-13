@@ -47,7 +47,6 @@ import javafx.scene.control.ButtonType;
  * 
  * scoring system (to be detailed)
  * 
- * trigger the loop (to be detailed)
  * 
  */
 
@@ -79,7 +78,6 @@ public class QuestionModel {
 	private List<List> _questionsDid;
 	private int _lengthOfQuestionList;
 	private boolean _isFinished;
-	private List<String> _currentQuestionList;
 	private int _numOfquestionsGotCorrect;
 	private int _currentScore;
 
@@ -321,11 +319,10 @@ public class QuestionModel {
 		_questionsDid.add(currentQA);
 		_toDoList = _toDoList.subList(1, _toDoList.size());
 	}
-	//TODO clear data for gaming
-	public void clear() {
-		
-	}
 
+	public void increnmentTrial() {
+		_currentTrial++;
+	}
 	//get current question
 	public String currentQuestion() {
 		return _currentQuestion;
@@ -337,6 +334,15 @@ public class QuestionModel {
 		return _currentAnswer;
 	}
 
+	public int getTrialNumber() {
+		return _currentTrial;
+	}
+	//TODO clear data for gaming (do I need to clear the whole model -_-)
+	public void clear() {
+
+	}
+
+	//TODO the use of this function is to be determined
 	public void setLengthOfQuestionList(int length) {
 		_lengthOfQuestionList = length;
 	}
@@ -365,9 +371,9 @@ public class QuestionModel {
 			calculateHardnessFactor();
 			// new%correctness = num of questions correct / total num of questions =
 			// (old%correctness * total num of questions + 1)/total num of questions
-			double percentageCorrect = (double) _numOfquestionsGotCorrect / _currentQuestionList.size();
+			double percentageCorrect = (double) _numOfquestionsGotCorrect / _generatedQuestionList.size();
 			score = (int) (percentageCorrect * 100 * _pronounciationHardnessFactor
-					* (1 + _currentQuestionList.size() / 100));
+					* (1 + _generatedQuestionList.size() / 100));
 		case ENDLESSMATH:
 
 		}
@@ -408,15 +414,6 @@ public class QuestionModel {
 
 	/**
 	 * 
-	 * @return true if the user has another chance, otherwise false
-	 */
-	public boolean canRetry() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * 
 	 * @return the user's answer (Maori word)
 	 */
 	public String answerOfUser() {
@@ -434,29 +431,12 @@ public class QuestionModel {
 	}
 
 	/**
-	 * Generate questions to ask
-	 */
-	public void generateQuestions() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
 	 * 
-	 * @return the Maori word for the correct answer
+	 * @return the correct Maori word
 	 */
 	public String correctWord() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	/**
-	 * Clear the questions generated to ask when finished or stopped a practise or a
-	 * math game
-	 */
-	public void clearQuestionsToAsk() {
-		// TODO Auto-generated method stub
-
 	}
 
 	public int getScore() {
