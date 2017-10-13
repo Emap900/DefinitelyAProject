@@ -60,6 +60,8 @@ public class QuestionModel {
 	// for preload question set
 	private Map<String, QuestionSet> _sets;
 	private List<List> _preloadSortedQuestionSet;
+	
+	private Map<String, String> _maoriDictionary;
 
 	// for current question
 	private String _currentQuestion;
@@ -95,9 +97,10 @@ public class QuestionModel {
 		_maoriCache.put("actual", null);
 		_pronounciationHardnessFactor = 0;
 		_numOfquestionsGotCorrect = 0;
+		loadLocalLists();//TODO for size of _sets, load them all
 		Scanner s;
 		try {
-			s = new Scanner(new File("filepath"));
+			s = new Scanner(new File("setABC.csv"));
 			ArrayList<String> list = new ArrayList<String>();
 			while (s.hasNext()) {
 				list.add(s.next());
@@ -285,6 +288,7 @@ public class QuestionModel {
 		}
 	}
 
+	//giving out current question
 	
 
 	// return true on success, return false on the last QAPairs in the list
