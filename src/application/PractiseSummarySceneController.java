@@ -1,14 +1,11 @@
 package application;
 
-import java.net.URL;
 import java.util.Comparator;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
@@ -16,7 +13,7 @@ import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Label;
 
-public class PractiseSummarySceneController implements Initializable {
+public class PractiseSummarySceneController {
 
 	@FXML
 	private PieChart _pieChart;
@@ -28,14 +25,7 @@ public class PractiseSummarySceneController implements Initializable {
 	private FoundationBoardController _parent;
 
 	public void setParent(FoundationBoardController controller) {
-		// TODO Auto-generated method stub
 		_parent = controller;
-	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -44,7 +34,6 @@ public class PractiseSummarySceneController implements Initializable {
 	 * @param correctRate
 	 */
 	public void setCorrectRate(double correctRate) {
-		// TODO Auto-generated method stub
 		// double percentCorrect = correctRate * 100;
 		double percentCorrect = 87.6;
 
@@ -57,9 +46,17 @@ public class PractiseSummarySceneController implements Initializable {
 		pieChartData.get(1).getNode().setStyle("-fx-pie-color: #d50000;");
 	}
 
+	/**
+	 * Set the data to be shown on the bar chart.
+	 * 
+	 * @param wrongQuestions
+	 *            which is a map with keys of the questions the user did wrong, and
+	 *            values of the number of times the user got the question wrong
+	 */
 	public void setWrongAnswerChartData(Map<String, Integer> wrongQuestions) {
-		// TODO Auto-generated method stub
+		// create a new series
 		XYChart.Series<String, Number> series = new Series<String, Number>();
+		// added values to the series
 		for (String question : wrongQuestions.keySet()) {
 			int timesGetWrong = wrongQuestions.get(question);
 			series.getData().add(new Data<String, Number>(question, timesGetWrong));
@@ -70,7 +67,6 @@ public class PractiseSummarySceneController implements Initializable {
 
 			@Override
 			public int compare(Data<String, Number> o1, Data<String, Number> o2) {
-				// TODO Auto-generated method stub
 				int d1 = o1.getYValue().intValue();
 				int d2 = o2.getYValue().intValue();
 				if (d1 == d2) {

@@ -182,7 +182,8 @@ public class UserModel {
 	 * 
 	 * @param gameMode
 	 * @param userName
-	 * @return the personal history of the user in the given game mode
+	 * @return the personal history (an array of scores) of the user in the given
+	 *         game mode
 	 */
 	public int[] getPersonalHistory(Mode gameMode, String userName) {
 		if (_users.get(userName) == null) {
@@ -201,9 +202,10 @@ public class UserModel {
 	}
 
 	public List<UserDataTuple> getRankingList(Mode gameMode) {
-		// TODO Auto-generated method stub
+		// initialize a new list of ranking
 		List<UserDataTuple> ranking = new ArrayList<UserDataTuple>();
 
+		// add values (UserDataTuple) to the list of ranking
 		for (User usr : _users.values()) {
 			String name = usr.getName();
 			int rank = calculateRank(gameMode, name);
@@ -211,7 +213,8 @@ public class UserModel {
 			ranking.add(new UserDataTuple(name, rank, highestScore));
 		}
 
-		// sort the ranking list
+		// sort the ranking list depending on the ranks of users stored in the data
+		// tuples
 		Collections.sort(ranking);
 
 		return ranking;

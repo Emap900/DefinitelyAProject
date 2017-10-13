@@ -3,7 +3,6 @@ package application;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -18,79 +17,56 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.SubScene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.util.converter.CurrencyStringConverter;
 
 public class FoundationBoardController implements Initializable {
 
 	@FXML
 	private Label _modeLabel;
-
 	@FXML
 	private Label _scoreLabel;
-
 	@FXML
 	private Label _numQLeftLabel;
-
 	/**
 	 * This pane is shown on the left side of the scene, which can have different
 	 * scenes switching on it
 	 */
 	@FXML
 	private HBox _mainPane;
-
 	/**
 	 * This pane is shown on the right side of the scene, which shows the statistics
 	 */
 	@FXML
 	private JFXDrawer _statisticsBar;
-
 	/**
 	 * Home Button
 	 */
 	@FXML
 	private JFXButton _homeBtn;
-
 	@FXML
 	private HBox _infoBar;
-
 	@FXML
 	private Button _helpBtn;
 
 	private Main _main;
-
 	private QuestionModel _questionModel;
-
 	private UserModel _userModel;
-
 	private Function _function;
-
 	private String _userName;
-
 	/**
 	 * A map that has keys that are the answer to the questions that the user did
 	 * wrong, and values of the number of times user got it wrong
 	 */
 	private Map<String, Integer> _wrongQuestions = new HashMap<String, Integer>();
-
-	private int _score = 100;
-
 	private Mode _mode;
-
 	/**
 	 * The only statistics controller in the main scene
 	 */
@@ -124,23 +100,21 @@ public class FoundationBoardController implements Initializable {
 
 		switch (function) {
 		case PRACTISE:
-			// _statistics.setTitle("Practise Mode");
-			// _statistics.setInfo("Practise Maori pronunciation.");
 
 			// show practise start page
 			PractiseStartPageController pController = (PractiseStartPageController) replacePaneContent(_mainPane,
 					"PractiseStartPage.fxml");
 			pController.setParent(this);
 			break;
+
 		case MATH:
-			// _statistics.setTitle("Math Game Mode");
-			// _statistics.setInfo("Answer math questions in Maori.");
 
 			// show math start page
 			MathStartPageController mController = (MathStartPageController) replacePaneContent(_mainPane,
 					"MathStartPage.fxml");
 			mController.setParent(this);
 			break;
+
 		default:
 			throw new RuntimeException("Function can only be PRACTISE or MATH");
 		}
@@ -163,8 +137,7 @@ public class FoundationBoardController implements Initializable {
 	private void backToHome() {
 
 		if (_function != Function.SCORE) {
-			// discard current changes, stop current practise/game, reset question
-			// model
+			// reset question model
 			_questionModel.clearQuestionsToAsk();
 		}
 
@@ -194,9 +167,6 @@ public class FoundationBoardController implements Initializable {
 		_scoreLabel.setText("0");
 		_numQLeftLabel.setText("Infinite");
 
-		// _statistics.setTitle("Practising");
-		// _statistics.setInfo("You got " + _score + " questions correct.");
-
 		showQuestionScene();
 	}
 
@@ -220,7 +190,7 @@ public class FoundationBoardController implements Initializable {
 
 			_infoBar.setVisible(true);
 			_scoreLabel.setText("0");
-			_numQLeftLabel.setText("TODO");
+			_numQLeftLabel.setText("TODO"); // TODO
 
 			// ask question model to generate a list of math questions
 			_questionModel.generateQuestions();
@@ -243,10 +213,7 @@ public class FoundationBoardController implements Initializable {
 			throw new RuntimeException("Game mode can only be NORMALMATH or ENDLESSMATH");
 		}
 
-		_score = 0;
 		_userName = playerName;
-		// _statistics.setTitle("Hi! " + playerName);
-		// _statistics.setInfo("Score: " + _score);
 
 		showQuestionScene();
 	}
@@ -304,6 +271,11 @@ public class FoundationBoardController implements Initializable {
 
 	}
 
+	/**
+	 * Event handler for the "details" button, open/close the statistics bar drawer.
+	 * 
+	 * @param event
+	 */
 	@FXML
 	private void showStatisticsBar(ActionEvent event) {
 		if (_statisticsBar.isHidden()) {
@@ -337,8 +309,12 @@ public class FoundationBoardController implements Initializable {
 
 	}
 
+	/**
+	 * Append the new result to the statistics bar and delete the temperate recorded
+	 * sound file. If in practise mode and user got the question wrong, make a
+	 * record of this question in the _wrongQuestion map.
+	 */
 	private void appendResult() {
-		// TODO Auto-generated method stub
 		// if in practise mode, add this wrong record to the wrong questions map
 		if (_mode == Mode.PRACTISE) {
 			String currentQuestion = _questionModel.currentQuestion();
@@ -388,17 +364,18 @@ public class FoundationBoardController implements Initializable {
 			if (_mode == Mode.PRACTISE) {
 				showPractiseSummary();
 			} else {
-				_userModel.appendRecord(_userName, _mode, _score);
+				_userModel.appendRecord(_userName, _mode, _questionModel.getScore());
 				_main.showPersonalPanel(_userName);
 			}
 		}
 	}
 
+	/**
+	 * Show the summary scene for the practise
+	 */
 	private void showPractiseSummary() {
-		// TODO Auto-generated method stub
 		PractiseSummarySceneController controller = (PractiseSummarySceneController) replacePaneContent(_mainPane,
 				"PractiseSummaryScene.fxml");
-		controller.setParent(this);
 		double correctRate = (double) _questionModel.getScore() / _statistics.getNumOfRecords();
 		controller.setCorrectRate(correctRate);
 		controller.setWrongAnswerChartData(_wrongQuestions);

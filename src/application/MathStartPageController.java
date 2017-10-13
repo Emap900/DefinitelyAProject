@@ -29,7 +29,6 @@ public class MathStartPageController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
 		/*
 		 * Add a text change listener to the user name text field. When the user input
 		 * is changed, check is the new character the user typed a non-alphanumeric

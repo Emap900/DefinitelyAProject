@@ -1,16 +1,9 @@
 package application;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 
 import java.io.File;
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Optional;
-import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 
@@ -19,7 +12,6 @@ import javafx.event.ActionEvent;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.media.AudioClip;
 
 public class ResultSceneController {
@@ -42,47 +34,6 @@ public class ResultSceneController {
 	@FXML
 	private JFXButton _finishBtn;
 	private FoundationBoardController _parentController;
-
-	// Event Listener on Button[#_replayBtn].onAction
-	@FXML
-	public void replayBtnClicked(ActionEvent event) {
-		Task<Void> replay = new Task<Void>() {
-			@Override
-			public Void call() {
-				System.gc();
-
-				try {
-					AudioClip replay = new AudioClip(
-							new File(QuestionModel.getInstance().currentAnswer() + ".wav").toURI().toURL().toString());
-					replay.play();
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-				}
-				return null;
-			}
-		};
-		new Thread(replay).start();
-	}
-
-	// Event Listener on Button[#_retryBtn].onAction
-	@FXML
-	public void retryBtnClicked(ActionEvent event) {
-		_parentController.showQuestionScene();
-	}
-
-	// Event Listener on Button[#_nextBtn].onAction
-	@FXML
-	public void nextBtnClicked(ActionEvent event) {
-		_parentController.showNextQuestion();
-	}
-
-	// Event Listener on Button[#_finishBtn].onAction
-	@FXML
-	public void finishBtnClicked(ActionEvent event) {
-
-		_parentController.finish();
-
-	}
 
 	public void setParent(FoundationBoardController controller) {
 		_parentController = controller;
@@ -140,7 +91,6 @@ public class ResultSceneController {
 			_nextBtn.setText("Next question");
 			_nextBtn.setDisable(false);
 		}
-
 	}
 
 	/**
@@ -153,5 +103,44 @@ public class ResultSceneController {
 			_correctAnsLabel.setText(correctWord);
 			_correctAnsBox.setVisible(true);
 		}
+	}
+
+	// Event Listener on Button[#_replayBtn].onAction
+	@FXML
+	public void replayBtnClicked(ActionEvent event) {
+		Task<Void> replay = new Task<Void>() {
+			@Override
+			public Void call() {
+				System.gc();
+	
+				try {
+					AudioClip replay = new AudioClip(
+							new File(QuestionModel.getInstance().currentAnswer() + ".wav").toURI().toURL().toString());
+					replay.play();
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+				}
+				return null;
+			}
+		};
+		new Thread(replay).start();
+	}
+
+	// Event Listener on Button[#_retryBtn].onAction
+	@FXML
+	public void retryBtnClicked(ActionEvent event) {
+		_parentController.showQuestionScene();
+	}
+
+	// Event Listener on Button[#_nextBtn].onAction
+	@FXML
+	public void nextBtnClicked(ActionEvent event) {
+		_parentController.showNextQuestion();
+	}
+
+	// Event Listener on Button[#_finishBtn].onAction
+	@FXML
+	public void finishBtnClicked(ActionEvent event) {
+		_parentController.finish();
 	}
 }

@@ -58,6 +58,11 @@ public class PersonalPanelController {
 		_main = main;
 	}
 
+	/**
+	 * Show the history of the user.
+	 * 
+	 * @param userName
+	 */
 	public void showPersonalHistory(String userName) {
 		UserModel model = UserModel.getInstance();
 		// show name

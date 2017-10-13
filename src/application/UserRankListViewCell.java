@@ -23,7 +23,7 @@ public class UserRankListViewCell extends ListCell<UserDataTuple> {
 	private Label _scoreLabel;
 
 	public UserRankListViewCell() {
-		// TODO Auto-generated constructor stub
+		// load the view for the cell
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("UserRankListCell.fxml"));
 		loader.setController(this);
 		try {
@@ -36,7 +36,6 @@ public class UserRankListViewCell extends ListCell<UserDataTuple> {
 
 	@Override
 	protected void updateItem(UserDataTuple item, boolean empty) {
-		// TODO Auto-generated method stub
 		super.updateItem(item, empty);
 
 		if (empty || item == null) {

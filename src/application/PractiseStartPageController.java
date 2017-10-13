@@ -28,7 +28,6 @@ public class PractiseStartPageController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
 
 		// disable the specificPractiseButton as initially the user input is empty
 		_specificPractiseButton.setDisable(true);

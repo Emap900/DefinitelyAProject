@@ -1,7 +1,5 @@
 package application;
 
-import java.util.Map;
-
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -22,7 +20,6 @@ public class StatisticsBarController {
 	 * @param isCorrect
 	 */
 	public void appendResult(boolean isCorrect) {
-		// TODO Auto-generated method stub
 		Label result = new Label();
 		// calculate the question number of the new result to append
 		int questionNumber = _resultListView.getItems().size() + 1;
