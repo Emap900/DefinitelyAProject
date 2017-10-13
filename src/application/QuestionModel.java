@@ -47,7 +47,6 @@ import javafx.scene.control.ButtonType;
  * 
  * scoring system (to be detailed)
  * 
- * trigger the loop (to be detailed)
  * 
  */
 
@@ -59,9 +58,12 @@ public class QuestionModel {
 
 	// for preload question set
 	private Map<String, QuestionSet> _sets;
-	private List<List> _preloadSortedQuestionSet;
+	private List<List<String>> _preloadSortedQuestionSet;
+	
+	private Map<String, String> _maoriDictionary;
 
 	// for current question
+	private int _currentIndex;
 	private String _currentQuestion;
 	private String _currentAnswer;
 	private int _currentTrial;
@@ -70,10 +72,12 @@ public class QuestionModel {
 
 	// for question list
 	private List<List> _generatedQuestionList;
-	private List<String> _questionsDid;
+	
+	//TODO I think below _toDoList can be a stack rather than a list, subject to change later
+	private List<List> _toDoList; //this should be a copy of generated list in the begining of each game but reduce its size as the game going
+	private List<List> _questionsDid;
 	private int _lengthOfQuestionList;
 	private boolean _isFinished;
-	private List<String> _currentQuestionList;
 	private int _numOfquestionsGotCorrect;
 	private int _currentScore;
 
@@ -91,13 +95,20 @@ public class QuestionModel {
 		// load premade question as a list into the program
 		_sets = new HashMap();
 		_maoriCache = new HashMap();
+		_preloadSortedQuestionSet = new ArrayList();
+		
+		_maoriDictionary = new HashMap();
+		
+		_currentIndex = 0;
+		
 		_maoriCache.put("expected", null);
 		_maoriCache.put("actual", null);
 		_pronounciationHardnessFactor = 0;
 		_numOfquestionsGotCorrect = 0;
+		loadLocalLists();//TODO for size of _sets, load them all
 		Scanner s;
 		try {
-			s = new Scanner(new File("filepath"));
+			s = new Scanner(new File("setABC.csv"));
 			ArrayList<String> list = new ArrayList<String>();
 			while (s.hasNext()) {
 				list.add(s.next());
@@ -108,6 +119,8 @@ public class QuestionModel {
 				List<String> QAPairl = new ArrayList<String>();
 				QAPairl.add(QAPair[0]);
 				QAPairl.add(QAPair[1]);
+				System.out.println(QAPair[0]);
+				System.out.println(QAPair[1]);
 				_preloadSortedQuestionSet.add(QAPairl);
 			}
 			
@@ -285,63 +298,51 @@ public class QuestionModel {
 		}
 	}
 
-	
-
-	// return true on success, return false on the last QAPairs in the list
-	public boolean goNext() {
-		return false;
-
-	}
-
-	public void generateAPremadeListD(String hardness) {
-		switch (hardness) {
-		case "easy":
-			_currentQuestionList = getEasyList();
-		case "medium":
-			_currentQuestionList = getMediumList();
-		case "hard":
-			_currentQuestionList = getHardList();
+	//start question list processing for gaming part (not practise part)
+	public void triggerGameStart() {
+		if(_generatedQuestionList == null) {
+			System.err.println("there is no generated question list to start");
+		}else {
+			_toDoList = _generatedQuestionList;
 		}
 	}
-
 	
-
-	private List<String> getEasyList() {
-
-		return _currentQuestionList;
-
+	//check if all questions are done
+	public boolean hasNext() {
+		return (!(_toDoList == null));
+	}
+	//retrieve a QA pair to use
+	public void NextQA() {
+		List<String> currentQA = _toDoList.get(0);
+		_currentQuestion = currentQA.get(0);
+		_currentAnswer = currentQA.get(1);
+		_questionsDid.add(currentQA);
+		_toDoList = _toDoList.subList(1, _toDoList.size());
 	}
 
-	private List<String> getMediumList() {
-
-		return _currentQuestionList;
-
+	public void increnmentTrial() {
+		_currentTrial++;
 	}
-
-	private List<String> getHardList() {
-		return _currentQuestionList;
-
-	}
-
-	/**
-	 * Get the current question
-	 * 
-	 * @return current question
-	 */
+	//get current question
 	public String currentQuestion() {
 		return _currentQuestion;
 	}
 
-	/**
-	 * Get the current answer
-	 * 
-	 * @return current answer
-	 */
+	//get current answer
 	public String currentAnswer() {
 
 		return _currentAnswer;
 	}
 
+	public int getTrialNumber() {
+		return _currentTrial;
+	}
+	//TODO clear data for gaming (do I need to clear the whole model -_-)
+	public void clear() {
+
+	}
+
+	//TODO the use of this function is to be determined
 	public void setLengthOfQuestionList(int length) {
 		_lengthOfQuestionList = length;
 	}
@@ -357,7 +358,7 @@ public class QuestionModel {
 		_currentMode = mode;
 	}
 
-	public void updateResult(String maoriWord, boolean correctness) {
+	public void updateResult(String recognizedWord, String correctWord, boolean correctness) {
 
 	}
 
@@ -370,9 +371,9 @@ public class QuestionModel {
 			calculateHardnessFactor();
 			// new%correctness = num of questions correct / total num of questions =
 			// (old%correctness * total num of questions + 1)/total num of questions
-			double percentageCorrect = (double) _numOfquestionsGotCorrect / _currentQuestionList.size();
+			double percentageCorrect = (double) _numOfquestionsGotCorrect / _generatedQuestionList.size();
 			score = (int) (percentageCorrect * 100 * _pronounciationHardnessFactor
-					* (1 + _currentQuestionList.size() / 100));
+					* (1 + _generatedQuestionList.size() / 100));
 		case ENDLESSMATH:
 
 		}
@@ -411,24 +412,18 @@ public class QuestionModel {
 
 	}
 
-	/**
-	 * 
-	 * @return true if the user has another chance, otherwise false
-	 */
-	public boolean canRetry() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * 
-	 * @return the user's answer (Maori word)
-	 */
+	//return user
 	public String answerOfUser() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	//return correct maori word
+	public String correctWord() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	/**
 	 * 
 	 * @return true if the user's answer is correct, otherwise false
@@ -436,32 +431,6 @@ public class QuestionModel {
 	public boolean isUserCorrect() {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	/**
-	 * Generate questions to ask
-	 */
-	public void generateQuestions() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 * 
-	 * @return the Maori word for the correct answer
-	 */
-	public String correctWord() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * Clear the questions generated to ask when finished or stopped a practise or a
-	 * math game
-	 */
-	public void clearQuestionsToAsk() {
-		// TODO Auto-generated method stub
-
 	}
 
 	public int getScore() {

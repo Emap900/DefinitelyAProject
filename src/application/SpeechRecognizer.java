@@ -22,11 +22,10 @@ public final class SpeechRecognizer {
 			recognizedWord = recognizeRecording();
 			String correctWord = _dictionary.get(numberValue);
 			if (recognizedWord.equals(correctWord)) {
-				// TODO also give question model the correct words
-				_questionModel.updateResult(recognizedWord, true);
+				_questionModel.updateResult(recognizedWord, correctWord, true);
 				return true;
 			} else {
-				_questionModel.updateResult(recognizedWord, false);
+				_questionModel.updateResult(recognizedWord, correctWord, false);
 				return false;
 			}
 		} catch (IOException e) {

@@ -170,7 +170,7 @@ public class FoundationBoardController implements Initializable {
 
 		if (_function != Function.SCORE) {
 			// reset question model
-			_questionModel.clearQuestionsToAsk();
+			_questionModel.clear();
 		}
 
 		_main.showHome();
@@ -191,7 +191,8 @@ public class FoundationBoardController implements Initializable {
 			_questionModel.setSpecificPractiseNumber(number);
 		}
 
-		_questionModel.generateQuestions();
+		// TODO ask question model to begin a practise
+		// _questionModel.generateQuestions();
 
 		_modeLabel.setText("Practise Maori Pronunciation");
 
@@ -224,9 +225,6 @@ public class FoundationBoardController implements Initializable {
 			_scoreLabel.setText("0");
 			_numQLeftLabel.setText("TODO"); // TODO
 
-			// ask question model to generate a list of math questions
-			_questionModel.generateQuestions();
-
 			break;
 		case ENDLESSMATH:
 			_mode = Mode.ENDLESSMATH;
@@ -237,13 +235,13 @@ public class FoundationBoardController implements Initializable {
 			_scoreLabel.setText("0");
 			_numQLeftLabel.setText("Infinite");
 
-			// ask question model to generate a list of math questions
-			_questionModel.generateQuestions();
-
 			break;
 		default:
 			throw new RuntimeException("Game mode can only be NORMALMATH or ENDLESSMATH");
 		}
+
+		// ask question model to generate a list of math questions
+		_questionModel.triggerGameStart();
 
 		_userName = playerName;
 
@@ -339,7 +337,7 @@ public class FoundationBoardController implements Initializable {
 		_trailNum = 0;
 
 		// ask question model to go to next question
-		_questionModel.goNext();
+		_questionModel.NextQA();
 		showQuestionScene();
 
 	}
@@ -370,7 +368,7 @@ public class FoundationBoardController implements Initializable {
 			_function = Function.SCORE;
 
 			// reset QuestionModel
-			_questionModel.clearQuestionsToAsk();
+			_questionModel.clear();
 
 			if (_mode == Mode.PRACTISE) {
 				showPractiseSummary();
