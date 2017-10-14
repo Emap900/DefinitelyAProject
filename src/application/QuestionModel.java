@@ -73,7 +73,7 @@ public class QuestionModel {
 	private boolean _correctness;
 
 	//for practise
-	private boolean repeatPractise;
+	private Integer _numberToPractise;
 	// for question list
 	private List<List> _generatedQuestionList;
 	
@@ -252,6 +252,11 @@ public class QuestionModel {
 		alert.showAndWait();
 	}
 
+	
+	public void initializePractise(int numToPractise) {
+		_currentMode = Mode.PRACTISE;
+		_numberToPractise = numToPractise;
+	}
 	//generate a random list of question with certain hardness given number of questions, using the preloadset of questions
 	public void generateQuestionListFromPreload(String hardness, int numOfQuestions) {
 		Random r = new Random();
@@ -317,11 +322,25 @@ public class QuestionModel {
 	}
 	//retrieve a QA pair to use
 	public void NextQA() {
-		List<String> currentQA = _toDoList.get(0);
-		_currentQuestion = currentQA.get(0);
-		_currentAnswer = currentQA.get(1);
-		_questionsDid.add(currentQA);
-		_toDoList = _toDoList.subList(1, _toDoList.size());
+		switch(_currentMode) {
+		case PRACTISE:
+			if(_numberToPractise == null) {
+				Random r = new Random();
+				int result = r.nextInt(98) + 1;
+				_currentQuestion = Integer.toString(result);
+				_currentAnswer = Integer.toString(result);
+			}else {
+				_currentQuestion = _numberToPractise.toString();
+				_currentAnswer = _numberToPractise.toString();
+			}
+		default:
+			List<String> currentQA = _toDoList.get(0);
+			_currentQuestion = currentQA.get(0);
+			_currentAnswer = currentQA.get(1);
+			_questionsDid.add(currentQA);
+			_toDoList = _toDoList.subList(1, _toDoList.size());
+		}
+		
 	}
 
 	public void increnmentTrial() {
@@ -363,6 +382,9 @@ public class QuestionModel {
 	}
 
 	public void updateResult(String recognizedWord, String correctWord, boolean correctness) {
+		if(correctness) {
+			_numOfquestionsGotCorrect++;
+		}
 		_recognizedWord = recognizedWord;
 		_correctWord = correctWord;
 		_correctness = correctness;
@@ -437,10 +459,8 @@ public class QuestionModel {
 		return null;
 	}
 	
-	/**
-	 * 
-	 * @return true if the user's answer is correct, otherwise false
-	 */
+
+	//return
 	public boolean isUserCorrect() {
 		return _correctness;
 	}
