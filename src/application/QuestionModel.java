@@ -370,7 +370,7 @@ public class QuestionModel {
 	}
 	//TODO clear data for gaming (do I need to clear the whole model -_-)
 	public void clear() {
-
+		generateQuestionListFromPreload("medium", 10);
 	}
 
 	//TODO the use of this function is to be determined
@@ -406,6 +406,7 @@ public class QuestionModel {
 			switch (mode) {
 			case PRACTISE:
 				score = _currentScore + 1;
+				break;
 			case NORMALMATH:
 				calculateHardnessFactor();
 				// new%correctness = num of questions correct / total num of questions =
@@ -413,6 +414,7 @@ public class QuestionModel {
 				double percentageCorrect = (double) _numOfquestionsGotCorrect / _generatedQuestionList.size();
 				score = (int) (percentageCorrect * 100 * _pronounciationHardnessFactor
 						* (1 + _generatedQuestionList.size() / 100));
+				break;
 			case ENDLESSMATH:
 
 			}
