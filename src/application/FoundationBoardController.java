@@ -180,12 +180,7 @@ public class FoundationBoardController implements Initializable {
 	public void startPractise(Integer number) {
 		_mode = Mode.PRACTISE;
 
-		if (number != null) {
-			_questionModel.setSpecificPractiseNumber(number);
-		}
-
-		// TODO ask question model to begin a practise
-		// _questionModel.generateQuestions();
+		_questionModel.initializePractise(number);
 
 		_modeLabel.setText("Practise Maori Pronunciation");
 
@@ -400,7 +395,7 @@ public class FoundationBoardController implements Initializable {
 	@FXML
 	private void backToHome() {
 		boolean goBack = false;
-	
+
 		// if user haven't began practising or gaming, _mode will be null. In this case
 		// do not show confirmation dialog
 		if (_mode == null) {
@@ -416,22 +411,22 @@ public class FoundationBoardController implements Initializable {
 				alert.setContentText(
 						"Do you want to leave the game and return to home page (score will not be saved)?");
 			}
-	
+
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK) {
 				goBack = true;
 			}
 		}
-	
+
 		if (goBack == true) {
 			if (_function != Function.SCORE) {
 				// reset question model
 				_questionModel.clear();
 			}
-	
+
 			_main.showHome();
 		}
-	
+
 	}
 
 	/**

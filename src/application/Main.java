@@ -24,9 +24,12 @@ public class Main extends Application {
 	// private HomeController _homePageController;
 	// private Scene _homePage;
 	// private HomePageController HomePage;
+	public static final int NUMLOWERBOUND = 1;
+	public static final int NUMUPPERBOUND = 99;
+
 	private Stage _primaryStage;
 	private Stage _helpStage;
-	
+
 	private QuestionModel _questionModel;
 
 	@Override
@@ -164,7 +167,7 @@ public class Main extends Application {
 		controller.showPersonalHistory(userName);
 		showScene(_primaryStage, personal);
 	}
-	
+
 	public static void main(String[] args) {
 		launch(args);
 	}
