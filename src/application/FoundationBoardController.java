@@ -180,7 +180,9 @@ public class FoundationBoardController implements Initializable {
 	public void startPractise(Integer number) {
 		_mode = Mode.PRACTISE;
 
+		System.out.println(number);
 		_questionModel.initializePractise(number);
+		_questionModel.NextQA();
 
 		_modeLabel.setText("Practise Maori Pronunciation");
 
@@ -370,7 +372,7 @@ public class FoundationBoardController implements Initializable {
 		}
 
 		// append the result to the statistics bar
-		_statistics.appendResult(_questionModel.isUserCorrect());
+		_statistics.appendResult(_questionModel.currentAnswer(), _questionModel.isUserCorrect());
 
 		// remove previous recording
 		new BashProcess("./MagicStaff.sh", "remove", _questionModel.currentAnswer());

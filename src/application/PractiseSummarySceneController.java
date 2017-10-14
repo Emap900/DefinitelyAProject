@@ -34,8 +34,7 @@ public class PractiseSummarySceneController {
 	 * @param correctRate
 	 */
 	public void setCorrectRate(double correctRate) {
-		// double percentCorrect = correctRate * 100;
-		double percentCorrect = 87.6;
+		double percentCorrect = correctRate * 100;
 
 		_percentageLabel.setText("" + (int) percentCorrect);
 
