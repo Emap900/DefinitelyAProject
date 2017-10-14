@@ -340,17 +340,16 @@ public class FoundationBoardController implements Initializable {
 			// append the result
 			appendResult();
 
-			_function = Function.SCORE;
-
-			// reset QuestionModel
-			_questionModel.clear();
-
 			if (_mode == Mode.PRACTISE) {
+				_mode = null;
 				showPractiseSummary();
 			} else {
 				_userModel.appendRecord(_userName, _mode, _questionModel.getScore());
 				_main.showPersonalPanel(_userName);
 			}
+
+			// reset QuestionModel
+			_questionModel.clear();
 		}
 	}
 
@@ -398,8 +397,8 @@ public class FoundationBoardController implements Initializable {
 	private void backToHome() {
 		boolean goBack = false;
 
-		// if user haven't began practising or gaming, _mode will be null. In this case
-		// do not show confirmation dialog
+		// If user haven't began practising or gaming, or already finished practising,
+		// _mode will be null. In this case, do not show confirmation dialog
 		if (_mode == null) {
 			goBack = true;
 		} else {
@@ -421,10 +420,8 @@ public class FoundationBoardController implements Initializable {
 		}
 
 		if (goBack == true) {
-			if (_function != Function.SCORE) {
-				// reset question model
-				_questionModel.clear();
-			}
+			// reset question model
+			_questionModel.clear();
 
 			_main.showHome();
 		}
