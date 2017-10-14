@@ -1,16 +1,20 @@
-1. Please move all the folders and files under this directory to your 
-own working directory where you want to store and run this software.
+TaaTai: Te Reo Maths Aid
 
-2. Please open the terminal in your working directory or open a terminal
-and use "cd" to direct to your working directory.
 
-3. Make sure you have java (at least at version 1.8) and javafx (at least at JFX8) 
-installed in your machine.
+Executing instruction:
+	1. Please move all the folders and files under this directory to your 
+	own working directory where you want to store and run this software.
 
-4. Make sure you give all the .sh shell script and .jar executable jar file
-in the woking directory executable permissions.
+	2. Please open the terminal in your working directory or open a terminal
+	and use "cd" to direct to your working directory.
 
-5. Type "java -jar Taatai.jar" in your terminal to execute the software.
+	3. Make sure you have java (at least at version 1.8) and javafx (at least at JFX8) 
+	installed in your machine.
+
+	4. Make sure you give all the .sh shell script and .jar executable jar file
+	in the woking directory executable permissions.
+
+	5. Type "java -jar Taatai.jar" in your terminal to execute the software.
 
 
 
