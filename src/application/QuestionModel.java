@@ -362,7 +362,7 @@ public class QuestionModel {
 	}
 	//TODO clear data for gaming (do I need to clear the whole model -_-)
 	public void clear() {
-
+		
 	}
 
 	//TODO the use of this function is to be determined
@@ -429,16 +429,7 @@ public class QuestionModel {
 		_pronounciationHardnessFactor = hardnessFactor;
 
 	}
-
-	/**
-	 * Set the specific number to practise
-	 * 
-	 * @param number
-	 */
-	public void setSpecificPractiseNumber(Integer number) {
-		//TODO
-	}
-
+	
 	//return user answered word
 	public String answerOfUser() {
 		if(_recognizedWord != null) {
