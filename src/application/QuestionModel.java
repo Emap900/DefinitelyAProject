@@ -58,6 +58,7 @@ public class QuestionModel {
 
 	// for preload question set
 	private Map<String, QuestionSet> _sets;
+	private List<String> _listOfSetNames;
 	private List<List<String>> _preloadSortedQuestionSet;
 
 	private Map<String, String> _maoriDictionary;
@@ -98,6 +99,10 @@ public class QuestionModel {
 	private QuestionModel() {
 		// load pre-made question as a list into the program
 		_sets = new HashMap<String, QuestionSet>();
+		_listOfSetNames = new ArrayList();
+		//TODO testing code
+		_listOfSetNames.add("setABC");
+		System.out.println(_listOfSetNames.toString());
 		_preloadSortedQuestionSet = new ArrayList<List<String>>();
 
 		_maoriDictionary = new HashMap<String, String>();
@@ -125,8 +130,6 @@ public class QuestionModel {
 				List<String> QAPairl = new ArrayList<String>();
 				QAPairl.add(QAPair[0]);
 				QAPairl.add(QAPair[1]);
-				System.out.println(QAPair[0]);
-				System.out.println(QAPair[1]);
 				_preloadSortedQuestionSet.add(QAPairl);
 			}
 
@@ -188,6 +191,7 @@ public class QuestionModel {
 				QuestionSet q = new QuestionSet(setName);
 				loadQuestions(q.getSetName(), q);
 				_sets.put(q.getSetName(), new QuestionSet(setName));
+				_listOfSetNames.add(setName);
 			}
 		}
 	}
@@ -501,12 +505,16 @@ public class QuestionModel {
 	}
 
 
-	//return
+	//return correctness
 	public boolean isUserCorrect() {
 		return _correctness;
 	}
 
 	public int getScore() {
 		return _currentScore;
+	}
+	
+	public List getListOfsets() {
+		return _listOfSetNames;
 	}
 }

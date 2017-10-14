@@ -9,10 +9,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
 import javafx.scene.control.Label;
@@ -42,16 +48,23 @@ public class SettingsController implements Initializable{
 	private Stage _editPanelStage;
 	private Main _main;
 	private QuestionModel _questionModel; 
+	
+	private Properties _props;
 
 	public void setParent(Main main) {
 		_main = main;
-		_questionModel = QuestionModel.getInstance();
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-		
+		_questionModel = QuestionModel.getInstance();
+		_props = new Properties();
+		try {
+			_props.load(new FileInputStream("config.properties"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		updateSetList();
 	}
 	
 	// Event Listener on Button[#addNewSetBtn].onAction
@@ -67,6 +80,7 @@ public class SettingsController implements Initializable{
 			_questionModel.createLocalQuestionSet(result.get());
 			openeditPanel(result.get());
 		}
+		updateSetList();
 	}
 	// Event Listener on Button[#deleteSetBtn].onAction
 	@FXML
@@ -88,6 +102,7 @@ public class SettingsController implements Initializable{
 	public void confirmSetting(ActionEvent event) {
 		_main.showHome();
 	}
+	
 	public void openeditPanel(String name){
 		//TODO pass questionSetName to edit panel
 		if (_editPanelStage != null) {
@@ -100,5 +115,12 @@ public class SettingsController implements Initializable{
 			editPanelController.initData(_editPanelStage);
 			_main.showScene(_editPanelStage, editPanelScene);
 		}
+	}
+	
+	private void updateSetList() {
+		ObservableList ol = FXCollections.observableArrayList(_questionModel.getListOfsets());
+		quesitonSetComboBox.setItems(ol);
+		
+		System.out.println(_questionModel.getListOfsets().toString());
 	}
 }
