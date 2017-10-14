@@ -30,12 +30,11 @@ public class Main extends Application {
 	private Stage _primaryStage;
 	private Stage _helpStage;
 
-	private QuestionModel _questionModel;
-
 	@Override
 	public void start(Stage primaryStage) {
 		_primaryStage = primaryStage;
-		_questionModel.getInstance();
+		QuestionModel.getInstance();
+		UserModel.getInstance();
 		showHome();
 	}
 
