@@ -50,7 +50,7 @@ import javafx.scene.control.ButtonType;
  * 
  */
 
-// generate question, trial number, correct answer, score of game, isfinished?,
+// generate question, trial number, correct answer, score of game, isfinished,
 // is the question,
 public class QuestionModel {
 
@@ -59,7 +59,7 @@ public class QuestionModel {
 	// for preload question set
 	private Map<String, QuestionSet> _sets;
 	private List<List<String>> _preloadSortedQuestionSet;
-	
+
 	private Map<String, String> _maoriDictionary;
 
 	// for current question
@@ -76,14 +76,14 @@ public class QuestionModel {
 	private Integer _numberToPractise;
 	// for question list
 	private List<List> _generatedQuestionList;
-	
+
 	//TODO I think below _toDoList can be a stack rather than a list, subject to change later
 	private List<List> _toDoList; //this should be a copy of generated list in the begining of each game but reduce its size as the game going
 	private List<List> _questionsDid;
 	private int _lengthOfQuestionList;
 	private boolean _isFinished;
 	private int _numOfquestionsGotCorrect;
-	private int _currentScore;
+	private Integer _currentScore;
 
 	// for mode
 	private Mode _currentMode;
@@ -99,16 +99,16 @@ public class QuestionModel {
 		// load premade question as a list into the program
 		_sets = new HashMap();
 		_preloadSortedQuestionSet = new ArrayList();
-		
+
 		_maoriDictionary = new HashMap();
-		
+
 		_currentIndex = 0;
-		
+
 		_pronounciationHardnessFactor = 0;
 		_numOfquestionsGotCorrect = 0;
-		
+
 		_currentScore = 0;
-		
+
 		loadLocalLists();//TODO for size of _sets, load them all
 		Scanner s;
 		try {
@@ -127,7 +127,7 @@ public class QuestionModel {
 				System.out.println(QAPair[1]);
 				_preloadSortedQuestionSet.add(QAPairl);
 			}
-			
+
 			//give a default list of questions with medium hardness
 			generateQuestionListFromPreload("medium", 10);
 		} catch (FileNotFoundException e) {
@@ -186,7 +186,7 @@ public class QuestionModel {
 	//delete existing question set
 	//TODO possibility of combining delete confirmation dialogs? How to handle with different 
 	public void deleteLocalQuestionSet(String setName) {
-		
+
 		if(isQuestionSetExist(setName)) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("confirm delete");
@@ -207,7 +207,7 @@ public class QuestionModel {
 			alert.showAndWait();
 		}
 	}
-	
+
 	//check if a questionSet is existed in sets
 	private boolean isQuestionSetExist(String setName) {
 		QuestionSet value = _sets.get(setName);
@@ -252,8 +252,8 @@ public class QuestionModel {
 		alert.showAndWait();
 	}
 
-	
-	public void initializePractise(int numToPractise) {
+
+	public void initializePractise(Integer numToPractise) {
 		_currentMode = Mode.PRACTISE;
 		_numberToPractise = numToPractise;
 	}
@@ -285,7 +285,7 @@ public class QuestionModel {
 
 		_generatedQuestionList = _sets.get(setName).generateRandomQuestionList(numOfQuestions);
 	}
-	
+
 	//append question to a list when user want to pick up their own list of questions Note: the field need to be cleared in certain stages at least before user want to rebuild a list 
 	public void addQuestionToListForUserDefine(String question, String answer) {
 		List<String> pair = new ArrayList();
@@ -293,7 +293,7 @@ public class QuestionModel {
 		pair.add(answer);
 		_generatedQuestionList.add(pair);
 	}
-	
+
 	//randomize the order of generated question list, necessarily for each run of game for user picked list
 	public void randomizeQuestionListFromUserDefineWithSelfPick(boolean randomize) {
 		if(_generatedQuestionList == null) {
@@ -315,7 +315,12 @@ public class QuestionModel {
 			_toDoList = _generatedQuestionList;
 		}
 	}
-	
+
+	//return number of questions left
+	public int numOfQuestionsLeft() {
+		return _toDoList.size();
+	}
+
 	//check if all questions are done
 	public boolean hasNext() {
 		return (!(_toDoList == null));
@@ -333,14 +338,17 @@ public class QuestionModel {
 				_currentQuestion = _numberToPractise.toString();
 				_currentAnswer = _numberToPractise.toString();
 			}
+			break;
 		default:
 			List<String> currentQA = _toDoList.get(0);
 			_currentQuestion = currentQA.get(0);
 			_currentAnswer = currentQA.get(1);
 			_questionsDid.add(currentQA);
 			_toDoList = _toDoList.subList(1, _toDoList.size());
+			break;
 		}
-		
+		computeScore(_currentMode);
+
 	}
 
 	public void increnmentTrial() {
@@ -362,7 +370,7 @@ public class QuestionModel {
 	}
 	//TODO clear data for gaming (do I need to clear the whole model -_-)
 	public void clear() {
-		
+
 	}
 
 	//TODO the use of this function is to be determined
@@ -391,21 +399,26 @@ public class QuestionModel {
 	}
 
 	private void computeScore(Mode mode) {
-		int score = 0;
-		switch (mode) {
-		case PRACTISE:
-			score = _currentScore + 1;
-		case NORMALMATH:
-			calculateHardnessFactor();
-			// new%correctness = num of questions correct / total num of questions =
-			// (old%correctness * total num of questions + 1)/total num of questions
-			double percentageCorrect = (double) _numOfquestionsGotCorrect / _generatedQuestionList.size();
-			score = (int) (percentageCorrect * 100 * _pronounciationHardnessFactor
-					* (1 + _generatedQuestionList.size() / 100));
-		case ENDLESSMATH:
+		if (_currentScore == null) {
+			_currentScore = 0;
+		}else {
+			int score = 0;
+			switch (mode) {
+			case PRACTISE:
+				score = _currentScore + 1;
+			case NORMALMATH:
+				calculateHardnessFactor();
+				// new%correctness = num of questions correct / total num of questions =
+				// (old%correctness * total num of questions + 1)/total num of questions
+				double percentageCorrect = (double) _numOfquestionsGotCorrect / _generatedQuestionList.size();
+				score = (int) (percentageCorrect * 100 * _pronounciationHardnessFactor
+						* (1 + _generatedQuestionList.size() / 100));
+			case ENDLESSMATH:
 
+			}
+			_currentScore = score;
 		}
-		_currentScore = score;
+
 	}
 
 	private void calculateHardnessFactor() {
@@ -429,27 +442,18 @@ public class QuestionModel {
 		_pronounciationHardnessFactor = hardnessFactor;
 
 	}
-	
+
 	//return user answered word
 	public String answerOfUser() {
-		if(_recognizedWord != null) {
-			return _recognizedWord;
-		}else {
-			System.err.println("no word stored");
-		}
-		return null;
+		return _recognizedWord;
+
 	}
 
 	//return correct maori word
 	public String correctWord() {
-		if(_correctWord != null) {
-			return _correctWord;
-		}else {
-			System.err.println("no word stored");
-		}
-		return null;
+		return _correctWord;
 	}
-	
+
 
 	//return
 	public boolean isUserCorrect() {
