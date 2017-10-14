@@ -208,16 +208,19 @@ public class FoundationBoardController implements Initializable {
 		case NORMALMATH:
 			_mode = Mode.NORMALMATH;
 			_questionModel.setMode(Mode.NORMALMATH);
+			_questionModel.triggerGameStart();
 
 			_modeLabel.setText("Maths Game: Normal Mode");
 
 			_infoBar.setVisible(true);
 			_scoreLabel.setText("0");
-			_numQLeftLabel.setText("TODO"); // TODO
+			_numQLeftLabel.setText(_questionModel.numOfQuestionsLeft() + ""); // TODO
 
 			break;
 		case ENDLESSMATH:
 			_mode = Mode.ENDLESSMATH;
+			_questionModel.setMode(Mode.ENDLESSMATH);
+			_questionModel.triggerGameStart();
 
 			_modeLabel.setText("Maths Game: Endless Mode");
 
@@ -229,9 +232,6 @@ public class FoundationBoardController implements Initializable {
 		default:
 			throw new RuntimeException("Game mode can only be NORMALMATH or ENDLESSMATH");
 		}
-
-		// ask question model to generate a list of math questions
-		_questionModel.triggerGameStart();
 
 		_userName = playerName;
 
@@ -368,6 +368,12 @@ public class FoundationBoardController implements Initializable {
 				int numGetWrong = _wrongQuestions.get(currentQuestion);
 				_wrongQuestions.put(currentQuestion, numGetWrong++);
 			}
+		}
+
+		// update score label and numQLeftLabel
+		_scoreLabel.setText(_questionModel.getScore() + "");
+		if (_mode == Mode.NORMALMATH) {
+			_numQLeftLabel.setText(_questionModel.numOfQuestionsLeft() + "");
 		}
 
 		// append the result to the statistics bar
