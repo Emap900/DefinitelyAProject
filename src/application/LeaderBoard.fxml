@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.HBox?>
@@ -19,6 +20,9 @@
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </JFXButton>
             <Region layoutX="188.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
             <Label text="Leader Board" textFill="WHITE">
@@ -31,6 +35,9 @@
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </JFXButton>
          </children>
          <effect>
@@ -119,7 +126,13 @@
       </HBox>
       <HBox minHeight="-Infinity" prefHeight="50.0">
          <children>
-            <JFXButton onAction="#showHelp" prefHeight="50.0" prefWidth="50.0" text="Help" />
+            <JFXButton onAction="#showHelp" prefHeight="50.0" prefWidth="80.0" text="Help" underline="true">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></JFXButton>
          </children>
       </HBox>
    </children>

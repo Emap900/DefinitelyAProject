@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.HBox?>
@@ -33,12 +34,18 @@
                            <font>
                               <Font size="14.0" />
                            </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </JFXButton>
                         <Region prefWidth="20.0" />
                         <JFXButton fx:id="_retryBtn" buttonType="RAISED" disable="true" onAction="#retryBtnClicked" style="-fx-background-color: white;" text="Try again">
                            <font>
                               <Font size="14.0" />
                            </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </JFXButton>
                      </children>
                   </HBox>
@@ -86,6 +93,9 @@
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </JFXButton>
                   <JFXButton fx:id="_finishBtn" buttonType="RAISED" onAction="#finishBtnClicked" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #1976d2;" text="Skip the rest and finish" textFill="WHITE">
                      <font>
@@ -94,6 +104,9 @@
                      <HBox.margin>
                         <Insets bottom="30.0" left="30.0" right="30.0" top="10.0" />
                      </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </JFXButton>
                </children>
             </HBox>

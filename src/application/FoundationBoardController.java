@@ -6,13 +6,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXDrawer;
 
 import javafx.concurrent.Task;
@@ -29,10 +33,14 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 public class FoundationBoardController implements Initializable {
 
+	@FXML
+	private StackPane _background;
 	@FXML
 	private Label _modeLabel;
 	@FXML
@@ -162,21 +170,6 @@ public class FoundationBoardController implements Initializable {
 	}
 
 	/**
-	 * Stop any processes running on this foundation board and switch back to the
-	 * home page.
-	 */
-	@FXML
-	private void backToHome() {
-
-		if (_function != Function.SCORE) {
-			// reset question model
-			_questionModel.clear();
-		}
-
-		_main.showHome();
-	}
-
-	/**
 	 * Start practising. If the number parameter is a number, then practise this
 	 * specific number, of the number parameter is null, then randomly generate
 	 * numbers to practise
@@ -260,6 +253,14 @@ public class FoundationBoardController implements Initializable {
 	}
 
 	/**
+	 * Inform the foundation board controller that the number of trails the user
+	 * took increased by one
+	 */
+	public void incrementTrial() {
+		_trailNum++;
+	}
+
+	/**
 	 * Show the ResultScene on the main pane
 	 */
 	public void showResult() {
@@ -299,29 +300,6 @@ public class FoundationBoardController implements Initializable {
 		});
 		new Thread(check).start();
 
-	}
-
-	/**
-	 * Event handler for the "details" button, open/close the statistics bar drawer.
-	 * 
-	 * @param event
-	 */
-	@FXML
-	private void showStatisticsBar(ActionEvent event) {
-		if (_statisticsBar.isHidden()) {
-			_statisticsBar.open();
-		} else {
-			_statisticsBar.close();
-		}
-	}
-
-	/**
-	 * Show the help information for practise or math questions depending on current
-	 * function of the foundation board
-	 */
-	@FXML
-	private void showHelp(ActionEvent event) {
-		_main.Help(_function);
 	}
 
 	/**
@@ -416,6 +394,70 @@ public class FoundationBoardController implements Initializable {
 	}
 
 	/**
+	 * Stop any processes running on this foundation board and switch back to the
+	 * home page.
+	 */
+	@FXML
+	private void backToHome() {
+		boolean goBack = false;
+	
+		// if user haven't began practising or gaming, _mode will be null. In this case
+		// do not show confirmation dialog
+		if (_mode == null) {
+			goBack = true;
+		} else {
+			// ask user for confirm
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirm Leave");
+			alert.setHeaderText("Return to home page.");
+			if (_mode == Mode.PRACTISE) {
+				alert.setContentText("Do you want to stop practising and return to home page?");
+			} else {
+				alert.setContentText(
+						"Do you want to leave the game and return to home page (score will not be saved)?");
+			}
+	
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK) {
+				goBack = true;
+			}
+		}
+	
+		if (goBack == true) {
+			if (_function != Function.SCORE) {
+				// reset question model
+				_questionModel.clear();
+			}
+	
+			_main.showHome();
+		}
+	
+	}
+
+	/**
+	 * Event handler for the "details" button, open/close the statistics bar drawer.
+	 * 
+	 * @param event
+	 */
+	@FXML
+	private void showStatisticsBar(ActionEvent event) {
+		if (_statisticsBar.isHidden()) {
+			_statisticsBar.open();
+		} else {
+			_statisticsBar.close();
+		}
+	}
+
+	/**
+	 * Show the help information for practise or math questions depending on current
+	 * function of the foundation board
+	 */
+	@FXML
+	private void showHelp(ActionEvent event) {
+		_main.Help(_function);
+	}
+
+	/**
 	 * Replaces the content in the pane with the pane defined by the FXML file, and
 	 * return the controller for the FXML
 	 * 
@@ -439,11 +481,6 @@ public class FoundationBoardController implements Initializable {
 		}
 
 		return loader.getController();
-	}
-
-	public void incrementTrial() {
-		// TODO Auto-generated method stub
-		_trailNum++;
 	}
 
 }

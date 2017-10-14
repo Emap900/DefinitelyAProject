@@ -107,9 +107,18 @@ public class ResultSceneController {
 		}
 	}
 
-	// Event Listener on Button[#_replayBtn].onAction
 	@FXML
-	public void replayBtnClicked(ActionEvent event) {
+	void finishBtnClicked(ActionEvent event) {
+		_parentController.finish();
+	}
+
+	@FXML
+	void nextBtnClicked(ActionEvent event) {
+		_parentController.showNextQuestion();
+	}
+
+	@FXML
+	void replayBtnClicked(ActionEvent event) {
 		Task<Void> replay = new Task<Void>() {
 			@Override
 			public Void call() {
@@ -128,21 +137,9 @@ public class ResultSceneController {
 		new Thread(replay).start();
 	}
 
-	// Event Listener on Button[#_retryBtn].onAction
 	@FXML
-	public void retryBtnClicked(ActionEvent event) {
+	void retryBtnClicked(ActionEvent event) {
 		_parentController.showQuestionScene();
 	}
 
-	// Event Listener on Button[#_nextBtn].onAction
-	@FXML
-	public void nextBtnClicked(ActionEvent event) {
-		_parentController.showNextQuestion();
-	}
-
-	// Event Listener on Button[#_finishBtn].onAction
-	@FXML
-	public void finishBtnClicked(ActionEvent event) {
-		_parentController.finish();
-	}
 }

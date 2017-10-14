@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.chart.AreaChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -16,10 +17,13 @@
 	<children>
 		<HBox alignment="CENTER_LEFT" minHeight="-Infinity" prefHeight="50.0" style="-fx-background-color: #1976d2;">
 			<children>
-				<JFXButton onAction="#backToHome" prefHeight="50.0" prefWidth="150.0" style="-fx-border-radius: 0; -fx-border-width: 1;" text="Home" textFill="WHITE">
+				<JFXButton onAction="#backToHome" prefHeight="50.0" prefWidth="150.0" text="Home" textFill="WHITE">
 					<font>
 						<Font name="System Bold" size="14.0" />
 					</font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
 				</JFXButton>
 				<Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
 				<Label text="Personal Dashboard" textFill="WHITE">
@@ -32,6 +36,9 @@
 					<font>
 						<Font name="System Bold" size="14.0" />
 					</font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
 				</JFXButton>
 			</children>
 		</HBox>
@@ -312,7 +319,13 @@
 		</HBox>
       <HBox minHeight="-Infinity" prefHeight="50.0">
          <children>
-            <JFXButton onAction="#showHelp" prefHeight="50.0" prefWidth="50.0" text="Help" />
+            <JFXButton onAction="#showHelp" prefHeight="50.0" prefWidth="80.0" text="Help" underline="true">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></JFXButton>
          </children>
       </HBox>
 	</children>
