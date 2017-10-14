@@ -72,7 +72,7 @@ public class QuestionModel {
 	private String _correctWord;
 	private boolean _correctness;
 
-	//for practise
+	//for practice
 	private Integer _numberToPractise;
 	// for question list
 	private List<List> _generatedQuestionList;
@@ -80,9 +80,9 @@ public class QuestionModel {
 	//TODO I think below _toDoList can be a stack rather than a list, subject to change later
 	private List<List> _toDoList; //this should be a copy of generated list in the begining of each game but reduce its size as the game going
 	private List<List> _questionsDid;
-	private int _lengthOfQuestionList;
+	private Integer _lengthOfQuestionList;
 	private boolean _isFinished;
-	private int _numOfquestionsGotCorrect;
+	private Integer _numOfquestionsGotCorrect;
 	private Integer _currentScore;
 
 	// for mode
@@ -96,14 +96,16 @@ public class QuestionModel {
 	 * Constructor
 	 */
 	private QuestionModel() {
-		// load premade question as a list into the program
-		_sets = new HashMap();
-		_preloadSortedQuestionSet = new ArrayList();
+		// load pre-made question as a list into the program
+		_sets = new HashMap<String, QuestionSet>();
+		_preloadSortedQuestionSet = new ArrayList<List<String>>();
 
-		_maoriDictionary = new HashMap();
+		_maoriDictionary = new HashMap<String, String>();
 
 		_currentIndex = 0;
-
+		
+		_generatedQuestionList = new ArrayList<List>();
+		
 		_pronounciationHardnessFactor = 0;
 		_numOfquestionsGotCorrect = 0;
 
@@ -129,13 +131,37 @@ public class QuestionModel {
 			}
 
 			//give a default list of questions with medium hardness
-			generateQuestionListFromPreload("medium", 10);
+			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		generateQuestionListFromPreload("medium", 10);
 	}
 
+	private void loadQuestions(String filename, QuestionSet qs) {
+		Scanner s;
+		try {
+			s = new Scanner(new File("setABC.csv"));
+			ArrayList<String> list = new ArrayList<String>();
+			while (s.hasNext()) {
+				list.add(s.next());
+			}
+			s.close();
+			for(int i=0; i<list.size(); i++) {
+				String[] QAPair = list.get(i).split(",");
+				List<String> QAPairl = new ArrayList<String>();
+				QAPairl.add(QAPair[0]);
+				QAPairl.add(QAPair[1]);
+				//print our for testing
+				System.out.println(QAPair[0]);
+				System.out.println(QAPair[1]);
+				qs.addQAPair(QAPair[0], QAPair[1]);
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+			
+	}
 	/**
 	 * Get the instance of the singleton class QuestionModel
 	 * 
@@ -159,7 +185,9 @@ public class QuestionModel {
 				// read the sets' name
 				String fileName = file.getName();
 				String setName = fileName.substring(0, fileName.lastIndexOf("."));
-				_sets.put(setName, new QuestionSet(setName));
+				QuestionSet q = new QuestionSet(setName);
+				loadQuestions(q.getSetName(), q);
+				_sets.put(q.getSetName(), new QuestionSet(setName));
 			}
 		}
 	}
@@ -252,11 +280,11 @@ public class QuestionModel {
 		alert.showAndWait();
 	}
 
-
 	public void initializePractise(Integer numToPractise) {
 		_currentMode = Mode.PRACTISE;
 		_numberToPractise = numToPractise;
 	}
+	
 	//generate a random list of question with certain hardness given number of questions, using the preloadset of questions
 	public void generateQuestionListFromPreload(String hardness, int numOfQuestions) {
 		Random r = new Random();
@@ -279,16 +307,20 @@ public class QuestionModel {
 			}
 		}
 	}
-
+	
 	//generate a random list of questions from selected question set given number of questions, this function may or may not be called multiple times for each run depends on the design choice
-	public void generateQuestionListRandom(String setName, int numOfQuestions) {
+	public void generateQuestionListRandom(String setName) {
 
-		_generatedQuestionList = _sets.get(setName).generateRandomQuestionList(numOfQuestions);
+		if(_lengthOfQuestionList != null) {
+		_generatedQuestionList = _sets.get(setName).generateRandomQuestionList(_lengthOfQuestionList);
+		}else {
+			_generatedQuestionList = _sets.get(setName).generateRandomQuestionList(10);	
+		}
 	}
 
 	//append question to a list when user want to pick up their own list of questions Note: the field need to be cleared in certain stages at least before user want to rebuild a list 
 	public void addQuestionToListForUserDefine(String question, String answer) {
-		List<String> pair = new ArrayList();
+		List<String> pair = new ArrayList<String>();
 		pair.add(question);
 		pair.add(answer);
 		_generatedQuestionList.add(pair);
@@ -315,7 +347,7 @@ public class QuestionModel {
 			_toDoList = _generatedQuestionList;
 		}
 	}
-
+	
 	//return number of questions left
 	public int numOfQuestionsLeft() {
 		return _toDoList.size();
@@ -368,11 +400,23 @@ public class QuestionModel {
 	public int getTrialNumber() {
 		return _currentTrial;
 	}
-	//TODO clear data for gaming (do I need to clear the whole model -_-)
+
 	public void clear() {
 		generateQuestionListFromPreload("medium", 10);
+		_currentIndex = 0;
+		_toDoList = null;
+		_questionsDid = null;
+		_numOfquestionsGotCorrect = 0;
+		_currentTrial = 0;
+		_currentScore = 0;
+		_isFinished = false;
+		
 	}
-
+	
+	//TODO clear all
+	public void clearAll() {
+		
+	}
 	//TODO the use of this function is to be determined
 	public void setLengthOfQuestionList(int length) {
 		_lengthOfQuestionList = length;
