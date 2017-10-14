@@ -98,17 +98,17 @@ public class QuestionModel {
 	private QuestionModel() {
 		// load premade question as a list into the program
 		_sets = new HashMap();
-		_maoriCache = new HashMap();
 		_preloadSortedQuestionSet = new ArrayList();
 		
 		_maoriDictionary = new HashMap();
 		
 		_currentIndex = 0;
 		
-		_maoriCache.put("expected", null);
-		_maoriCache.put("actual", null);
 		_pronounciationHardnessFactor = 0;
 		_numOfquestionsGotCorrect = 0;
+		
+		_currentScore = 0;
+		
 		loadLocalLists();//TODO for size of _sets, load them all
 		Scanner s;
 		try {
@@ -389,7 +389,7 @@ public class QuestionModel {
 	private void calculateHardnessFactor() {
 		double prevFactor = _pronounciationHardnessFactor;
 		double currentQuesHardness;
-		// TODO warning: may leads to wrong answer, change later
+		// TODO warning: may leads to wrong answer, subject to change later
 		Integer currentAns = Integer.parseInt(_currentAnswer);
 		if (currentAns >= 1 && currentAns <= 10) {
 			currentQuesHardness = 1.0;
@@ -414,13 +414,13 @@ public class QuestionModel {
 	 * @param number
 	 */
 	public void setSpecificPractiseNumber(Integer number) {
-		_
+		//TODO
 	}
 
 	//return user answered word
 	public String answerOfUser() {
 		if(_recognizedWord != null) {
-			return _Word;
+			return _recognizedWord;
 		}else {
 			System.err.println("no word stored");
 		}
@@ -442,12 +442,10 @@ public class QuestionModel {
 	 * @return true if the user's answer is correct, otherwise false
 	 */
 	public boolean isUserCorrect() {
-		// TODO Auto-generated method stub
-		return false;
+		return _correctness;
 	}
 
 	public int getScore() {
-		// TODO Auto-generated method stub
-		return 0;
+		return _currentScore;
 	}
 }
