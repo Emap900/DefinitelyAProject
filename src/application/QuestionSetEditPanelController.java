@@ -1,6 +1,7 @@
 package application;
 
 import javafx.fxml.FXML;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
 import javafx.stage.Stage;
@@ -44,8 +45,9 @@ public class QuestionSetEditPanelController {
 			List<String> temp = rawData.get(i);
 			String Combined = temp.get(0)+" = "+temp.get(1);
 			_listOfQuestions.add(Combined);
-			System.out.println("Step 3 succeed.");
 		}
+		System.out.println("Step 2 succeed.");
+		questionList.setItems((ObservableList)_listOfQuestions);
 	}
 
 	@FXML

@@ -132,9 +132,7 @@ public class QuestionModel {
 				QAPairl.add(QAPair[1]);
 				_preloadSortedQuestionSet.add(QAPairl);
 			}
-
 			//give a default list of questions with medium hardness
-			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -291,9 +289,10 @@ public class QuestionModel {
 	
 	//getListOfQuestions in a specific set
 	public List<List> getQuestionsFromSpecificSet(String setName){
-		System.out.println("Step 2 succeed.");
+		System.out.println("Step 3 succeed.");
 		return _sets.get(setName).getQuestionsInSet();
 	}
+	
 	//generate a random list of question with certain hardness given number of questions, using the preloadset of questions
 	public void generateQuestionListFromPreload(String hardness, int numOfQuestions) {
 		Random r = new Random();

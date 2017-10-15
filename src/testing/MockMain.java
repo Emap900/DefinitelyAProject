@@ -3,30 +3,19 @@ package testing;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 public class MockMain {
 	public static void main(String[] args) {
-
-		String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-		String appConfigPath = rootPath + "config.properties";
-		String catalogConfigPath = rootPath + "catalog";
-		 
-		Properties appProps = new Properties();
-		try {
-			appProps.load(new FileInputStream("config.properties"));
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		 
-		Properties catalogProps = new Properties();
-		try {
-			catalogProps.load(new FileInputStream(catalogConfigPath));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		Map<String, String> a = new HashMap<String, String>();
+		a.put("1", "qw");
+		a.put("2", "as");
+		List<String> ls = new ArrayList<String>(a.keySet());
+		for (int i=0; i<a.size(); i++) {
+			System.out.println(ls.get(i));
 		}
 	}
 }

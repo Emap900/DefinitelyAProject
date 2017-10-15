@@ -81,9 +81,14 @@ public class QuestionSet {
 	
 	public List<List> getQuestionsInSet(){
 		System.out.println("Step 1 succeed.");
-		List<String> listForEdit = new ArrayList<String>(_QAPairs.values());
-		for (int i=0; i<listForEdit.size(); i++) {
-			System.out.println("Flag" + listForEdit.get(i));
+		List<List> listForEdit = new ArrayList<List>();
+		List<String> tempList = new ArrayList<String>(_QAPairs.keySet());
+		for (int i=0; i<tempList.size(); i++) {
+			System.out.println("Flag" + tempList.get(i));
+			List<String> pair = new ArrayList();
+			pair.add(tempList.get(i));
+			pair.add(_QAPairs.get(tempList.get(i)));
+			listForEdit.add(pair);
 		}
 		return listForEdit;
 //		for (int i=0; i<_QAPairs.size(); i++) {
