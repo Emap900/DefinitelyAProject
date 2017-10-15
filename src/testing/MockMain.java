@@ -14,8 +14,10 @@ public class MockMain {
 		a.put("1", "qw");
 		a.put("2", "as");
 		List<String> ls = new ArrayList<String>(a.keySet());
+		a.remove("2");
 		for (int i=0; i<a.size(); i++) {
 			System.out.println(ls.get(i));
+			System.out.println(a.get(ls.get(i)));
 		}
 	}
 }

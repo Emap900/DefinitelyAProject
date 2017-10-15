@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -213,6 +214,7 @@ public class QuestionModel {
 			}
 		} else {
 			_sets.put(setName, new QuestionSet(setName));
+			_listOfSetNames.add(setName);
 		}
 	}
 
@@ -231,6 +233,10 @@ public class QuestionModel {
 			if (result.get() == ButtonType.OK) {
 				_sets.get(setName).delete();
 				_sets.remove(setName);
+				System.out.println("This is the mileStone "+ setName);
+				//TODO find a way to delete local files by java?
+				new BashProcess("./MagicStaff.sh", "delete",setName);
+				_listOfSetNames.remove(setName);
 			}
 		} else {
 			Alert alert = new Alert(AlertType.INFORMATION);
