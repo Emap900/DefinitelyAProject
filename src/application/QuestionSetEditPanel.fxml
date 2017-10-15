@@ -20,9 +20,9 @@
          <children>
             <HBox alignment="CENTER" cacheShape="false" prefHeight="400.0" prefWidth="1000.0">
                <children>
-                  <JFXListView fx:id="questionSetList" prefHeight="200.0" prefWidth="400.0" />
-                  <Label prefWidth="200.0" text="           &gt;" />
-                  <JFXListView fx:id="questionList" prefHeight="200.0" prefWidth="400.0" />
+                  <Region prefHeight="400.0" prefWidth="10.0" />
+                  <Region prefHeight="400.0" prefWidth="10.0" />
+                  <JFXListView fx:id="questionList" prefHeight="400.0" prefWidth="600.0" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="200.0" prefWidth="1000.0">
@@ -30,7 +30,7 @@
                   <JFXButton fx:id="addQuestionBtn" onAction="#addNewQuestion" text="Add..." />
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="500.0">
                      <children>
-                        <Region prefHeight="100.0" prefWidth="500.0" />
+                        <Region prefHeight="100.0" prefWidth="300.0" />
                         <JFXButton fx:id="confirmBtn" onAction="#confirmCreation" text="Confirm" />
                      </children>
                   </VBox>

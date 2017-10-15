@@ -289,6 +289,11 @@ public class QuestionModel {
 		_numberToPractise = numToPractise;
 	}
 	
+	//getListOfQuestions in a specific set
+	public List<List> getQuestionsFromSpecificSet(String setName){
+		System.out.println("Step 2 succeed.");
+		return _sets.get(setName).getQuestionsInSet();
+	}
 	//generate a random list of question with certain hardness given number of questions, using the preloadset of questions
 	public void generateQuestionListFromPreload(String hardness, int numOfQuestions) {
 		Random r = new Random();

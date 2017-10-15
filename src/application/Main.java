@@ -63,15 +63,12 @@ public class Main extends Application {
 			controller.setParent(this);
 			showScene(_primaryStage, score);
 			break;
-		// TODO
 		case SETTINGS:
 			Scene settings = loadScene("Settings.fxml");
 			SettingsController settingsController = (SettingsController) settings.getUserData();
 			settingsController.setParent(this);
 			showScene(_primaryStage, settings);
 			break;
-		// TODO
-
 		default:
 			break;
 		}
