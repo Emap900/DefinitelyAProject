@@ -290,7 +290,7 @@ public class QuestionModel {
 	}
 	
 	//getListOfQuestions in a specific set
-	public List<List> getQuestionsFromSpecificSet(String setName){
+	public List<List<String>> getQuestionsFromSpecificSet(String setName){
 		System.out.println("Step 2 succeed.");
 		return _sets.get(setName).getQuestionsInSet();
 	}

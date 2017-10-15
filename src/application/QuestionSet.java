@@ -10,17 +10,18 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 
 public class QuestionSet {
 
 	private String _nameOfSet;
-	private Map<String, String> _QAPairs;
+	private Map<String, String> _QAPairs = new HashMap<String, String>();
 	private File _theSet;
 
 	public QuestionSet(String nameOfSet) {
 		_nameOfSet = nameOfSet;
-		_theSet = new File(_nameOfSet + ".csv");
+		_theSet = new File("QuestionSets/" + _nameOfSet + ".csv");
 		if (!_theSet.exists()) {
 			// create file if does not exist
 			try {
@@ -45,7 +46,7 @@ public class QuestionSet {
 				e.printStackTrace();
 			}
 		}
-		_QAPairs = new HashMap<String, String>();
+		// _QAPairs = new HashMap<String, String>();
 	}
 
 	public void addQAPair(String question, String answer) {
@@ -78,19 +79,30 @@ public class QuestionSet {
 		// TODO Auto-generated method stub
 
 	}
-	
-	public List<List> getQuestionsInSet(){
-		System.out.println("Step 1 succeed.");
-		List<String> listForEdit = new ArrayList<String>(_QAPairs.values());
-		for (int i=0; i<listForEdit.size(); i++) {
-			System.out.println("Flag" + listForEdit.get(i));
+
+	public List<List<String>> getQuestionsInSet() {
+		// System.out.println("Step 1 succeed.");
+		// List<String> listForEdit = new ArrayList<String>(_QAPairs.values());
+		// for (int i = 0; i < listForEdit.size(); i++) {
+		// System.out.println("Flag" + listForEdit.get(i));
+		// }
+		// return listForEdit;
+		// for (int i=0; i<_QAPairs.size(); i++) {
+		// List<String> tempQA = new ArrayList();
+		// tempQA
+		// }
+		// return listForEdit;
+
+		List<List<String>> toReturn = new ArrayList<List<String>>();
+		for (Entry<String, String> entry : _QAPairs.entrySet()) {
+			List<String> newEntry = new ArrayList<String>();
+			newEntry.add(entry.getKey());
+			newEntry.add(entry.getValue());
+			toReturn.add(newEntry);
+			System.out.println(entry.getKey() + "=" + entry.getValue());
 		}
-		return listForEdit;
-//		for (int i=0; i<_QAPairs.size(); i++) {
-//			List<String> tempQA = new ArrayList();
-//			tempQA
-//		}
-//		return listForEdit;
+
+		return toReturn;
 	}
 
 }
