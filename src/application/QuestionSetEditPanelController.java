@@ -37,9 +37,12 @@ public class QuestionSetEditPanelController {
 
 	private List<String> _listOfQuestions;
 
+	private String _currentSetName;
+	
 	public void initData(Stage stage, String setName) {
 		_questionModel = QuestionModel.getInstance();
 		_editPanelStage = stage;
+		
 		List<List<String>> rawData = _questionModel.getQuestionsFromSpecificSet(setName);
 		_listOfQuestions = new ArrayList<String>();
 		for (int i = 0; i < rawData.size(); i++) {
@@ -53,8 +56,8 @@ public class QuestionSetEditPanelController {
 	}
 
 	@FXML
-	void addNewQuestion(ActionEvent event) {
-
+	public void addNewQuestion(ActionEvent event) {
+		//_questionModel.addQuestionToQuestionSet(_currentSetName, question, answer);
 	}
 
 	@FXML
