@@ -366,7 +366,8 @@ public class FoundationBoardController implements Initializable {
 				_wrongQuestions.put(currentQuestion, 1);
 			} else {
 				int numGetWrong = _wrongQuestions.get(currentQuestion);
-				_wrongQuestions.put(currentQuestion, numGetWrong++);
+				numGetWrong++;
+				_wrongQuestions.put(currentQuestion, numGetWrong);
 			}
 		}
 
