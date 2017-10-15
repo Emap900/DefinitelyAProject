@@ -93,16 +93,16 @@ public class QuestionSet {
 		// }
 		// return listForEdit;
 
-		List<List<String>> toReturn = new ArrayList<List<String>>();
+		List<List<String>> listForEdit = new ArrayList<List<String>>();
 		for (Entry<String, String> entry : _QAPairs.entrySet()) {
 			List<String> newEntry = new ArrayList<String>();
 			newEntry.add(entry.getKey());
 			newEntry.add(entry.getValue());
-			toReturn.add(newEntry);
+			listForEdit.add(newEntry);
 			System.out.println(entry.getKey() + "=" + entry.getValue());
 		}
 
-		return toReturn;
+		return listForEdit;
 	}
 
 }

@@ -73,13 +73,15 @@ public class QuestionModel {
 	private String _correctWord;
 	private boolean _correctness;
 
-	//for practice
+	// for practice
 	private Integer _numberToPractise;
 	// for question list
 	private List<List> _generatedQuestionList;
 
-	//TODO I think below _toDoList can be a stack rather than a list, subject to change later
-	private List<List> _toDoList; //this should be a copy of generated list in the begining of each game but reduce its size as the game going
+	// TODO I think below _toDoList can be a stack rather than a list, subject to
+	// change later
+	private List<List> _toDoList; // this should be a copy of generated list in the begining of each game but
+									// reduce its size as the game going
 	private List<List> _questionsDid;
 	private Integer _lengthOfQuestionList;
 	private boolean _isFinished;
@@ -100,7 +102,7 @@ public class QuestionModel {
 		// load pre-made question as a list into the program
 		_sets = new HashMap<String, QuestionSet>();
 		_listOfSetNames = new ArrayList();
-		//TODO testing code
+		// TODO testing code
 		_listOfSetNames.add("setABC");
 		System.out.println(_listOfSetNames.toString());
 		_preloadSortedQuestionSet = new ArrayList<List<String>>();
@@ -108,15 +110,15 @@ public class QuestionModel {
 		_maoriDictionary = new HashMap<String, String>();
 
 		_currentIndex = 0;
-		
+
 		_generatedQuestionList = new ArrayList<List>();
-		
+
 		_pronounciationHardnessFactor = 0;
 		_numOfquestionsGotCorrect = 0;
 
 		_currentScore = 0;
 
-		loadLocalLists();//TODO for size of _sets, load them all
+		loadLocalLists();// TODO for size of _sets, load them all
 		Scanner s;
 		try {
 			s = new Scanner(new File("setABC.csv"));
@@ -125,16 +127,14 @@ public class QuestionModel {
 				list.add(s.next());
 			}
 			s.close();
-			for(int i=0; i<list.size(); i++) {
+			for (int i = 0; i < list.size(); i++) {
 				String[] QAPair = list.get(i).split(",");
 				List<String> QAPairl = new ArrayList<String>();
 				QAPairl.add(QAPair[0]);
 				QAPairl.add(QAPair[1]);
 				_preloadSortedQuestionSet.add(QAPairl);
 			}
-
-			//give a default list of questions with medium hardness
-			
+			// give a default list of questions with medium hardness
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -150,12 +150,12 @@ public class QuestionModel {
 				list.add(s.next());
 			}
 			s.close();
-			for(int i=0; i<list.size(); i++) {
+			for (int i = 0; i < list.size(); i++) {
 				String[] QAPair = list.get(i).split(",");
 				List<String> QAPairl = new ArrayList<String>();
 				QAPairl.add(QAPair[0]);
 				QAPairl.add(QAPair[1]);
-				//print our for testing
+				// print our for testing
 				System.out.println(QAPair[0]);
 				System.out.println(QAPair[1]);
 				qs.addQAPair(QAPair[0], QAPair[1]);
@@ -163,8 +163,9 @@ public class QuestionModel {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-			
+
 	}
+
 	/**
 	 * Get the instance of the singleton class QuestionModel
 	 * 
@@ -177,7 +178,7 @@ public class QuestionModel {
 		return _modelInstance;
 	}
 
-	//load local question sets
+	// load local question sets
 	public void loadLocalLists() {
 		File folder = new File("QuestionSets");
 
@@ -196,7 +197,7 @@ public class QuestionModel {
 		}
 	}
 
-	//create new question set
+	// create new question set
 	public void createLocalQuestionSet(String setName) {
 		if (isQuestionSetExist(setName)) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -209,17 +210,18 @@ public class QuestionModel {
 				_sets.get(setName).delete();
 				_sets.remove(setName);
 				_sets.put(setName, new QuestionSet(setName));
-			} 
+			}
 		} else {
 			_sets.put(setName, new QuestionSet(setName));
 		}
 	}
 
-	//delete existing question set
-	//TODO possibility of combining delete confirmation dialogs? How to handle with different 
+	// delete existing question set
+	// TODO possibility of combining delete confirmation dialogs? How to handle with
+	// different
 	public void deleteLocalQuestionSet(String setName) {
 
-		if(isQuestionSetExist(setName)) {
+		if (isQuestionSetExist(setName)) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("confirm delete");
 			alert.setHeaderText("Look, a Confirmation Dialog");
@@ -240,27 +242,27 @@ public class QuestionModel {
 		}
 	}
 
-	//check if a questionSet is existed in sets
+	// check if a questionSet is existed in sets
 	private boolean isQuestionSetExist(String setName) {
 		QuestionSet value = _sets.get(setName);
-		if(value != null) {
+		if (value != null) {
 			return true;
 		}
 		return false;
 	}
 
-	//add new question to existing question set
+	// add new question to existing question set
 	public void addQuestionToQuestionSet(String setName, String question, String answer) {
-		if(!isQuestionSetExist(setName)) {
+		if (!isQuestionSetExist(setName)) {
 			noSetFoundDialog();
 		} else {
 			_sets.get(setName).addQAPair(question, answer);
 		}
 	}
 
-	//delete question from existing question set
+	// delete question from existing question set
 	public void deleteQuestionFromQuestionSet(String setName) {
-		if(!isQuestionSetExist(setName)) {
+		if (!isQuestionSetExist(setName)) {
 			noSetFoundDialog();
 		} else {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -275,7 +277,7 @@ public class QuestionModel {
 		}
 	}
 
-	//no set found dialog
+	// no set found dialog
 	private void noSetFoundDialog() {
 		Alert alert = new Alert(AlertType.WARNING);
 		alert.setTitle("Warning Dialog");
@@ -288,46 +290,54 @@ public class QuestionModel {
 		_currentMode = Mode.PRACTISE;
 		_numberToPractise = numToPractise;
 	}
-	
-	//getListOfQuestions in a specific set
-	public List<List<String>> getQuestionsFromSpecificSet(String setName){
-		System.out.println("Step 2 succeed.");
+
+	// getListOfQuestions in a specific set
+	public List<List<String>> getQuestionsFromSpecificSet(String setName) {
+
+		System.out.println("Step 3 succeed.");
+
 		return _sets.get(setName).getQuestionsInSet();
 	}
-	//generate a random list of question with certain hardness given number of questions, using the preloadset of questions
+
+	// generate a random list of question with certain hardness given number of
+	// questions, using the preloadset of questions
 	public void generateQuestionListFromPreload(String hardness, int numOfQuestions) {
 		Random r = new Random();
 		int barrier = 100;
-		switch(hardness) {
+		switch (hardness) {
 		case "easy":
-			for (int i=0; i<numOfQuestions; i++) {
-				int Result = r.nextInt(barrier) + barrier*0;
+			for (int i = 0; i < numOfQuestions; i++) {
+				int Result = r.nextInt(barrier) + barrier * 0;
 				_generatedQuestionList.add(_preloadSortedQuestionSet.get(Result));
 			}
 		case "mdedium":
-			for (int i=0; i<numOfQuestions; i++) {
-				int Result = r.nextInt(barrier) +barrier*1;
+			for (int i = 0; i < numOfQuestions; i++) {
+				int Result = r.nextInt(barrier) + barrier * 1;
 				_generatedQuestionList.add(_preloadSortedQuestionSet.get(Result));
 			}
 		case "hard":
-			for (int i=0; i<numOfQuestions; i++) {
-				int Result = r.nextInt(barrier) +barrier*2;
+			for (int i = 0; i < numOfQuestions; i++) {
+				int Result = r.nextInt(barrier) + barrier * 2;
 				_generatedQuestionList.add(_preloadSortedQuestionSet.get(Result));
 			}
 		}
 	}
-	
-	//generate a random list of questions from selected question set given number of questions, this function may or may not be called multiple times for each run depends on the design choice
+
+	// generate a random list of questions from selected question set given number
+	// of questions, this function may or may not be called multiple times for each
+	// run depends on the design choice
 	public void generateQuestionListRandom(String setName) {
 
-		if(_lengthOfQuestionList != null) {
-		_generatedQuestionList = _sets.get(setName).generateRandomQuestionList(_lengthOfQuestionList);
-		}else {
-			_generatedQuestionList = _sets.get(setName).generateRandomQuestionList(10);	
+		if (_lengthOfQuestionList != null) {
+			_generatedQuestionList = _sets.get(setName).generateRandomQuestionList(_lengthOfQuestionList);
+		} else {
+			_generatedQuestionList = _sets.get(setName).generateRandomQuestionList(10);
 		}
 	}
 
-	//append question to a list when user want to pick up their own list of questions Note: the field need to be cleared in certain stages at least before user want to rebuild a list 
+	// append question to a list when user want to pick up their own list of
+	// questions Note: the field need to be cleared in certain stages at least
+	// before user want to rebuild a list
 	public void addQuestionToListForUserDefine(String question, String answer) {
 		List<String> pair = new ArrayList<String>();
 		pair.add(question);
@@ -335,9 +345,10 @@ public class QuestionModel {
 		_generatedQuestionList.add(pair);
 	}
 
-	//randomize the order of generated question list, necessarily for each run of game for user picked list
+	// randomize the order of generated question list, necessarily for each run of
+	// game for user picked list
 	public void randomizeQuestionListFromUserDefineWithSelfPick(boolean randomize) {
-		if(_generatedQuestionList == null) {
+		if (_generatedQuestionList == null) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Warning Dialog");
 			alert.setHeaderText("List is empty");
@@ -348,34 +359,35 @@ public class QuestionModel {
 		}
 	}
 
-	//start question list processing for gaming part (not practise part)
+	// start question list processing for gaming part (not practise part)
 	public void triggerGameStart() {
-		if(_generatedQuestionList == null) {
+		if (_generatedQuestionList == null) {
 			System.err.println("there is no generated question list to start");
-		}else {
+		} else {
 			_toDoList = _generatedQuestionList;
 		}
 	}
-	
-	//return number of questions left
+
+	// return number of questions left
 	public int numOfQuestionsLeft() {
 		return _toDoList.size();
 	}
 
-	//check if all questions are done
+	// check if all questions are done
 	public boolean hasNext() {
 		return (!(_toDoList == null));
 	}
-	//retrieve a QA pair to use
+
+	// retrieve a QA pair to use
 	public void NextQA() {
-		switch(_currentMode) {
+		switch (_currentMode) {
 		case PRACTISE:
-			if(_numberToPractise == null) {
+			if (_numberToPractise == null) {
 				Random r = new Random();
 				int result = r.nextInt(98) + 1;
 				_currentQuestion = Integer.toString(result);
 				_currentAnswer = Integer.toString(result);
-			}else {
+			} else {
 				_currentQuestion = _numberToPractise.toString();
 				_currentAnswer = _numberToPractise.toString();
 			}
@@ -395,12 +407,13 @@ public class QuestionModel {
 	public void increnmentTrial() {
 		_currentTrial++;
 	}
-	//get current question
+
+	// get current question
 	public String currentQuestion() {
 		return _currentQuestion;
 	}
 
-	//get current answer
+	// get current answer
 	public String currentAnswer() {
 
 		return _currentAnswer;
@@ -419,14 +432,15 @@ public class QuestionModel {
 		_currentTrial = 0;
 		_currentScore = 0;
 		_isFinished = false;
-		
+
 	}
-	
-	//TODO clear all
+
+	// TODO clear all
 	public void clearAll() {
-		
+
 	}
-	//TODO the use of this function is to be determined
+
+	// TODO the use of this function is to be determined
 	public void setLengthOfQuestionList(int length) {
 		_lengthOfQuestionList = length;
 	}
@@ -443,7 +457,7 @@ public class QuestionModel {
 	}
 
 	public void updateResult(String recognizedWord, String correctWord, boolean correctness) {
-		if(correctness) {
+		if (correctness) {
 			_numOfquestionsGotCorrect++;
 		}
 		_recognizedWord = recognizedWord;
@@ -454,7 +468,7 @@ public class QuestionModel {
 	private void computeScore(Mode mode) {
 		if (_currentScore == null) {
 			_currentScore = 0;
-		}else {
+		} else {
 			int score = 0;
 			switch (mode) {
 			case PRACTISE:
@@ -498,19 +512,18 @@ public class QuestionModel {
 
 	}
 
-	//return user answered word
+	// return user answered word
 	public String answerOfUser() {
 		return _recognizedWord;
 
 	}
 
-	//return correct maori word
+	// return correct maori word
 	public String correctWord() {
 		return _correctWord;
 	}
 
-
-	//return correctness
+	// return correctness
 	public boolean isUserCorrect() {
 		return _correctness;
 	}
@@ -518,7 +531,7 @@ public class QuestionModel {
 	public int getScore() {
 		return _currentScore;
 	}
-	
+
 	public List getListOfsets() {
 		return _listOfSetNames;
 	}
