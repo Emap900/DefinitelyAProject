@@ -27,7 +27,7 @@ public class User {
 
 		// load or create local file which stores user records
 		// TODO currently using windows syntax, going to change that into Linux syntax
-		_localFile = new File("usrRecords\\" + name + ".csv");
+		_localFile = new File("usrRecords/" + name + ".csv");
 		if (!_localFile.exists()) {
 			// create file if does not exist
 			try {
