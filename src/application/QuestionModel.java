@@ -457,9 +457,9 @@ public class QuestionModel {
 	}
 
 	public void updateResult(String recognizedWord, String correctWord, boolean correctness) {
-		if (correctness) {
-			_numOfquestionsGotCorrect++;
-		}
+		// if (correctness) {
+		// _numOfquestionsGotCorrect++;
+		// }
 		_recognizedWord = recognizedWord;
 		_correctWord = correctWord;
 		_correctness = correctness;
@@ -469,23 +469,27 @@ public class QuestionModel {
 		if (_currentScore == null) {
 			_currentScore = 0;
 		} else {
-			int score = 0;
-			switch (mode) {
-			case PRACTISE:
-				score = _currentScore + 1;
-				break;
-			case NORMALMATH:
-				calculateHardnessFactor();
-				// new%correctness = num of questions correct / total num of questions =
-				// (old%correctness * total num of questions + 1)/total num of questions
-				double percentageCorrect = (double) _numOfquestionsGotCorrect / _generatedQuestionList.size();
-				score = (int) (percentageCorrect * 100 * _pronounciationHardnessFactor
-						* (1 + _generatedQuestionList.size() / 100));
-				break;
-			case ENDLESSMATH:
-
+			if (isUserCorrect()) {
+				_numOfquestionsGotCorrect++;
+				int score = _currentScore;
+				switch (mode) {
+				case PRACTISE:
+					score = _currentScore + 1;
+					break;
+				case NORMALMATH:
+					calculateHardnessFactor();
+					// new%correctness = num of questions correct / total num of questions =
+					// (old%correctness * total num of questions + 1)/total num of questions
+					double percentageCorrect = (double) _numOfquestionsGotCorrect / _generatedQuestionList.size();
+					score = (int) (percentageCorrect * 100 * _pronounciationHardnessFactor
+							* (1 + _generatedQuestionList.size() / 100));
+					break;
+				case ENDLESSMATH:
+					calculateHardnessFactor();
+					score = (int) _pronounciationHardnessFactor * _numOfquestionsGotCorrect * 10;
+				}
+				_currentScore = score;
 			}
-			_currentScore = score;
 		}
 
 	}
