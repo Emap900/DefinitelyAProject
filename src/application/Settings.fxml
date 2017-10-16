@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SettingsController">
+<GridPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SettingsController">
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>
@@ -17,35 +25,58 @@
          <children>
             <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="1000.0">
                <children>
-                  <Label text="Choose a question set and generate your own question list!" />
-                  <Region prefHeight="100.0" prefWidth="1000.0" />
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <Region prefHeight="50.0" prefWidth="1000.0" style="-fx-background-color: #1976d2;" />
+                  <HBox alignment="CENTER" style="-fx-background-color: #1976d2;">
                      <children>
-                        <ComboBox fx:id="quesitonSetComboBox" prefWidth="300.0" />
-                        <Region prefHeight="100.0" prefWidth="50.0" />
-                        <Button fx:id="editQuestionSetBtn" mnemonicParsing="false" onAction="#editAQuestionSet" text="edit" />
-                        <Region prefHeight="100.0" prefWidth="50.0" />
-                        <Button fx:id="addNewSetBtn" mnemonicParsing="false" onAction="#addNewSet" text="Add" />
-                        <Region prefHeight="100.0" prefWidth="50.0" />
-                        <Button fx:id="deleteSetBtn" mnemonicParsing="false" onAction="#deleteSet" text="Delete" />
+                        <Label text="Choose a question set and generate your own question list!" textFill="#fffafa">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
                      </children>
                   </HBox>
-                  <Label fx:id="questionListLabel" text="Question list name comes here" />
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <Region prefHeight="25.0" prefWidth="1000.0" />
+                  <Region prefHeight="50.0" prefWidth="1000.0" style="-fx-background-color: white;">
+                     <effect>
+                        <DropShadow blurType="GAUSSIAN" color="#0000004d" height="20.0" offsetY="-5.0" radius="9.5" width="20.0" />
+                     </effect>
+                  </Region>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white;">
+                     <children>
+                        <JFXComboBox fx:id="quesitonSetComboBox" prefWidth="300.0" />
+                        <Region prefHeight="100.0" prefWidth="50.0" />
+                        <JFXButton fx:id="editQuestionSetBtn" buttonType="RAISED" onAction="#editAQuestionSet" style="-fx-background-color: white;" text="edit" />
+                        <Region prefHeight="100.0" prefWidth="50.0" />
+                        <JFXButton fx:id="addNewSetBtn" buttonType="RAISED" onAction="#addNewSet" style="-fx-background-color: white;" text="Add" />
+                        <Region prefHeight="100.0" prefWidth="50.0" />
+                        <JFXButton fx:id="deleteSetBtn" buttonType="RAISED" onAction="#deleteSet" style="-fx-background-color: white;" text="Delete" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white;">
                      <children>
                         <Label text="You can randomly generate a question list with " />
-                        <TextField fx:id="numOfQuestionsTextFieldForRandom" prefWidth="80.0" />
+                        <JFXTextField fx:id="numOfQuestionsTextFieldForRandom" prefWidth="80.0" />
                         <Label text=" questions " />
-                        <Button fx:id="pickARandomListBtn" mnemonicParsing="false" onAction="#pickRandomList" text="Pick!" />
+                        <JFXButton fx:id="pickARandomListBtn" buttonType="RAISED" onAction="#pickRandomList" style="-fx-background-color: white;" text="Pick!" />
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white;">
                      <children>
                         <Label text="Or you can pick the questions your self: " />
-                        <Button fx:id="pickYourselfBtn" mnemonicParsing="false" onAction="#pickCustomizedList" text="pick  yourself" />
+                        <JFXButton fx:id="pickYourselfBtn" buttonType="RAISED" onAction="#pickCustomizedList" style="-fx-background-color: white;" text="Pick  yourself!" />
                      </children>
                   </HBox>
-                  <Button fx:id="confirmBtn" mnemonicParsing="false" onAction="#confirmSetting" text="Confirm" />
+                  <Region prefHeight="50.0" prefWidth="1000.0" style="-fx-background-color: white;">
+                     <effect>
+                        <DropShadow color="#0000004d" offsetY="5.0" />
+                     </effect>
+                  </Region>
+                  <Region prefHeight="25.0" prefWidth="1000.0" />
+                  <JFXButton fx:id="confirmBtn" buttonType="RAISED" onAction="#confirmSetting" prefWidth="1000.0" style="-fx-background-color: white;" text="Confirm">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </JFXButton>
                </children>
             </VBox>
          </children>
