@@ -115,7 +115,7 @@ public class QuestionModel {
 
 		_generatedQuestionList = new ArrayList<List>();
 
-		_pronounciationHardnessFactor = 0;
+		_pronounciationHardnessFactor = 1;
 		_numOfquestionsGotCorrect = 0;
 
 		_currentScore = 0;
@@ -402,11 +402,17 @@ public class QuestionModel {
 
 	// check if all questions are done
 	public boolean hasNext() {
-		return (!(_toDoList.isEmpty()));
+		switch (_currentMode) {
+		case NORMALMATH:
+			return (!(_toDoList.isEmpty()));
+		default:
+			return true;
+		}
 	}
 
 	// retrieve a QA pair to use
 	public void NextQA() {
+		computeScore(_currentMode);
 		switch (_currentMode) {
 		case PRACTISE:
 			if (_numberToPractise == null) {
@@ -419,7 +425,7 @@ public class QuestionModel {
 				_currentAnswer = _numberToPractise.toString();
 			}
 			break;
-		default:
+		case NORMALMATH:
 			List<String> currentQA = _toDoList.get(0);
 			_currentQuestion = currentQA.get(0);
 			_currentAnswer = currentQA.get(1);
@@ -427,8 +433,14 @@ public class QuestionModel {
 			_toDoList = _toDoList.subList(1, _toDoList.size());
 
 			break;
+		case ENDLESSMATH:
+			Random r = new Random();
+			List<String> endlessQA = _preloadSortedQuestionSet.get(r.nextInt(299));
+			_currentQuestion = endlessQA.get(0);
+			_currentAnswer = endlessQA.get(1);
+			_questionsDid.add(endlessQA);
 		}
-		computeScore(_currentMode);
+		// computeScore(_currentMode);
 
 	}
 
@@ -457,14 +469,14 @@ public class QuestionModel {
 		// TODO testing code
 		_listOfSetNames.add("setABC");
 		System.out.println(_listOfSetNames.toString());
-		_preloadSortedQuestionSet = new ArrayList<List<String>>();
+		// _preloadSortedQuestionSet = new ArrayList<List<String>>();
 
 		_maoriDictionary = new HashMap<String, String>();
 		_toDoList = _generatedQuestionList;
 		_questionsDid = new ArrayList<List>();
 		_currentIndex = 0;
 
-		_pronounciationHardnessFactor = 0;
+		_pronounciationHardnessFactor = 1;
 		_numOfquestionsGotCorrect = 0;
 
 		_currentScore = 0;
@@ -527,7 +539,7 @@ public class QuestionModel {
 					break;
 				case ENDLESSMATH:
 					calculateHardnessFactor();
-					score = (int) _pronounciationHardnessFactor * _numOfquestionsGotCorrect * 10;
+					score = (int) (_pronounciationHardnessFactor * _numOfquestionsGotCorrect * 10);
 				}
 				_currentScore = score;
 			}
@@ -550,8 +562,8 @@ public class QuestionModel {
 			currentQuesHardness = 1.6;
 		}
 
-		double hardnessFactor = ((prevFactor * (_questionsDid.size() - 1)) + currentQuesHardness)
-				/ _questionsDid.size();
+		double hardnessFactor = ((prevFactor * (_questionsDid.size())) + currentQuesHardness)
+				/ (_questionsDid.size() + 1);
 
 		_pronounciationHardnessFactor = hardnessFactor;
 

@@ -217,7 +217,7 @@ public class FoundationBoardController implements Initializable {
 
 			_infoBar.setVisible(true);
 			_scoreLabel.setText("0");
-			_numQLeftLabel.setText(_questionModel.numOfQuestionsLeft() + ""); // TODO
+			_numQLeftLabel.setText(_questionModel.numOfQuestionsLeft() + 1 + "");
 
 			break;
 		case ENDLESSMATH:
@@ -282,10 +282,14 @@ public class FoundationBoardController implements Initializable {
 
 			// set the required info of the result controller
 			resultController.resultIsCorrect(isCorrect);
-
-			// check if the user has a chance to retry
-			resultController.setCanRetry(_trailNum < _maxTrailNum);
+			
+			// show the user's answer
 			resultController.setUserAnswer(_questionModel.answerOfUser());
+
+			if (!isCorrect) {
+				// check if the user has a chance to retry
+				resultController.setCanRetry(_trailNum < _maxTrailNum);
+			}
 
 			// if is in practise mode and the user's answer in incorrect, show the
 			// correct answer in result scene
@@ -317,6 +321,13 @@ public class FoundationBoardController implements Initializable {
 
 		// ask question model to go to next question
 		_questionModel.NextQA();
+
+		// update score label and numQLeftLabel
+		_scoreLabel.setText(_questionModel.getScore() + "");
+		if (_mode == Mode.NORMALMATH) {
+			_numQLeftLabel.setText(_questionModel.numOfQuestionsLeft() + 1 + "");
+		}
+
 		showQuestionScene();
 
 	}
@@ -378,12 +389,6 @@ public class FoundationBoardController implements Initializable {
 				numGetWrong++;
 				_wrongQuestions.put(currentQuestion, numGetWrong);
 			}
-		}
-
-		// update score label and numQLeftLabel
-		_scoreLabel.setText(_questionModel.getScore() + "");
-		if (_mode == Mode.NORMALMATH) {
-			_numQLeftLabel.setText(_questionModel.numOfQuestionsLeft() + "");
 		}
 
 		// append the result to the statistics bar
