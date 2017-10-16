@@ -32,7 +32,7 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="75.0" prefWidth="400.0">
                <children>
-                  <JFXButton fx:id="confirmAdd" onAction="#addQuestion" text="Add" />
+                  <JFXButton fx:id="confirmAdd" defaultButton="true" onAction="#addQuestion" text="Add" />
                </children>
             </HBox>
          </children>
