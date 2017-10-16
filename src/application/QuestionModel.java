@@ -330,16 +330,19 @@ public class QuestionModel {
 				int Result = r.nextInt(barrier) + barrier * 0;
 				_generatedQuestionList.add(_preloadSortedQuestionSet.get(Result));
 			}
-		case "mdedium":
+			break;
+		default:
 			for (int i = 0; i < numOfQuestions; i++) {
 				int Result = r.nextInt(barrier) + barrier * 1;
 				_generatedQuestionList.add(_preloadSortedQuestionSet.get(Result));
 			}
+			break;
 		case "hard":
 			for (int i = 0; i < numOfQuestions; i++) {
 				int Result = r.nextInt(barrier) + barrier * 2;
 				_generatedQuestionList.add(_preloadSortedQuestionSet.get(Result));
 			}
+			break;
 		}
 	}
 
@@ -385,6 +388,7 @@ public class QuestionModel {
 		if (_generatedQuestionList == null) {
 			System.err.println("there is no generated question list to start");
 		} else {
+			System.out.println("Here you are"+_generatedQuestionList.toString());
 			_toDoList = _generatedQuestionList;
 		}
 	}
