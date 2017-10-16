@@ -34,7 +34,7 @@
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <Label text="You can randomly generate a question list with " />
-                        <TextField fx:id="numOfQuestionsTxetFieldForRandom" prefWidth="80.0" />
+                        <TextField fx:id="numOfQuestionsTextFieldForRandom" prefWidth="80.0" />
                         <Label text=" questions " />
                         <Button fx:id="pickARandomListBtn" mnemonicParsing="false" onAction="#pickRandomList" text="Pick!" />
                      </children>
