@@ -208,7 +208,6 @@ public class QuestionModel {
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK) {
-				_sets.get(setName).delete();
 				_sets.remove(setName);
 				_sets.put(setName, new QuestionSet(setName));
 			}
@@ -231,7 +230,7 @@ public class QuestionModel {
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK) {
-				_sets.get(setName).delete();
+				_sets.get(setName).deleteAll();
 				_sets.remove(setName);
 				System.out.println("This is the mileStone "+ setName);
 				//TODO find a way to delete local files by java?
@@ -267,19 +266,30 @@ public class QuestionModel {
 	}
 
 	// delete question from existing question set
-	public void deleteQuestionFromQuestionSet(String setName) {
+	public void deleteQuestionFromQuestionSet(String setName, String question) {
 		if (!isQuestionSetExist(setName)) {
 			noSetFoundDialog();
 		} else {
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("confirm delete");
-			alert.setHeaderText("Look, a Confirmation Dialog");
-			alert.setContentText("Are you ok with this?");
+			if(_sets.get(setName).questionExist(question)) {
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("confirm delete");
+				alert.setHeaderText("Look, a Confirmation Dialog");
+				alert.setContentText("Are you ok with this?");
 
-			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == ButtonType.OK) {
-				_sets.get(setName).delete();
+				Optional<ButtonType> result = alert.showAndWait();
+				if (result.get() == ButtonType.OK) {
+					_sets.get(setName).delete(question);
+					//TODO how to delete a specific line from a file, below code is wrong by the way
+					new BashProcess("./MagicStaff.sh", "delete",setName);
+				}
+			}else {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Warning Dialog");
+				alert.setHeaderText("No question found");
+				alert.setContentText("Careful with the next step!");
+				alert.showAndWait();
 			}
+			
 		}
 	}
 
