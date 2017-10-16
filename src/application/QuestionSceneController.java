@@ -124,11 +124,11 @@ public class QuestionSceneController implements Initializable {
 			public Void call() {
 				new BashProcess("./MagicStaff.sh", "record", _answer);
 
-				try {
-					Thread.sleep(1000); // TODO
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+//				try {
+//					Thread.sleep(1000); // TODO
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
 				return null;
 			}
 		};

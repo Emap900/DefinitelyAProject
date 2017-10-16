@@ -141,31 +141,31 @@ public class QuestionModel {
 		}
 		generateQuestionListFromPreload("medium", 10);
 	}
-//
-//	private void loadQuestions(String filename, QuestionSet qs) {
-//		Scanner s;
-//		try {
-//			s = new Scanner(new File(filename));
-//			ArrayList<String> list = new ArrayList<String>();
-//			while (s.hasNext()) {
-//				list.add(s.next());
-//			}
-//			s.close();
-//			for (int i = 0; i < list.size(); i++) {
-//				String[] QAPair = list.get(i).split(",");
-//				List<String> QAPairl = new ArrayList<String>();
-//				QAPairl.add(QAPair[0]);
-//				QAPairl.add(QAPair[1]);
-//				// print our for testing
-//				System.out.println(QAPair[0]);
-//				System.out.println(QAPair[1]);
-//				qs.addQAPair(QAPair[0], QAPair[1]);
-//			}
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		}
-//
-//	}
+	//
+	// private void loadQuestions(String filename, QuestionSet qs) {
+	// Scanner s;
+	// try {
+	// s = new Scanner(new File(filename));
+	// ArrayList<String> list = new ArrayList<String>();
+	// while (s.hasNext()) {
+	// list.add(s.next());
+	// }
+	// s.close();
+	// for (int i = 0; i < list.size(); i++) {
+	// String[] QAPair = list.get(i).split(",");
+	// List<String> QAPairl = new ArrayList<String>();
+	// QAPairl.add(QAPair[0]);
+	// QAPairl.add(QAPair[1]);
+	// // print our for testing
+	// System.out.println(QAPair[0]);
+	// System.out.println(QAPair[1]);
+	// qs.addQAPair(QAPair[0], QAPair[1]);
+	// }
+	// } catch (FileNotFoundException e) {
+	// e.printStackTrace();
+	// }
+	//
+	// }
 
 	/**
 	 * Get the instance of the singleton class QuestionModel
@@ -191,7 +191,7 @@ public class QuestionModel {
 				String fileName = file.getName();
 				String setName = fileName.substring(0, fileName.lastIndexOf("."));
 				QuestionSet q = new QuestionSet(setName);
-				//loadQuestions(q.getSetName(), q);
+				// loadQuestions(q.getSetName(), q);
 				_sets.put(q.getSetName(), new QuestionSet(setName));
 				_listOfSetNames.add(setName);
 			}
@@ -211,7 +211,7 @@ public class QuestionModel {
 				_sets.get(setName).deleteLocalFile();
 				_sets.remove(setName);
 				_sets.put(setName, new QuestionSet(setName));
-			}else {
+			} else {
 				return false;
 			}
 		} else {
@@ -236,9 +236,9 @@ public class QuestionModel {
 			if (result.get() == ButtonType.OK) {
 				_sets.get(setName).deleteLocalFile();
 				_sets.remove(setName);
-				System.out.println("This is the mileStone "+ setName);
-				//TODO find a way to delete local files by java?
-				new BashProcess("./MagicStaff.sh", "delete",setName);
+				System.out.println("This is the mileStone " + setName);
+				// TODO find a way to delete local files by java?
+				new BashProcess("./MagicStaff.sh", "delete", setName);
 				_listOfSetNames.remove(setName);
 			}
 		} else {
@@ -274,7 +274,7 @@ public class QuestionModel {
 		if (!isQuestionSetExist(setName)) {
 			noSetFoundDialog();
 		} else {
-			if(_sets.get(setName).questionExist(question)) {
+			if (_sets.get(setName).questionExist(question)) {
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("confirm delete");
 				alert.setHeaderText("Look, a Confirmation Dialog");
@@ -283,17 +283,18 @@ public class QuestionModel {
 				Optional<ButtonType> result = alert.showAndWait();
 				if (result.get() == ButtonType.OK) {
 					_sets.get(setName).delete(question);
-					//TODO how to delete a specific line from a file, below code is wrong by the way
-					new BashProcess("./MagicStaff.sh", "delete",setName);
+					// TODO how to delete a specific line from a file, below code is wrong by the
+					// way
+					new BashProcess("./MagicStaff.sh", "delete", setName);
 				}
-			}else {
+			} else {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Warning Dialog");
 				alert.setHeaderText("No question found");
 				alert.setContentText("Careful with the next step!");
 				alert.showAndWait();
 			}
-			
+
 		}
 	}
 
@@ -390,7 +391,7 @@ public class QuestionModel {
 		if (_generatedQuestionList == null) {
 			System.err.println("there is no generated question list to start");
 		} else {
-			System.out.println("Here you are"+_generatedQuestionList.toString());
+			System.out.println("Here you are" + _generatedQuestionList.toString());
 			_toDoList = _generatedQuestionList;
 		}
 	}
@@ -402,7 +403,7 @@ public class QuestionModel {
 
 	// check if all questions are done
 	public boolean hasNext() {
-		return (!(_toDoList == null));
+		return (!(_toDoList.isEmpty()));
 	}
 
 	// retrieve a QA pair to use
@@ -425,7 +426,7 @@ public class QuestionModel {
 			_currentAnswer = currentQA.get(1);
 			_questionsDid.add(currentQA);
 			_toDoList = _toDoList.subList(1, _toDoList.size());
-			
+
 			break;
 		}
 		computeScore(_currentMode);

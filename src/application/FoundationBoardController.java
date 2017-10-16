@@ -294,7 +294,7 @@ public class FoundationBoardController implements Initializable {
 			}
 
 			// check is the question the final one
-			if (_questionModel.isFinished()) {
+			if (!_questionModel.hasNext()) {
 				resultController.setFinal(true);
 			}
 
