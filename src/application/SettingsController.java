@@ -121,7 +121,13 @@ public class SettingsController implements Initializable{
 	// Event Listener on Button[#pickARandomListBtn].onAction
 	@FXML
 	public void pickRandomList(ActionEvent event) {
-		
+		String numOfQuestions = numOfQuestionsTxetFieldForRandom.getText();
+		if(numOfQuestions != null) {
+			String setName = quesitonSetComboBox.getValue().toString();
+			_questionModel.setLengthOfQuestionList(Integer.parseInt(numOfQuestions));
+			_questionModel.generateQuestionListRandom(setName);
+			//TODO underlying code actually support more functionality such as user do not need to specify numberOfQuestions
+		}
 	}
 	
 	// Event Listener on Button[#pickYourselfBtn].onAction
