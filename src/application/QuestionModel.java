@@ -359,7 +359,9 @@ public class QuestionModel {
 		}
 		System.out.println("Here is the list: " + _generatedQuestionList.toString());
 	}
-
+	public void setUserPickedList(List<List> listGenerated) {
+		_generatedQuestionList = listGenerated;
+	}
 	// append question to a list when user want to pick up their own list of
 	// questions Note: the field need to be cleared in certain stages at least
 	// before user want to rebuild a list
