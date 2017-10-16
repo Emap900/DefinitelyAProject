@@ -109,7 +109,8 @@ public class QuestionModel {
 		_preloadSortedQuestionSet = new ArrayList<List<String>>();
 
 		_maoriDictionary = new HashMap<String, String>();
-
+		_toDoList = new ArrayList<List>();
+		_questionsDid = new ArrayList<List>();
 		_currentIndex = 0;
 
 		_generatedQuestionList = new ArrayList<List>();
@@ -423,6 +424,7 @@ public class QuestionModel {
 			_currentAnswer = currentQA.get(1);
 			_questionsDid.add(currentQA);
 			_toDoList = _toDoList.subList(1, _toDoList.size());
+			
 			break;
 		}
 		computeScore(_currentMode);
@@ -449,10 +451,23 @@ public class QuestionModel {
 	}
 
 	public void clear() {
-		generateQuestionListFromPreload("medium", 10);
+		_sets = new HashMap<String, QuestionSet>();
+		_listOfSetNames = new ArrayList();
+		// TODO testing code
+		_listOfSetNames.add("setABC");
+		System.out.println(_listOfSetNames.toString());
+		_preloadSortedQuestionSet = new ArrayList<List<String>>();
+
+		_maoriDictionary = new HashMap<String, String>();
+		_toDoList = _generatedQuestionList;
+		_questionsDid = new ArrayList<List>();
 		_currentIndex = 0;
-		_toDoList = null;
-		_questionsDid = null;
+
+		_pronounciationHardnessFactor = 0;
+		_numOfquestionsGotCorrect = 0;
+
+		_currentScore = 0;
+		_currentIndex = 0;
 		_numOfquestionsGotCorrect = 0;
 		_currentTrial = 0;
 		_currentScore = 0;
