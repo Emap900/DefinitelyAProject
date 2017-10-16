@@ -48,7 +48,6 @@ import javafx.scene.control.ButtonType;
  * 
  * scoring system (to be detailed)
  * 
- * 
  */
 
 // generate question, trial number, correct answer, score of game, isfinished,
