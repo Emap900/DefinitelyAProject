@@ -42,17 +42,22 @@ public class QuestionSetEditPanelController {
 	public void initData(Stage stage, String setName) {
 		_questionModel = QuestionModel.getInstance();
 		_editPanelStage = stage;
-		
-		List<List<String>> rawData = _questionModel.getQuestionsFromSpecificSet(setName);
+		_currentSetName = setName;
 		_listOfQuestions = new ArrayList<String>();
+		loadQuestions();
+
+	}
+	
+	private void loadQuestions() {
+		_listOfQuestions.clear();
+		List<List<String>> rawData = _questionModel.getQuestionsFromSpecificSet(_currentSetName);
 		for (int i = 0; i < rawData.size(); i++) {
 			List<String> temp = rawData.get(i);
-			String Combined = temp.get(0) + " = " + temp.get(1);
+			String Combined = temp.get(0) + "=" + temp.get(1);
 			_listOfQuestions.add(Combined);
 		}
 		System.out.println("Step 2 succeed.");
 		questionList.getItems().setAll(_listOfQuestions);
-
 	}
 
 	@FXML
@@ -61,12 +66,16 @@ public class QuestionSetEditPanelController {
 	}
 
 	@FXML
-	void confirmCreation(ActionEvent event) {
+	public void confirmCreation(ActionEvent event) {
 
 	}
 
 	@FXML
-	void deleteSelectedQuestion(ActionEvent event) {
-
+	public void deleteSelectedQuestion(ActionEvent event) {
+		String selectedQ = questionList.getSelectionModel().getSelectedItem();
+		String key = selectedQ.split("=")[0];
+		System.out.println(key); //TODO
+		_questionModel.deleteQuestionFromQuestionSet(_currentSetName, key);
+		loadQuestions();
 	}
 }

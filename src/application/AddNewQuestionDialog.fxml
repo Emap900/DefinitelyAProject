@@ -15,7 +15,7 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <VBox prefHeight="200.0" prefWidth="400.0">
+      <VBox prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AddNewQuestionDialogController>
          <children>
             <Region prefHeight="20.0" prefWidth="400.0" />
             <Label text="Enter your equation below" />

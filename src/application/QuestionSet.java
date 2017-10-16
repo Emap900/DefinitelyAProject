@@ -75,11 +75,13 @@ public class QuestionSet {
 		return randomList;
 	}
 
-	public void delete() {
-		// TODO Auto-generated method stub
-
+	public void delete(String key) {
+		_QAPairs.remove(key);
 	}
 
+	public void deleteAll() {
+		_theSet.delete();
+	}
 	public List<List<String>> getQuestionsInSet() {
 
 		List<List<String>> listForEdit = new ArrayList<List<String>>();
@@ -90,8 +92,15 @@ public class QuestionSet {
 			listForEdit.add(newEntry);
 			System.out.println(entry.getKey() + "=" + entry.getValue());
 		}
-
+		System.out.println("The size is" + listForEdit.size());
 		return listForEdit;
 	}
 
+	public boolean questionExist(String key) {
+		String value = _QAPairs.get(key);
+		if (value != null) {
+			return true;
+		}
+		return false;
+	}
 }
