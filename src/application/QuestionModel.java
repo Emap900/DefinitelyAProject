@@ -199,7 +199,7 @@ public class QuestionModel {
 	}
 
 	// create new question set
-	public void createLocalQuestionSet(String setName) {
+	public boolean createLocalQuestionSet(String setName) {
 		if (isQuestionSetExist(setName)) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Duplicate flag");
@@ -210,11 +210,14 @@ public class QuestionModel {
 			if (result.get() == ButtonType.OK) {
 				_sets.remove(setName);
 				_sets.put(setName, new QuestionSet(setName));
+			}else {
+				return false;
 			}
 		} else {
 			_sets.put(setName, new QuestionSet(setName));
 			_listOfSetNames.add(setName);
 		}
+		return true;
 	}
 
 	// delete existing question set

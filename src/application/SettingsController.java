@@ -79,8 +79,9 @@ public class SettingsController implements Initializable{
 		
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()){
-			_questionModel.createLocalQuestionSet(result.get());
-			openeditPanel(result.get());
+			if(_questionModel.createLocalQuestionSet(result.get())) {
+				openeditPanel(result.get());
+			}
 		}
 		updateSetList();
 	}
