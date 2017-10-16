@@ -74,9 +74,9 @@ public class QuestionSetEditPanelController {
 		//_questionModel.addQuestionToQuestionSet(_currentSetName, question, answer);
 		_newQuestionStage = new Stage();
 		Scene NQScene = _main.loadScene("AddNewQuestionDialog.fxml");
-//		AddNewQuestionDialogController aqdController = (AddNewQuestionDialogController)NQScene.getUserData();
-//		aqdController.initData(_currentSetName);
-//		aqdController.setParent(this);
+		AddNewQuestionDialogController aqdController = (AddNewQuestionDialogController)NQScene.getUserData();
+		aqdController.initData(_currentSetName, _newQuestionStage);
+		aqdController.setParent(this);
 		System.out.println("Step 1 done.");
 		_main.showScene(_newQuestionStage, NQScene);
 		loadQuestions();
@@ -84,7 +84,7 @@ public class QuestionSetEditPanelController {
 
 	@FXML
 	public void confirmCreation(ActionEvent event) {
-
+		_editPanelStage.close();
 	}
 
 	@FXML
@@ -93,5 +93,6 @@ public class QuestionSetEditPanelController {
 		String key = selectedQ.split("=")[0];
 		System.out.println(key); //TODO
 		_questionModel.deleteQuestionFromQuestionSet(_currentSetName, key);
+		loadQuestions();
 	}
 }

@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.stage.Stage;
 
 public class AddNewQuestionDialogController implements Initializable{
 
@@ -25,20 +26,25 @@ public class AddNewQuestionDialogController implements Initializable{
     
     private QuestionSetEditPanelController _parent;
     
+    private Stage _stage;
+    
     public void setParent(QuestionSetEditPanelController parent) {
     	_parent = parent;
     }
     @FXML
     void addQuestion(ActionEvent event) {
+    	//TODO add multiple questions bbb
     	String question = questionTextField.getText();
     	String answer = answerTestField.getText();
     	QuestionModel.getInstance().addQuestionToQuestionSet(_setName, question, answer);
     	_parent.loadQuestions();
+    	_stage.close();
     }
 
 
-	public void initData(String setName) {
+	public void initData(String setName, Stage newQuestionStage) {
 		_setName = setName;
+		_stage = newQuestionStage;
 	}
 
 
