@@ -141,6 +141,7 @@ public class SettingsController implements Initializable{
 			Scene editPanelScene = _main.loadScene("QuestionSetEditPanel.fxml");
 			QuestionSetEditPanelController editPanelController = (QuestionSetEditPanelController)editPanelScene.getUserData();
 			editPanelController.initData(_editPanelStage, setName);
+			editPanelController.setParent(_main);
 			System.out.println("Step 1 done.");
 			_main.showScene(_editPanelStage, editPanelScene);
 	}

@@ -1,6 +1,7 @@
 package application;
 
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
@@ -33,11 +34,19 @@ public class QuestionSetEditPanelController {
 
 	private Stage _editPanelStage;
 
+	private Stage _newQuestionStage;
+	
 	private QuestionModel _questionModel;
 
 	private List<String> _listOfQuestions;
 
 	private String _currentSetName;
+	
+	private Main _main;
+	
+	public void setParent(Main main) {
+		_main = main;
+	}
 	
 	public void initData(Stage stage, String setName) {
 		_questionModel = QuestionModel.getInstance();
@@ -48,7 +57,7 @@ public class QuestionSetEditPanelController {
 
 	}
 	
-	private void loadQuestions() {
+	public void loadQuestions() {
 		_listOfQuestions.clear();
 		List<List<String>> rawData = _questionModel.getQuestionsFromSpecificSet(_currentSetName);
 		for (int i = 0; i < rawData.size(); i++) {
@@ -63,6 +72,14 @@ public class QuestionSetEditPanelController {
 	@FXML
 	public void addNewQuestion(ActionEvent event) {
 		//_questionModel.addQuestionToQuestionSet(_currentSetName, question, answer);
+		_newQuestionStage = new Stage();
+		Scene NQScene = _main.loadScene("AddNewQuestionDialog.fxml");
+		AddNewQuestionDialogController aqdController = (AddNewQuestionDialogController)NQScene.getUserData();
+		aqdController.initData(_currentSetName);
+		aqdController.setParent(this);
+		System.out.println("Step 1 done.");
+		_main.showScene(_newQuestionStage, NQScene);
+		loadQuestions();
 	}
 
 	@FXML
@@ -76,6 +93,5 @@ public class QuestionSetEditPanelController {
 		String key = selectedQ.split("=")[0];
 		System.out.println(key); //TODO
 		_questionModel.deleteQuestionFromQuestionSet(_currentSetName, key);
-		loadQuestions();
 	}
 }
