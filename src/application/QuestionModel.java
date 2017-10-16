@@ -465,14 +465,10 @@ public class QuestionModel {
 	}
 
 	public void clear() {
-		_sets = new HashMap<String, QuestionSet>();
-		_listOfSetNames = new ArrayList();
 		// TODO testing code
-		_listOfSetNames.add("setABC");
 		System.out.println(_listOfSetNames.toString());
 		// _preloadSortedQuestionSet = new ArrayList<List<String>>();
 
-		_maoriDictionary = new HashMap<String, String>();
 		_toDoList = _generatedQuestionList;
 		_questionsDid = new ArrayList<List>();
 		_currentIndex = 0;

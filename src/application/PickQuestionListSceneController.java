@@ -53,16 +53,20 @@ public class PickQuestionListSceneController {
 	@FXML
 	public void addBtnClicked(ActionEvent event) {
 		//TODO add multiple questions
-    	String selectedQuestion = (String) _allQuestionsListView.getSelectionModel().getSelectedItem();
-    	_listOfQuestions.add(selectedQuestion);
-    	_userChoseListView.getItems().setAll(_listOfQuestions);
+		String selectedQuestion = (String) _allQuestionsListView.getSelectionModel().getSelectedItem();
+		if(selectedQuestion != null) {
+			_listOfQuestions.add(selectedQuestion);
+			_userChoseListView.getItems().setAll(_listOfQuestions);
+		}
 	}
 	// Event Listener on JFXButton[#_deleteBtn].onAction
 	@FXML
 	public void deleteBtnClicked(ActionEvent event) {
 		String selectedQ = _userChoseListView.getSelectionModel().getSelectedItem();
-		_listOfQuestions.remove(selectedQ);
-		_userChoseListView.getItems().setAll(_listOfQuestions);
+		if(selectedQ != null) {
+			_listOfQuestions.remove(selectedQ);
+			_userChoseListView.getItems().setAll(_listOfQuestions);
+		}
 	}
 	// Event Listener on JFXButton[#_confirmBtn].onAction
 	@FXML
