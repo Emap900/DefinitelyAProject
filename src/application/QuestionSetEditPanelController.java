@@ -74,9 +74,9 @@ public class QuestionSetEditPanelController {
 		//_questionModel.addQuestionToQuestionSet(_currentSetName, question, answer);
 		_newQuestionStage = new Stage();
 		Scene NQScene = _main.loadScene("AddNewQuestionDialog.fxml");
-		AddNewQuestionDialogController aqdController = (AddNewQuestionDialogController)NQScene.getUserData();
-		aqdController.initData(_currentSetName);
-		aqdController.setParent(this);
+//		AddNewQuestionDialogController aqdController = (AddNewQuestionDialogController)NQScene.getUserData();
+//		aqdController.initData(_currentSetName);
+//		aqdController.setParent(this);
 		System.out.println("Step 1 done.");
 		_main.showScene(_newQuestionStage, NQScene);
 		loadQuestions();
