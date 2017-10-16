@@ -211,6 +211,7 @@ public class FoundationBoardController implements Initializable {
 			_mode = Mode.NORMALMATH;
 			_questionModel.setMode(Mode.NORMALMATH);
 			_questionModel.triggerGameStart();
+			_questionModel.NextQA();
 
 			_modeLabel.setText("Maths Game: Normal Mode");
 
@@ -223,6 +224,7 @@ public class FoundationBoardController implements Initializable {
 			_mode = Mode.ENDLESSMATH;
 			_questionModel.setMode(Mode.ENDLESSMATH);
 			_questionModel.triggerGameStart();
+			_questionModel.NextQA();
 
 			_modeLabel.setText("Maths Game: Endless Mode");
 
