@@ -1,6 +1,7 @@
 package application;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -22,6 +23,10 @@ public class QuestionSet {
 	public QuestionSet(String nameOfSet) {
 		_nameOfSet = nameOfSet;
 		_theSet = new File("QuestionSets/" + _nameOfSet + ".csv");
+		loadList();
+	}
+
+	private void loadList() {
 		if (!_theSet.exists()) {
 			// create file if does not exist
 			try {
@@ -46,11 +51,31 @@ public class QuestionSet {
 				e.printStackTrace();
 			}
 		}
-		// _QAPairs = new HashMap<String, String>();
 	}
 
 	public void addQAPair(String question, String answer) {
 		_QAPairs.put(question, answer);
+		updateLocalFile();
+	}
+
+	/**
+	 * Sync the changes in the hashmap to the local file
+	 */
+	private void updateLocalFile() {
+		// TODO Auto-generated method stub
+		deleteLocalFile();
+		loadList();
+		for (Entry entry : _QAPairs.entrySet()) {
+			// append the record to the local file
+			try {
+				FileWriter fw = new FileWriter(_theSet, true);
+				fw.append(entry.getKey() + "," + entry.getValue() + "\n");
+				fw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 	public String getSetName() {
@@ -77,11 +102,13 @@ public class QuestionSet {
 
 	public void delete(String key) {
 		_QAPairs.remove(key);
+		updateLocalFile();
 	}
 
-	public void deleteAll() {
+	public void deleteLocalFile() {
 		_theSet.delete();
 	}
+
 	public List<List<String>> getQuestionsInSet() {
 
 		List<List<String>> listForEdit = new ArrayList<List<String>>();

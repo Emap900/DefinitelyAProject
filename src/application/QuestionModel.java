@@ -141,31 +141,31 @@ public class QuestionModel {
 		}
 		generateQuestionListFromPreload("medium", 10);
 	}
-
-	private void loadQuestions(String filename, QuestionSet qs) {
-		Scanner s;
-		try {
-			s = new Scanner(new File("setABC.csv"));
-			ArrayList<String> list = new ArrayList<String>();
-			while (s.hasNext()) {
-				list.add(s.next());
-			}
-			s.close();
-			for (int i = 0; i < list.size(); i++) {
-				String[] QAPair = list.get(i).split(",");
-				List<String> QAPairl = new ArrayList<String>();
-				QAPairl.add(QAPair[0]);
-				QAPairl.add(QAPair[1]);
-				// print our for testing
-				System.out.println(QAPair[0]);
-				System.out.println(QAPair[1]);
-				qs.addQAPair(QAPair[0], QAPair[1]);
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-
-	}
+//
+//	private void loadQuestions(String filename, QuestionSet qs) {
+//		Scanner s;
+//		try {
+//			s = new Scanner(new File(filename));
+//			ArrayList<String> list = new ArrayList<String>();
+//			while (s.hasNext()) {
+//				list.add(s.next());
+//			}
+//			s.close();
+//			for (int i = 0; i < list.size(); i++) {
+//				String[] QAPair = list.get(i).split(",");
+//				List<String> QAPairl = new ArrayList<String>();
+//				QAPairl.add(QAPair[0]);
+//				QAPairl.add(QAPair[1]);
+//				// print our for testing
+//				System.out.println(QAPair[0]);
+//				System.out.println(QAPair[1]);
+//				qs.addQAPair(QAPair[0], QAPair[1]);
+//			}
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
 
 	/**
 	 * Get the instance of the singleton class QuestionModel
@@ -180,7 +180,7 @@ public class QuestionModel {
 	}
 
 	// load local question sets
-	public void loadLocalLists() {
+	private void loadLocalLists() {
 		File folder = new File("QuestionSets");
 
 		File[] fileList = folder.listFiles();
@@ -191,7 +191,7 @@ public class QuestionModel {
 				String fileName = file.getName();
 				String setName = fileName.substring(0, fileName.lastIndexOf("."));
 				QuestionSet q = new QuestionSet(setName);
-				loadQuestions(q.getSetName(), q);
+				//loadQuestions(q.getSetName(), q);
 				_sets.put(q.getSetName(), new QuestionSet(setName));
 				_listOfSetNames.add(setName);
 			}
@@ -233,7 +233,7 @@ public class QuestionModel {
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK) {
-				_sets.get(setName).deleteAll();
+				_sets.get(setName).deleteLocalFile();
 				_sets.remove(setName);
 				System.out.println("This is the mileStone "+ setName);
 				//TODO find a way to delete local files by java?
