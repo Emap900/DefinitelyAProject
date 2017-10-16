@@ -43,10 +43,10 @@ public class QuestionSceneController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 		QuestionModel questionModel = QuestionModel.getInstance();
 		_question.setText(questionModel.currentQuestion());
 		_answer = questionModel.currentAnswer();
+
 	}
 
 	/**
@@ -63,7 +63,6 @@ public class QuestionSceneController implements Initializable {
 	@FXML
 	public void recordBtnClicked(ActionEvent event) {
 
-		// TODO ask questionModel to increment trial number
 		_parentController.incrementTrial();
 		_recordBtn.setText("Recording...");
 		_recordBtn.setDisable(true);
@@ -92,7 +91,7 @@ public class QuestionSceneController implements Initializable {
 			 * @return
 			 */
 			private double getRecordingTime() {
-				// TODO read local config file
+				// read local config file
 				File configFile = new File("config.properties");
 
 				// default recording time is 3 seconds

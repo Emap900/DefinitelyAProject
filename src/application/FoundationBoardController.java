@@ -16,11 +16,13 @@ import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialog.DialogTransition;
 import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXDrawer;
 
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -322,35 +324,40 @@ public class FoundationBoardController implements Initializable {
 	 * or go to personal summary (if is under math mode).
 	 */
 	public void finish() {
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Confirm Finish");
-		alert.setHeaderText("You are going to finish answering questions");
+
+		String title = "Confirm Finish";
+		String body;
 		if (_mode == Mode.PRACTISE) {
-			alert.setContentText("Do you want to finish practising and show summary?");
+			body = "Do you want to finish practising and show summary?";
 		} else if (_mode == Mode.NORMALMATH) {
-			alert.setContentText("Do you want to skip the rest questions and save your result? "
-					+ "(The rest of the questions will be marked wrong)");
+			body = "Do you want to skip the rest questions and save your result? "
+					+ "(The rest of the questions will be marked wrong)";
 		} else {
-			alert.setContentText("Do you want to skip the rest questions and save your current result?");
+			body = "Do you want to skip the rest questions and save your current result?";
 		}
 
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.OK) {
+		EventHandler<ActionEvent> okHandler = new EventHandler<ActionEvent>() {
 
-			// append the result
-			appendResult();
+			@Override
+			public void handle(ActionEvent event) {
+				// append the result
+				appendResult();
 
-			if (_mode == Mode.PRACTISE) {
-				_mode = null;
-				showPractiseSummary();
-			} else {
-				_userModel.appendRecord(_userName, _mode, _questionModel.getScore());
-				_main.showPersonalPanel(_userName);
+				if (_mode == Mode.PRACTISE) {
+					_mode = null;
+					showPractiseSummary();
+				} else {
+					_userModel.appendRecord(_userName, _mode, _questionModel.getScore());
+					_main.showPersonalPanel(_userName);
+				}
+
+				// reset QuestionModel
+				_questionModel.clear();
 			}
+		};
 
-			// reset QuestionModel
-			_questionModel.clear();
-		}
+		showConfirmDialog(title, body, okHandler, null);
+
 	}
 
 	/**
@@ -402,35 +409,30 @@ public class FoundationBoardController implements Initializable {
 	 */
 	@FXML
 	private void backToHome() {
-		boolean goBack = false;
 
 		// If user haven't began practising or gaming, or already finished practising,
 		// _mode will be null. In this case, do not show confirmation dialog
 		if (_mode == null) {
-			goBack = true;
-		} else {
-			// ask user for confirm
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Confirm Leave");
-			alert.setHeaderText("Return to home page.");
-			if (_mode == Mode.PRACTISE) {
-				alert.setContentText("Do you want to stop practising and return to home page?");
-			} else {
-				alert.setContentText(
-						"Do you want to leave the game and return to home page (score will not be saved)?");
-			}
-
-			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == ButtonType.OK) {
-				goBack = true;
-			}
-		}
-
-		if (goBack == true) {
 			// reset question model
 			_questionModel.clear();
-
 			_main.showHome();
+		} else {
+
+			String title = "Return to home page";
+			String body = "Do you want to leave the game and return to home page (score will not be saved)?";
+
+			EventHandler<ActionEvent> okHandler = new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					// reset question model
+					_questionModel.clear();
+					_main.showHome();
+				}
+			};
+
+			showConfirmDialog(title, body, okHandler, null);
+
 		}
 
 	}
@@ -482,6 +484,33 @@ public class FoundationBoardController implements Initializable {
 		}
 
 		return loader.getController();
+	}
+
+	private void showConfirmDialog(String title, String body, EventHandler<ActionEvent> okHandler,
+			EventHandler<ActionEvent> cancelHandler) {
+		// ask user for confirm
+		JFXDialogLayout content = new JFXDialogLayout();
+		content.setHeading(new Text(title));
+		content.setBody(new Text(body));
+		JFXButton okBtn = new JFXButton("OK");
+		JFXButton cancelBtn = new JFXButton("Cancel");
+		content.setActions(okBtn, cancelBtn);
+		JFXDialog dialog = new JFXDialog(_background, content, DialogTransition.CENTER);
+
+		okBtn.setOnAction(e -> {
+			if (okHandler != null) {
+				okHandler.handle(e);
+			}
+			dialog.close();
+		});
+		cancelBtn.setOnAction(e -> {
+			if (cancelHandler != null) {
+				cancelHandler.handle(e);
+			}
+			dialog.close();
+		});
+
+		dialog.show();
 	}
 
 }

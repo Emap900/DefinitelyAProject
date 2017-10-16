@@ -43,44 +43,51 @@
 			</children>
 		</HBox>
 		<Region prefHeight="40.0" />
-		<Label text="Player's Name:">
-			<font>
-				<Font name="System Bold" size="16.0" />
-			</font>
-		</Label>
-		<Label fx:id="_name" text="&lt;Name&gt;">
-			<font>
-				<Font size="36.0" />
-			</font>
-		</Label>
-		<HBox alignment="CENTER">
-			<children>
-				<Label text="Latest Score: ">
-					<font>
-						<Font name="System Bold" size="16.0" />
-					</font>
-				</Label>
-				<Label fx:id="_latestScore" text="&lt;Score&gt;">
-					<font>
-						<Font size="24.0" />
-					</font>
-				</Label>
-			</children>
-		</HBox>
-		<HBox alignment="CENTER" layoutX="10.0" layoutY="72.0">
-			<children>
-				<Label text="Mode: ">
-					<font>
-						<Font name="System Bold" size="16.0" />
-					</font>
-				</Label>
-				<Label fx:id="_latestMode" text="&lt;Normal/Endless&gt;">
-					<font>
-						<Font size="18.0" />
-					</font>
-				</Label>
-			</children>
-		</HBox>
+      <VBox alignment="CENTER">
+         <children>
+      		<Label text="Player's Name:">
+      			<font>
+      				<Font name="System Bold" size="16.0" />
+      			</font>
+      		</Label>
+      		<Label fx:id="_name" text="&lt;Name&gt;">
+      			<font>
+      				<Font size="36.0" />
+      			</font>
+      		</Label>
+      		<HBox alignment="CENTER">
+      			<children>
+      				<Label text="Latest Score: ">
+      					<font>
+      						<Font name="System Bold" size="16.0" />
+      					</font>
+      				</Label>
+      				<Label fx:id="_latestScore" text="&lt;Score&gt;">
+      					<font>
+      						<Font size="24.0" />
+      					</font>
+      				</Label>
+      			</children>
+      		</HBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <Label text="Mode: ">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="_latestMode" text="&lt;Normal/Endless&gt;">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="5.0" top="5.0" />
+         </padding>
+      </VBox>
 		<Region prefHeight="40.0" />
 		<HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
 			<children>
@@ -88,12 +95,12 @@
 					<children>
 						<HBox alignment="CENTER">
 							<VBox.margin>
-								<Insets right="10.0" />
+								<Insets />
 							</VBox.margin>
 							<children>
 								<Label text="Normal Mode">
 									<font>
-										<Font size="14.0" />
+										<Font name="Candara" size="16.0" />
 									</font>
 								</Label>
 							</children>
@@ -169,7 +176,7 @@
 						</HBox>
 						<VBox style="-fx-background-color: #fafafa;">
 							<VBox.margin>
-								<Insets bottom="10.0" left="50.0" right="50.0" />
+								<Insets left="50.0" right="50.0" />
 							</VBox.margin>
 							<children>
 								<HBox style="-fx-background-color: #f5f5f5;">
@@ -204,12 +211,12 @@
 					<children>
 						<HBox alignment="CENTER">
 							<VBox.margin>
-								<Insets left="10.0" />
+								<Insets />
 							</VBox.margin>
 							<children>
 								<Label text="Endless Mode">
 									<font>
-										<Font size="14.0" />
+										<Font name="Candara" size="16.0" />
 									</font>
 								</Label>
 							</children>
@@ -285,7 +292,7 @@
 						</HBox>
 						<VBox style="-fx-background-color: #fafafa;">
 							<VBox.margin>
-								<Insets bottom="10.0" left="50.0" right="50.0" />
+								<Insets left="50.0" right="50.0" />
 							</VBox.margin>
 							<children>
 								<HBox style="-fx-background-color: #f5f5f5;">

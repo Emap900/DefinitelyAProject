@@ -111,7 +111,7 @@ public class LeaderBoardController implements Initializable {
 				// if user entered his/her name, show only the matched records in the list view
 				ObservableList<UserDataTuple> nMatchedList = FXCollections.observableArrayList();
 				// find and set matched records in normal mode list view
-				for (UserDataTuple item : _normalModeListView.getItems()) {
+				for (UserDataTuple item : _normalRanking) {
 					if (item.getName().toLowerCase().contains(newValue.toLowerCase())) {
 						nMatchedList.add(item);
 					}
@@ -120,7 +120,7 @@ public class LeaderBoardController implements Initializable {
 
 				// find and set matched records in endless mode list view
 				ObservableList<UserDataTuple> eMatchedList = FXCollections.observableArrayList();
-				for (UserDataTuple item : _endlessModeListView.getItems()) {
+				for (UserDataTuple item : _endlessRanking) {
 					if (item.getName().toLowerCase().contains(newValue.toLowerCase())) {
 						eMatchedList.add(item);
 					}
