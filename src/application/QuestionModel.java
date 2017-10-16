@@ -208,6 +208,7 @@ public class QuestionModel {
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK) {
+				_sets.get(setName).deleteLocalFile();
 				_sets.remove(setName);
 				_sets.put(setName, new QuestionSet(setName));
 			}else {
@@ -352,6 +353,7 @@ public class QuestionModel {
 		} else {
 			_generatedQuestionList = _sets.get(setName).generateRandomQuestionList(10);
 		}
+		System.out.println("Here is the list: " + _generatedQuestionList.toString());
 	}
 
 	// append question to a list when user want to pick up their own list of
