@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" minHeight="600.0" minWidth="1000.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.HomeController">
+<VBox alignment="CENTER" minHeight="600.0" minWidth="1000.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.HomeController">
    <children>
       <Label text="Taatai!: Te Reo Maths Aid" textAlignment="CENTER">
          <VBox.margin>
@@ -27,7 +27,7 @@
                <graphic>
                   <ImageView fitHeight="70.0" fitWidth="70.0">
                      <image>
-                        <Image url="@../../icons/icons8-Reading-96.png" />
+                        <Image url="@icons/icons8-Reading-96.png" />
                      </image>
                      <effect>
                         <DropShadow blurType="GAUSSIAN" height="15.0" radius="7.0" width="15.0" />
@@ -54,7 +54,7 @@
                <graphic>
                   <ImageView fitHeight="70.0" fitWidth="70.0">
                      <image>
-                        <Image url="@../../icons/icons8-Math-96.png" />
+                        <Image url="@icons/icons8-Math-96.png" />
                      </image>
                      <effect>
                         <DropShadow blurType="GAUSSIAN" height="15.0" radius="7.0" width="15.0" />
@@ -72,7 +72,7 @@
                <graphic>
                   <ImageView fitHeight="70.0" fitWidth="70.0">
                      <image>
-                        <Image url="@../../icons/icons8-Leaderboard-96.png" />
+                        <Image url="@icons/icons8-Leaderboard-96.png" />
                      </image>
                      <effect>
                         <DropShadow blurType="GAUSSIAN" height="15.0" radius="7.0" width="15.0" />
@@ -100,7 +100,7 @@
                <graphic>
                   <ImageView fitHeight="70.0" fitWidth="70.0">
                      <image>
-                        <Image url="@../../icons/icons8-Settings-96.png" />
+                        <Image url="@icons/icons8-Settings-96.png" />
                      </image>
                      <effect>
                         <DropShadow blurType="GAUSSIAN" height="15.0" radius="7.0" width="15.0" />
@@ -121,7 +121,7 @@
                <graphic>
                   <ImageView fitHeight="70.0" fitWidth="70.0">
                      <image>
-                        <Image url="@../../icons/icons8-Question%20Mark-96.png" />
+                        <Image url="@icons/icons8-Question%20Mark-96.png" />
                      </image>
                      <effect>
                         <DropShadow blurType="GAUSSIAN" height="15.0" radius="7.0" width="15.0" />

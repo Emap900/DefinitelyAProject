@@ -10,38 +10,43 @@
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <VBox alignment="CENTER" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PersonalPanelController">
 	<children>
-		<HBox alignment="CENTER_LEFT" minHeight="-Infinity" prefHeight="50.0" style="-fx-background-color: #1976d2;">
-			<children>
-				<JFXButton onAction="#backToHome" prefHeight="50.0" prefWidth="150.0" text="Home" textFill="WHITE">
-					<font>
-						<Font name="System Bold" size="14.0" />
-					</font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-				</JFXButton>
-				<Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+      <StackPane>
+         <children>
+      		<HBox alignment="CENTER_LEFT" minHeight="-Infinity" prefHeight="50.0" style="-fx-background-color: #1976d2;">
+      			<children>
+      				<JFXButton onAction="#backToHome" prefHeight="50.0" prefWidth="150.0" text="Home" textFill="WHITE">
+      					<font>
+      						<Font name="System Bold" size="14.0" />
+      					</font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+      				</JFXButton>
+      				<Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+      				<Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+      				<JFXButton minWidth="150.0" onAction="#showLeaderBoard" prefHeight="50.0" text="Go To LeaderBoard" textFill="WHITE">
+      					<font>
+      						<Font name="System Bold" size="14.0" />
+      					</font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+      				</JFXButton>
+      			</children>
+      		</HBox>
 				<Label text="Personal Dashboard" textFill="WHITE">
 					<font>
 						<Font name="System Bold" size="18.0" />
 					</font>
 				</Label>
-				<Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-				<JFXButton onAction="#showLeaderBoard" prefHeight="50.0" prefWidth="150.0" text="Go To LeaderBoard" textFill="WHITE">
-					<font>
-						<Font name="System Bold" size="14.0" />
-					</font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-				</JFXButton>
-			</children>
-		</HBox>
+         </children>
+      </StackPane>
 		<Region prefHeight="40.0" />
       <VBox alignment="CENTER">
          <children>

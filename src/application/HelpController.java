@@ -31,15 +31,15 @@ public class HelpController {
 		try {
 			// load image for practise tips
 			for (int i = 1; i < 6; i++) {
-				pages.add(new Image(new File("help/Practise" + i + ".png").toURI().toURL().toString()));
+				pages.add(new Image(new File("help/Practise" + i + ".PNG").toURI().toURL().toString()));
 			}
 			// load image for math game tips
 			for (int i = 1; i < 6; i++) {
-				pages.add(new Image(new File("help/Math" + i + ".png").toURI().toURL().toString()));
+				pages.add(new Image(new File("help/Math" + i + ".PNG").toURI().toURL().toString()));
 			}
 			// load image for score tips
 			for (int i = 1; i < 4; i++) {
-				pages.add(new Image(new File("help/Score" + i + ".png").toURI().toURL().toString()));
+				pages.add(new Image(new File("help/Score" + i + ".PNG").toURI().toURL().toString()));
 			}
 
 			imageView.setImage(pages.get(0));

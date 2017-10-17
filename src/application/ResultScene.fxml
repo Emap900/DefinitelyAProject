@@ -86,7 +86,7 @@
          <children>
             <HBox alignment="TOP_CENTER">
                <children>
-                  <JFXButton fx:id="_nextBtn" buttonType="RAISED" onAction="#nextBtnClicked" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #1976d2;" text="Next question" textFill="WHITE">
+                  <JFXButton fx:id="_nextBtn" buttonType="RAISED" minWidth="200.0" onAction="#nextBtnClicked" prefHeight="40.0" style="-fx-background-color: #1976d2;" text="Next question" textFill="WHITE">
                      <HBox.margin>
                         <Insets bottom="30.0" left="30.0" right="30.0" top="10.0" />
                      </HBox.margin>
@@ -97,7 +97,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
-                  <JFXButton fx:id="_finishBtn" buttonType="RAISED" onAction="#finishBtnClicked" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #1976d2;" text="Skip the rest and finish" textFill="WHITE">
+                  <JFXButton fx:id="_finishBtn" buttonType="RAISED" minWidth="200.0" onAction="#finishBtnClicked" prefHeight="40.0" style="-fx-background-color: #1976d2;" text="Skip the rest and finish" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>

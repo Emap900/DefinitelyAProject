@@ -9,41 +9,46 @@
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <VBox prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LeaderBoardController">
    <children>
-      <HBox alignment="CENTER" minHeight="-Infinity" prefHeight="50.0" style="-fx-background-color: #1976d2;">
+      <StackPane>
          <children>
-            <JFXButton onAction="#backToHome" prefHeight="50.0" prefWidth="150.0" text="Home" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </JFXButton>
-            <Region layoutX="188.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <HBox alignment="CENTER" minHeight="-Infinity" prefHeight="50.0" style="-fx-background-color: #1976d2;">
+               <children>
+                  <JFXButton onAction="#backToHome" prefHeight="50.0" prefWidth="150.0" text="Home" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <Region layoutX="188.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                  <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                  <JFXButton fx:id="_personalLogBtn" layoutX="309.0" layoutY="10.0" onAction="#personalLogBtnClicked" prefHeight="50.0" text="Show personal log" textFill="WHITE" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+               </children>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" height="30.0" radius="7.0" width="0.0" />
+               </effect>
+            </HBox>
             <Label text="Leader Board" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <JFXButton fx:id="_personalLogBtn" layoutX="309.0" layoutY="10.0" onAction="#personalLogBtnClicked" prefHeight="50.0" prefWidth="150.0" text="Show personal log" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </JFXButton>
          </children>
-         <effect>
-            <DropShadow blurType="GAUSSIAN" height="30.0" radius="7.0" width="0.0" />
-         </effect>
-      </HBox>
+      </StackPane>
       <HBox alignment="BOTTOM_CENTER">
          <children>
             <JFXTextField fx:id="_nameSearchField" focusColor="#1976d2" prefHeight="35.0" promptText="Search for your name">
