@@ -426,9 +426,6 @@ public class FoundationBoardController implements Initializable {
 		// If user haven't began practising or gaming, or already finished practising,
 		// _mode will be null. In this case, do not show confirmation dialog
 		if (_mode == null) {
-			// remove previous recording
-			new BashProcess("./MagicStaff.sh", "remove", _questionModel.currentAnswer());
-
 			// reset question model and statistics
 			_statistics.reset();
 			_questionModel.clear();
