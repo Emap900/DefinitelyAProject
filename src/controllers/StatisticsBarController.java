@@ -8,7 +8,6 @@ import javafx.scene.paint.Color;
 
 public class StatisticsBarController {
 
-	// TODO
 	@FXML
 	private ListView<Node> _resultListView;
 

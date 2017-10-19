@@ -1,17 +1,9 @@
 package controllers;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-
 import application.Main;
 import enums.Function;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -26,8 +18,6 @@ public class HelpController {
 	private Button next;
 	@FXML
 	private Label instruction;
-
-	private List<Image> pages = new ArrayList<Image>();
 
 	private int _currentPage;
 

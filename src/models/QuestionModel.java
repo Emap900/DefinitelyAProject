@@ -1,25 +1,16 @@
 package models;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URL;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.Set;
 
 import application.BashProcess;
 import application.Main;
@@ -67,13 +58,9 @@ public class QuestionModel {
 	private List<String> _listOfSetNames;
 	private List<List<String>> _preloadSortedQuestionSet;
 
-	private Map<String, String> _maoriDictionary;
-
 	// for current question
-	private int _currentIndex;
 	private String _currentQuestion;
 	private String _currentAnswer;
-	private int _currentTrial;
 	private double _pronounciationHardnessFactor;
 	private String _recognizedWord;
 	private String _correctWord;
@@ -97,8 +84,16 @@ public class QuestionModel {
 	// for mode
 	private Mode _currentMode;
 
-	public boolean isFinished() {
-		return _isFinished;
+	/**
+	 * Get the instance of the singleton class QuestionModel
+	 * 
+	 * @return the only instance of QuestionModel
+	 */
+	public static QuestionModel getInstance() {
+		if (_modelInstance == null) {
+			_modelInstance = new QuestionModel();
+		}
+		return _modelInstance;
 	}
 
 	/**
@@ -107,28 +102,26 @@ public class QuestionModel {
 	private QuestionModel() {
 		// load pre-made question as a list into the program
 		_sets = new HashMap<String, QuestionSet>();
-		_listOfSetNames = new ArrayList();
+		_listOfSetNames = new ArrayList<String>();
 		// TODO testing code
 		_listOfSetNames.add("Default");
 		_preloadSortedQuestionSet = new ArrayList<List<String>>();
-
-		_maoriDictionary = new HashMap<String, String>();
+	
 		_toDoList = new ArrayList<List>();
 		_questionsDid = new ArrayList<List>();
-		_currentIndex = 0;
-
+	
 		_generatedQuestionList = new ArrayList<List>();
-
+	
 		_pronounciationHardnessFactor = 1;
 		_numOfquestionsGotCorrect = 0;
-
+	
 		_currentScore = 0;
-
+	
 		loadLocalLists();// TODO for size of _sets, load them all
 		Scanner s;
 		InputStream in = Main.class.getResourceAsStream("/Default.csv");
 		s = new Scanner(in);
-		//s = new Scanner(new File("setABC.csv"));
+		// s = new Scanner(new File("setABC.csv"));
 		ArrayList<String> list = new ArrayList<String>();
 		while (s.hasNext()) {
 			list.add(s.next());
@@ -143,43 +136,6 @@ public class QuestionModel {
 		}
 		// give a default list of questions with medium hardness
 		generateQuestionListFromPreload("medium", 10);
-	}
-	//
-	// private void loadQuestions(String filename, QuestionSet qs) {
-	// Scanner s;
-	// try {
-	// s = new Scanner(new File(filename));
-	// ArrayList<String> list = new ArrayList<String>();
-	// while (s.hasNext()) {
-	// list.add(s.next());
-	// }
-	// s.close();
-	// for (int i = 0; i < list.size(); i++) {
-	// String[] QAPair = list.get(i).split(",");
-	// List<String> QAPairl = new ArrayList<String>();
-	// QAPairl.add(QAPair[0]);
-	// QAPairl.add(QAPair[1]);
-	// // print our for testing
-	// System.out.println(QAPair[0]);
-	// System.out.println(QAPair[1]);
-	// qs.addQAPair(QAPair[0], QAPair[1]);
-	// }
-	// } catch (FileNotFoundException e) {
-	// e.printStackTrace();
-	// }
-	//
-	// }
-
-	/**
-	 * Get the instance of the singleton class QuestionModel
-	 * 
-	 * @return the only instance of QuestionModel
-	 */
-	public static QuestionModel getInstance() {
-		if (_modelInstance == null) {
-			_modelInstance = new QuestionModel();
-		}
-		return _modelInstance;
 	}
 
 	// load local question sets
@@ -307,6 +263,54 @@ public class QuestionModel {
 		alert.showAndWait();
 	}
 
+	public List<String> getListOfsets() {
+		return _listOfSetNames;
+	}
+
+	public void setUserPickedList(List<List> listGenerated) {
+		_generatedQuestionList = listGenerated;
+	}
+
+	// append question to a list when user want to pick up their own list of
+	// questions Note: the field need to be cleared in certain stages at least
+	// before user want to rebuild a list
+	public void addQuestionToListForUserDefine(String question, String answer) {
+		List<String> pair = new ArrayList<String>();
+		pair.add(question);
+		pair.add(answer);
+		_generatedQuestionList.add(pair);
+	}
+
+	// randomize the order of generated question list, necessarily for each run of
+	// game for user picked list
+	public void randomizeQuestionListFromUserDefineWithSelfPick(boolean randomize) {
+		if (_generatedQuestionList == null) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Warning Dialog");
+			alert.setHeaderText("List is empty");
+			alert.setContentText("Careful with the next step!");
+			alert.showAndWait();
+		} else {
+			Collections.shuffle(_generatedQuestionList);
+		}
+	}
+
+	// TODO the use of this function is to be determined
+	public void setLengthOfQuestionList(int length) {
+		_lengthOfQuestionList = length;
+	}
+
+	/**
+	 * Set the mode of the math aid (pratice, normal math questions, or endless math
+	 * questions)
+	 * 
+	 * @param mode
+	 *            (PRACTISE, NORMALMATH, ENDLESSMATH)
+	 */
+	public void setMode(Mode mode) {
+		_currentMode = mode;
+	}
+
 	public void initializePractise(Integer numToPractise) {
 		_currentMode = Mode.PRACTISE;
 		_numberToPractise = numToPractise;
@@ -314,9 +318,9 @@ public class QuestionModel {
 
 	// getListOfQuestions in a specific set
 	public List<List<String>> getQuestionsFromSpecificSet(String setName) {
-
+	
 		System.out.println("Step 3 succeed.");
-
+	
 		return _sets.get(setName).getQuestionsInSet();
 	}
 
@@ -359,32 +363,6 @@ public class QuestionModel {
 		}
 		System.out.println("Here is the list: " + _generatedQuestionList.toString());
 	}
-	public void setUserPickedList(List<List> listGenerated) {
-		_generatedQuestionList = listGenerated;
-	}
-	// append question to a list when user want to pick up their own list of
-	// questions Note: the field need to be cleared in certain stages at least
-	// before user want to rebuild a list
-	public void addQuestionToListForUserDefine(String question, String answer) {
-		List<String> pair = new ArrayList<String>();
-		pair.add(question);
-		pair.add(answer);
-		_generatedQuestionList.add(pair);
-	}
-
-	// randomize the order of generated question list, necessarily for each run of
-	// game for user picked list
-	public void randomizeQuestionListFromUserDefineWithSelfPick(boolean randomize) {
-		if (_generatedQuestionList == null) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Warning Dialog");
-			alert.setHeaderText("List is empty");
-			alert.setContentText("Careful with the next step!");
-			alert.showAndWait();
-		} else {
-			Collections.shuffle(_generatedQuestionList);
-		}
-	}
 
 	// start question list processing for gaming part (not practise part)
 	public void triggerGameStart() {
@@ -399,16 +377,6 @@ public class QuestionModel {
 	// return number of questions left
 	public int numOfQuestionsLeft() {
 		return _toDoList.size();
-	}
-
-	// check if all questions are done
-	public boolean hasNext() {
-		switch (_currentMode) {
-		case NORMALMATH:
-			return (!(_toDoList.isEmpty()));
-		default:
-			return true;
-		}
 	}
 
 	// retrieve a QA pair to use
@@ -445,8 +413,14 @@ public class QuestionModel {
 
 	}
 
-	public void increnmentTrial() {
-		_currentTrial++;
+	// check if all questions are done
+	public boolean hasNext() {
+		switch (_currentMode) {
+		case NORMALMATH:
+			return (!(_toDoList.isEmpty()));
+		default:
+			return true;
+		}
 	}
 
 	// get current question
@@ -460,50 +434,25 @@ public class QuestionModel {
 		return _currentAnswer;
 	}
 
-	public int getTrialNumber() {
-		return _currentTrial;
+
+	// return correct maori word
+	public String correctWord() {
+		return _correctWord;
 	}
 
-	public void clear() {
-		// TODO testing code
-		System.out.println(_listOfSetNames.toString());
-		// _preloadSortedQuestionSet = new ArrayList<List<String>>();
-
-		_toDoList = _generatedQuestionList;
-		_questionsDid = new ArrayList<List>();
-		_currentIndex = 0;
-
-		_pronounciationHardnessFactor = 1;
-		_numOfquestionsGotCorrect = 0;
-
-		_currentScore = 0;
-		_currentIndex = 0;
-		_numOfquestionsGotCorrect = 0;
-		_currentTrial = 0;
-		_currentScore = 0;
-		_isFinished = false;
+	// return user answered word
+	public String answerOfUser() {
+		return _recognizedWord;
 
 	}
 
-	// TODO clear all
-	public void clearAll() {
-
+	// return correctness
+	public boolean isUserCorrect() {
+		return _correctness;
 	}
 
-	// TODO the use of this function is to be determined
-	public void setLengthOfQuestionList(int length) {
-		_lengthOfQuestionList = length;
-	}
-
-	/**
-	 * Set the mode of the math aid (pratice, normal math questions, or endless math
-	 * questions)
-	 * 
-	 * @param mode
-	 *            (PRACTISE, NORMALMATH, ENDLESSMATH)
-	 */
-	public void setMode(Mode mode) {
-		_currentMode = mode;
+	public boolean isFinished() {
+		return _isFinished;
 	}
 
 	public void updateResult(String recognizedWord, String correctWord, boolean correctness) {
@@ -513,6 +462,28 @@ public class QuestionModel {
 		_recognizedWord = recognizedWord;
 		_correctWord = correctWord;
 		_correctness = correctness;
+	}
+
+	public void clear() {
+		// TODO testing code
+		System.out.println(_listOfSetNames.toString());
+		// _preloadSortedQuestionSet = new ArrayList<List<String>>();
+	
+		_toDoList = _generatedQuestionList;
+		_questionsDid = new ArrayList<List>();
+	
+		_pronounciationHardnessFactor = 1;
+		_numOfquestionsGotCorrect = 0;
+	
+		_currentScore = 0;
+		_numOfquestionsGotCorrect = 0;
+		_currentScore = 0;
+		_isFinished = false;
+	
+	}
+
+	public int getScore() {
+		return _currentScore;
 	}
 
 	private void computeScore(Mode mode) {
@@ -541,7 +512,7 @@ public class QuestionModel {
 				_currentScore = score;
 			}
 		}
-
+	
 	}
 
 	private void calculateHardnessFactor() {
@@ -558,35 +529,11 @@ public class QuestionModel {
 		} else {
 			currentQuesHardness = 1.6;
 		}
-
+	
 		double hardnessFactor = ((prevFactor * (_questionsDid.size())) + currentQuesHardness)
 				/ (_questionsDid.size() + 1);
-
+	
 		_pronounciationHardnessFactor = hardnessFactor;
-
-	}
-
-	// return user answered word
-	public String answerOfUser() {
-		return _recognizedWord;
-
-	}
-
-	// return correct maori word
-	public String correctWord() {
-		return _correctWord;
-	}
-
-	// return correctness
-	public boolean isUserCorrect() {
-		return _correctness;
-	}
-
-	public int getScore() {
-		return _currentScore;
-	}
-
-	public List getListOfsets() {
-		return _listOfSetNames;
+	
 	}
 }

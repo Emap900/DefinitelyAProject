@@ -3,6 +3,8 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -25,15 +27,23 @@
          <children>
             <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="1000.0">
                <children>
-                  <Region prefHeight="50.0" prefWidth="1000.0" style="-fx-background-color: #1976d2;" />
                   <HBox alignment="CENTER" style="-fx-background-color: #1976d2;">
                      <children>
                         <Label text="Choose a question set and generate your own question list!" textFill="#fffafa">
                            <font>
                               <Font size="24.0" />
                            </font>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
                         </Label>
                      </children>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <padding>
+                        <Insets bottom="5.0" top="45.0" />
+                     </padding>
                   </HBox>
                   <Region prefHeight="25.0" prefWidth="1000.0" />
                   <Region prefHeight="50.0" prefWidth="1000.0" style="-fx-background-color: white;">
@@ -45,11 +55,20 @@
                      <children>
                         <JFXComboBox fx:id="quesitonSetComboBox" prefWidth="300.0" />
                         <Region prefHeight="100.0" prefWidth="50.0" />
-                        <JFXButton fx:id="editQuestionSetBtn" buttonType="RAISED" onAction="#editAQuestionSet" style="-fx-background-color: white;" text="edit" />
+                        <JFXButton fx:id="editQuestionSetBtn" buttonType="RAISED" onAction="#editAQuestionSet" style="-fx-background-color: white;" text="edit">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></JFXButton>
                         <Region prefHeight="100.0" prefWidth="50.0" />
-                        <JFXButton fx:id="addNewSetBtn" buttonType="RAISED" onAction="#addNewSet" style="-fx-background-color: white;" text="Add" />
+                        <JFXButton fx:id="addNewSetBtn" buttonType="RAISED" onAction="#addNewSet" style="-fx-background-color: white;" text="Add">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></JFXButton>
                         <Region prefHeight="100.0" prefWidth="50.0" />
-                        <JFXButton fx:id="deleteSetBtn" buttonType="RAISED" onAction="#deleteSet" style="-fx-background-color: white;" text="Delete" />
+                        <JFXButton fx:id="deleteSetBtn" buttonType="RAISED" onAction="#deleteSet" style="-fx-background-color: white;" text="Delete">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></JFXButton>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white;">
@@ -57,13 +76,19 @@
                         <Label text="You can randomly generate a question list with " />
                         <JFXTextField fx:id="numOfQuestionsTextFieldForRandom" prefWidth="80.0" />
                         <Label text=" questions " />
-                        <JFXButton fx:id="pickARandomListBtn" buttonType="RAISED" onAction="#pickRandomList" style="-fx-background-color: white;" text="Pick!" />
+                        <JFXButton fx:id="pickARandomListBtn" buttonType="RAISED" onAction="#pickRandomList" style="-fx-background-color: white;" text="Pick!">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></JFXButton>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white;">
                      <children>
                         <Label text="Or you can pick the questions your self: " />
-                        <JFXButton fx:id="pickYourselfBtn" buttonType="RAISED" onAction="#pickCustomizedList" style="-fx-background-color: white;" text="Pick  yourself!" />
+                        <JFXButton fx:id="pickYourselfBtn" buttonType="RAISED" onAction="#pickCustomizedList" style="-fx-background-color: white;" text="Pick  yourself!">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></JFXButton>
                      </children>
                   </HBox>
                   <Region prefHeight="50.0" prefWidth="1000.0" style="-fx-background-color: white;">
@@ -76,6 +101,9 @@
                      <font>
                         <Font size="24.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </JFXButton>
                </children>
             </VBox>

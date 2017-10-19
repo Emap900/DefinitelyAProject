@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
@@ -34,31 +33,12 @@ public class QuestionSceneController implements Initializable {
 	private FoundationBoardController _parentController;
 	private String _answer;
 
-	/**
-	 * Make a link to the FoundationBoardController
-	 * 
-	 * @param parentController
-	 */
-	public void setParent(FoundationBoardController parentController) {
-		_parentController = parentController;
-	}
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		QuestionModel questionModel = QuestionModel.getInstance();
 		_question.setText(questionModel.currentQuestion());
 		_answer = questionModel.currentAnswer();
 
-	}
-
-	/**
-	 * Set the question to show on screen
-	 * 
-	 * @param question
-	 */
-	public void setQuestion(String question, String answer) {
-		_question.setText(question);
-		_answer = answer;
 	}
 
 	// Event Listener on Button[#_recordBtn].onAction
@@ -126,11 +106,6 @@ public class QuestionSceneController implements Initializable {
 			public Void call() {
 				new BashProcess("./MagicStaff.sh", "record", _answer);
 
-//				try {
-//					Thread.sleep(1000); // TODO
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
 				return null;
 			}
 		};
@@ -142,6 +117,25 @@ public class QuestionSceneController implements Initializable {
 		th.setDaemon(true);
 		th.start();
 
+	}
+
+	/**
+	 * Set the question to show on screen
+	 * 
+	 * @param question
+	 */
+	public void setQuestion(String question, String answer) {
+		_question.setText(question);
+		_answer = answer;
+	}
+
+	/**
+	 * Make a link to the FoundationBoardController
+	 * 
+	 * @param parentController
+	 */
+	public void setParent(FoundationBoardController parentController) {
+		_parentController = parentController;
 	}
 
 }

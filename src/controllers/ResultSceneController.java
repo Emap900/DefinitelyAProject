@@ -16,16 +16,22 @@ import javafx.scene.media.AudioClip;
 import models.QuestionModel;
 
 public class ResultSceneController {
+
+	// Labels
 	@FXML
 	private Label _correctness;
 	@FXML
-	private HBox _usrAnsBox;
-	@FXML
 	private Label _usrAnsLabel;
 	@FXML
-	private HBox _correctAnsBox;
-	@FXML
 	private Label _correctAnsLabel;
+
+	// Containers
+	@FXML
+	private HBox _usrAnsBox;
+	@FXML
+	private HBox _correctAnsBox;
+
+	// Buttons
 	@FXML
 	private JFXButton _replayBtn;
 	@FXML
@@ -34,24 +40,8 @@ public class ResultSceneController {
 	private JFXButton _nextBtn;
 	@FXML
 	private JFXButton _finishBtn;
+
 	private FoundationBoardController _parentController;
-
-	public void setParent(FoundationBoardController controller) {
-		_parentController = controller;
-	}
-
-	/**
-	 * Tell controller the correctness of the answer.
-	 * 
-	 * @param isCorrect
-	 */
-	public void resultIsCorrect(boolean isCorrect) {
-		if (!isCorrect) {
-			_correctness.setText("Wrong");
-		} else {
-			_correctness.setText("Correct");
-		}
-	}
 
 	/**
 	 * Tell controller if the user has another chance to retry
@@ -97,6 +87,19 @@ public class ResultSceneController {
 	}
 
 	/**
+	 * Tell controller the correctness of the answer.
+	 * 
+	 * @param isCorrect
+	 */
+	public void resultIsCorrect(boolean isCorrect) {
+		if (!isCorrect) {
+			_correctness.setText("Wrong");
+		} else {
+			_correctness.setText("Correct");
+		}
+	}
+
+	/**
 	 * Show the hint which is the correct answer (Maori word) for the question
 	 * 
 	 * @param correctWord
@@ -106,6 +109,10 @@ public class ResultSceneController {
 			_correctAnsLabel.setText(correctWord);
 			_correctAnsBox.setVisible(true);
 		}
+	}
+
+	public void setParent(FoundationBoardController controller) {
+		_parentController = controller;
 	}
 
 	@FXML

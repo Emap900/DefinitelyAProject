@@ -11,7 +11,6 @@ import controllers.PersonalPanelController;
 import controllers.SettingsController;
 import enums.Function;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.stage.Stage;
 import models.QuestionModel;
 import models.UserModel;
@@ -26,7 +25,6 @@ import javafx.fxml.JavaFXBuilderFactory;
  * Note: Casting used in creating new instance of controller, inappropriate use
  * may lead to a failure.
  * 
- * @author Eric Chen
  *
  */
 public class Main extends Application {

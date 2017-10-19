@@ -58,15 +58,11 @@ public class SettingsController implements Initializable {
 
 	private Properties _props;
 
-	public void setParent(Main main) {
-		_main = main;
-	}
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		_questionModel = QuestionModel.getInstance();
 		updateSetList();
-
+	
 		_props = new Properties();
 		try {
 			_props.load(new FileInputStream("config.properties"));
@@ -79,7 +75,11 @@ public class SettingsController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	
+	}
 
+	public void setParent(Main main) {
+		_main = main;
 	}
 
 	// Event Listener on Button[#addNewSetBtn].onAction

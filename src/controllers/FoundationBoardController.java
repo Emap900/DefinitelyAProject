@@ -6,11 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -34,11 +31,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
@@ -50,14 +44,9 @@ import models.UserModel;
 
 public class FoundationBoardController implements Initializable {
 
+	// Containers
 	@FXML
 	private StackPane _background;
-	@FXML
-	private Label _modeLabel;
-	@FXML
-	private Label _scoreLabel;
-	@FXML
-	private Label _numQLeftLabel;
 	/**
 	 * This pane is shown on the left side of the scene, which can have different
 	 * scenes switching on it
@@ -69,9 +58,16 @@ public class FoundationBoardController implements Initializable {
 	 */
 	@FXML
 	private JFXDrawer _statisticsBar;
-	/**
-	 * Home Button
-	 */
+
+	// Labels
+	@FXML
+	private Label _modeLabel;
+	@FXML
+	private Label _scoreLabel;
+	@FXML
+	private Label _numQLeftLabel;
+
+	// Buttons
 	@FXML
 	private JFXButton _homeBtn;
 	@FXML
@@ -79,9 +75,11 @@ public class FoundationBoardController implements Initializable {
 	@FXML
 	private Button _helpBtn;
 
-	private Main _main;
+	// models
 	private QuestionModel _questionModel;
 	private UserModel _userModel;
+
+	// variables
 	private Function _function;
 	private String _userName;
 	/**
@@ -92,10 +90,9 @@ public class FoundationBoardController implements Initializable {
 	private Mode _mode;
 	private int _trailNum;
 	private int _maxTrailNum;
-	/**
-	 * The only statistics controller in the main scene
-	 */
+
 	private static StatisticsBarController _statistics;
+	private Main _main;
 
 	/**
 	 * Initialize the controller
@@ -414,7 +411,6 @@ public class FoundationBoardController implements Initializable {
 	private void showPractiseSummary() {
 		PractiseSummarySceneController controller = (PractiseSummarySceneController) replacePaneContent(_mainPane,
 				"PractiseSummaryScene.fxml");
-		controller.setParent(this);
 		double correctRate = (double) _questionModel.getScore() / _statistics.getNumOfRecords();
 		controller.setCorrectRate(correctRate);
 		controller.setWrongAnswerChartData(_wrongQuestions);
@@ -511,6 +507,14 @@ public class FoundationBoardController implements Initializable {
 		return loader.getController();
 	}
 
+	/**
+	 * Show a jfoenix material confirmation dialog.
+	 * 
+	 * @param title
+	 * @param body
+	 * @param okHandler
+	 * @param cancelHandler
+	 */
 	private void showConfirmDialog(String title, String body, EventHandler<ActionEvent> okHandler,
 			EventHandler<ActionEvent> cancelHandler) {
 		// ask user for confirm

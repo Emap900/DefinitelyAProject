@@ -74,13 +74,11 @@ public class PractiseStartPageController implements Initializable {
 					}
 
 				} else { // user input is valid
-					// TODO need to set back to default, current just use black
 					_tipMessage.setTextFill(Color.BLACK);
 					toBeDisabled = false;
 				}
 
 			} else { // if user input is empty
-				// TODO need to set back to default, current just use black
 				_tipMessage.setTextFill(Color.BLACK);
 				toBeDisabled = true;
 			}

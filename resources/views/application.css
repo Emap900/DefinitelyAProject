@@ -1,1 +1,13 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.whiteButton {
+	-fx-background-color: white;
+}
+
+.blueButton {
+	 -fx-background-color: #1976d2;
+}
+
+.whiteBox {
+	-fx-background-color: white;
+	-fx-effect: dropshadow( gaussian , black , 0 , 0 , <number> , <number> )
+}

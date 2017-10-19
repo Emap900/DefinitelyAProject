@@ -2,7 +2,6 @@ package controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
 import javafx.stage.Stage;
@@ -15,7 +14,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 
 import application.Main;
-import javafx.fxml.FXML;
 
 public class QuestionSetEditPanelController {
 

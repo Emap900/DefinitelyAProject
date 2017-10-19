@@ -1,15 +1,12 @@
 package models;
 
 import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import application.Main;
 import enums.Mode;
 
 public class UserModel {
@@ -73,6 +70,11 @@ public class UserModel {
 
 	}
 
+	/**
+	 * 
+	 * @param userName
+	 * @return the game mode of the latest play of the user
+	 */
 	public String getLatestGameMode(String userName) {
 		User user = _users.get(userName);
 		if (user == null) {
@@ -82,6 +84,11 @@ public class UserModel {
 		}
 	}
 
+	/**
+	 * 
+	 * @param userName
+	 * @return get the score of the user in the latest game
+	 */
 	public String getLatestGameScore(String userName) {
 		User user = _users.get(userName);
 		if (user == null) {
@@ -206,6 +213,12 @@ public class UserModel {
 
 	}
 
+	/**
+	 * 
+	 * @param gameMode
+	 * @return a list of UserDataTuple which is the ranking of the users in the
+	 *         given game mode
+	 */
 	public List<UserDataTuple> getRankingList(Mode gameMode) {
 		// initialize a new list of ranking
 		List<UserDataTuple> ranking = new ArrayList<UserDataTuple>();

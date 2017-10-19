@@ -1,8 +1,6 @@
 package controllers;
 
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
 
 import javafx.collections.FXCollections;
@@ -23,12 +21,6 @@ public class PractiseSummarySceneController {
 	private Label _percentageLabel;
 	@FXML
 	private BarChart<String, Number> _barChart;
-
-	private FoundationBoardController _parent;
-
-	public void setParent(FoundationBoardController controller) {
-		_parent = controller;
-	}
 
 	/**
 	 * Correct rate should be between 0 (all wrong) and 1 (all correct)

@@ -7,8 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -65,7 +63,7 @@ public class QuestionSet {
 		// TODO Auto-generated method stub
 		deleteLocalFile();
 		loadList();
-		for (Entry entry : _QAPairs.entrySet()) {
+		for (Entry<String, String> entry : _QAPairs.entrySet()) {
 			// append the record to the local file
 			try {
 				FileWriter fw = new FileWriter(_theSet, true);
