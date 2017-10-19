@@ -42,6 +42,7 @@ public class Main extends Application {
 	private Scene _homePage;
 	private Scene _foundationBoard;
 	private Scene _leaderBoard;
+	private Scene _personalPanel;
 	private Scene _settings;
 	private Scene _helpScene;
 
@@ -51,6 +52,7 @@ public class Main extends Application {
 	private LeaderBoardController _leaderBoardController;
 	private SettingsController _settingsController;
 	private HelpController _helpSceneController;
+	private PersonalPanelController _personalPanelController;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -59,18 +61,22 @@ public class Main extends Application {
 		// initialize models
 		QuestionModel.getInstance();
 		UserModel.getInstance();
+		System.out.println("Models successfully loaded...");
 
 		// initialize scenes
 		_homePage = loadScene("Home.fxml");
 		_foundationBoard = loadScene("FoundationBoard.fxml");
 		_leaderBoard = loadScene("LeaderBoard.fxml");
+		_personalPanel = loadScene("PersonalPanel.fxml");
 		_settings = loadScene("Settings.fxml");
 		_helpScene = loadScene("Help.fxml");
+		System.out.println("Views successfully loaded...");
 
 		// load controllers
 		_homePageController = (HomeController) _homePage.getUserData();
 		_foundationBoardController = (FoundationBoardController) _foundationBoard.getUserData();
 		_leaderBoardController = (LeaderBoardController) _leaderBoard.getUserData();
+		_personalPanelController = (PersonalPanelController) _personalPanel.getUserData();
 		_settingsController = (SettingsController) _settings.getUserData();
 		_helpSceneController = (HelpController) _helpScene.getUserData();
 
@@ -78,51 +84,56 @@ public class Main extends Application {
 		_homePageController.setParent(this);
 		_foundationBoardController.setParent(this);
 		_leaderBoardController.setParent(this);
+		_personalPanelController.setParent(this);
 		_settingsController.setParent(this);
+		System.out.println("Controllers successfully loaded...");
+		System.out.println("All done... Home page opening");
 
 		showHome();
 	}
 
-	public void Help(Function f) {
+	public void switchScene(Function function) {
+		switch (function) {
+		case HOME:
+			showScene(_primaryStage, _homePage);
+			break;
+		case PRACTISE:
+		case MATH:
+			showScene(_primaryStage, _foundationBoard);
+			_foundationBoardController.setFunction(function);
+			break;
+		case SCORE:
+			showScene(_primaryStage, _leaderBoard);
+			_leaderBoardController.initData();
+			break;
+		case SETTINGS:
+			showScene(_primaryStage, _settings);
+			break;
+		default:
+			throw new RuntimeException(
+					"Funtions other than HOME,PRACTISE,MATH,SCORE,or SETTINGS are not supported in this method.\n"
+							+ "For showing help scene, use showHelp() instead.");
+		}
+	}
+
+	public void showHelp(Function f) {
 		if (_helpStage != null) {
 			_helpStage.show();
 			_helpStage.toFront();
 		} else {
 			_helpStage = new Stage();
-			_helpSceneController.initData(f);
 			showScene(_helpStage, _helpScene);
+			_helpSceneController.initData(f);
 		}
 	}
 
-	public void switchScene(Function function) {
-		switch (function) {
-		case PRACTISE:
-		case MATH:
-			showFoundationBoard(function);
-			break;
-		case SCORE:
-			Scene score = loadScene("LeaderBoard.fxml");
-			LeaderBoardController controller = (LeaderBoardController) score.getUserData();
-			controller.setParent(this);
-			showScene(_primaryStage, score);
-			break;
-		case SETTINGS:
-			Scene settings = loadScene("Settings.fxml");
-			SettingsController settingsController = (SettingsController) settings.getUserData();
-			settingsController.setParent(this);
-			showScene(_primaryStage, settings);
-			break;
-		default:
-			break;
-		}
+	public void showHome() {
+		switchScene(Function.HOME);
 	}
 
-	public void showFoundationBoard(Function function) {
-		Scene foundationBoard = loadScene("FoundationBoard.fxml");
-		FoundationBoardController fdtController = (FoundationBoardController) foundationBoard.getUserData();
-		fdtController.setParent(this);
-		fdtController.setFunction(function);
-		showScene(_primaryStage, foundationBoard);
+	public void showPersonalPanel(String userName) {
+		showScene(_primaryStage, _personalPanel);
+		_personalPanelController.showPersonalHistory(userName);
 	}
 
 	/**
@@ -135,7 +146,6 @@ public class Main extends Application {
 	 * @return Scene loaded from the fxml file
 	 */
 	public Scene loadScene(String fxml) {
-		// TODO
 		// loading fxml from FXML loader
 		FXMLLoader loader = new FXMLLoader();
 		InputStream in = Main.class.getResourceAsStream("/views/" + fxml);
@@ -179,19 +189,6 @@ public class Main extends Application {
 
 			alert.showAndWait();
 		}
-	}
-
-	public void showHome() {
-		showScene(_primaryStage, _homePage);
-	}
-
-	public void showPersonalPanel(String userName) {
-		// TODO Auto-generated method stub
-		Scene personal = loadScene("PersonalPanel.fxml");
-		PersonalPanelController controller = (PersonalPanelController) personal.getUserData();
-		controller.setParent(this);
-		controller.showPersonalHistory(userName);
-		showScene(_primaryStage, personal);
 	}
 
 	public static void main(String[] args) {

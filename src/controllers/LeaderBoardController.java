@@ -46,24 +46,32 @@ public class LeaderBoardController implements Initializable {
 
 	@FXML
 	void showHelp(ActionEvent event) {
-		_main.Help(Function.SCORE);
+		_main.showHelp(Function.SCORE);
 	}
 
 	public void setParent(Main main) {
 		_main = main;
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	/**
+	 * Get the rankings from the user model and load into the list view
+	 */
+	public void initData() {
 		// load observable lists
-		_normalRanking.addAll(UserModel.getInstance().getRankingList(Mode.NORMALMATH));
-		_endlessRanking.addAll(UserModel.getInstance().getRankingList(Mode.ENDLESSMATH));
+		_normalRanking.setAll(UserModel.getInstance().getRankingList(Mode.NORMALMATH));
+		_endlessRanking.setAll(UserModel.getInstance().getRankingList(Mode.ENDLESSMATH));
 
 		// setup ListViews
 		_normalModeListView.setItems(_normalRanking);
 		_normalModeListView.setCellFactory(lv -> new UserRankListViewCell());
 		_endlessModeListView.setItems(_endlessRanking);
 		_endlessModeListView.setCellFactory(lv -> new UserRankListViewCell());
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// load the data for the leader board
+		initData();
 
 		// disable personal log button if there is no user been selected
 		_personalLogBtn.setDisable(true);

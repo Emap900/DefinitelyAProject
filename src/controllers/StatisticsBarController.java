@@ -42,4 +42,11 @@ public class StatisticsBarController {
 		return _resultListView.getItems().size();
 	}
 
+	/**
+	 * Clear all records in the statistics bar.
+	 */
+	public void reset() {
+		_resultListView.getItems().clear();
+	}
+
 }

@@ -28,12 +28,12 @@ public class HomeController {
 	// Event Listener on Button[#_practiseBtn].onAction
 	@FXML
 	public void goPractise(ActionEvent event) {
-		_main.showFoundationBoard(Function.PRACTISE);
+		_main.switchScene(Function.PRACTISE);
 	}
 
 	// Event Listener on Button[#_playBtn].onAction
 	public void goPlay(ActionEvent event) {
-		_main.showFoundationBoard(Function.MATH);
+		_main.switchScene(Function.MATH);
 	}
 
 	// Event Listener on Button[#_scoreBtn].onAction
@@ -51,6 +51,6 @@ public class HomeController {
 	// Event Listener on Button[#_helpBtn].onAction
 	@FXML
 	public void showHelp(ActionEvent event) {
-		_main.Help(Function.HELP);
+		_main.showHelp(Function.HELP);
 	}
 }

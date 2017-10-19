@@ -134,7 +134,7 @@ public class FoundationBoardController implements Initializable {
 
 		// load statistics bar
 		Pane statBar = new Pane();
-		_statistics = (StatisticsBarController) replacePaneContent(statBar, "StatisticsBar.fxml");
+		_statistics = (StatisticsBarController) replacePaneContent(statBar, "StatisticsSidePane.fxml");
 		_statisticsBar.setSidePane(statBar);
 	}
 
@@ -291,7 +291,7 @@ public class FoundationBoardController implements Initializable {
 
 			// set the required info of the result controller
 			resultController.resultIsCorrect(isCorrect);
-			
+
 			// show the user's answer
 			resultController.setUserAnswer(_questionModel.answerOfUser());
 
@@ -373,7 +373,8 @@ public class FoundationBoardController implements Initializable {
 					_main.showPersonalPanel(_userName);
 				}
 
-				// reset QuestionModel
+				// reset statistics and QuestionModel
+				_statistics.reset();
 				_questionModel.clear();
 			}
 		};
@@ -429,7 +430,8 @@ public class FoundationBoardController implements Initializable {
 		// If user haven't began practising or gaming, or already finished practising,
 		// _mode will be null. In this case, do not show confirmation dialog
 		if (_mode == null) {
-			// reset question model
+			// reset question model and statistics
+			_statistics.reset();
 			_questionModel.clear();
 			_main.showHome();
 		} else {
@@ -441,7 +443,8 @@ public class FoundationBoardController implements Initializable {
 
 				@Override
 				public void handle(ActionEvent event) {
-					// reset question model
+					// reset question model and statistics
+					_statistics.reset();
 					_questionModel.clear();
 					_main.showHome();
 				}
@@ -473,7 +476,7 @@ public class FoundationBoardController implements Initializable {
 	 */
 	@FXML
 	private void showHelp(ActionEvent event) {
-		_main.Help(_function);
+		_main.showHelp(_function);
 	}
 
 	/**
@@ -488,7 +491,7 @@ public class FoundationBoardController implements Initializable {
 		FXMLLoader loader = new FXMLLoader();
 		InputStream in = Main.class.getResourceAsStream("/views/" + fxml);
 		loader.setBuilderFactory(new JavaFXBuilderFactory());
-		loader.setLocation(Main.class.getResource("/views/"+ fxml));
+		loader.setLocation(Main.class.getResource("/views/" + fxml));
 		try {
 			Pane content = (Pane) loader.load(in);
 			HBox.setHgrow(content, Priority.ALWAYS);
