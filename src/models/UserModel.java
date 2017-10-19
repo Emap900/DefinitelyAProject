@@ -26,23 +26,18 @@ public class UserModel {
 	 */
 	private UserModel() {
 		_users = new HashMap<String, User>();
-		URL url = Main.class.getResource("/usrRecords");
 		File folder;
-		try {
-			folder = new File(url.toURI());
-			// generate new User Objects for the local files existed
-			File[] fileList = folder.listFiles();
+		folder = new File("usrRecords");
+		// generate new User Objects for the local files existed
+		File[] fileList = folder.listFiles();
 
-			for (File file : fileList) {
-				if (file.isFile()) {
-					// read the user's name
-					String fileName = file.getName();
-					String userName = fileName.substring(0, fileName.lastIndexOf("."));
-					_users.put(userName, new User(userName));
-				}
+		for (File file : fileList) {
+			if (file.isFile()) {
+				// read the user's name
+				String fileName = file.getName();
+				String userName = fileName.substring(0, fileName.lastIndexOf("."));
+				_users.put(userName, new User(userName));
 			}
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
 		}
 	}
 

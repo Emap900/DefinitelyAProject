@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" minHeight="600.0" minWidth="1000.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
+<VBox alignment="CENTER" minHeight="600.0" minWidth="1000.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
    <children>
       <Label text="Taatai!: Te Reo Maths Aid" textAlignment="CENTER">
          <VBox.margin>
@@ -25,7 +25,7 @@
          <children>
             <JFXButton fx:id="_practiseBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="30.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#goPractise" prefHeight="180.0" prefWidth="150.0" style="-fx-background-color: white;" text="Practise" HBox.hgrow="NEVER">
                <graphic>
-                  <ImageView fitHeight="70.0" fitWidth="70.0">
+                  <ImageView fx:id="_practiseIcon" fitHeight="70.0" fitWidth="70.0">
                      <image>
                         <Image url="@../icons/icons8-Reading-96.PNG" />
                      </image>
@@ -52,7 +52,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
                <graphic>
-                  <ImageView fitHeight="70.0" fitWidth="70.0">
+                  <ImageView fx:id="_playIcon" fitHeight="70.0" fitWidth="70.0">
                      <image>
                         <Image url="@../icons/icons8-Math-96.PNG" />
                      </image>
@@ -70,7 +70,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
                <graphic>
-                  <ImageView fitHeight="70.0" fitWidth="70.0">
+                  <ImageView fx:id="_scoreIcon" fitHeight="70.0" fitWidth="70.0">
                      <image>
                         <Image url="@../icons/icons8-Leaderboard-96.PNG" />
                      </image>
@@ -98,7 +98,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
                <graphic>
-                  <ImageView fitHeight="70.0" fitWidth="70.0">
+                  <ImageView fx:id="_settingsIcon" fitHeight="70.0" fitWidth="70.0">
                      <image>
                         <Image url="@../icons/icons8-Settings-96.PNG" />
                      </image>
@@ -119,7 +119,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
                <graphic>
-                  <ImageView fitHeight="70.0" fitWidth="70.0">
+                  <ImageView fx:id="_helpIcon" fitHeight="70.0" fitWidth="70.0">
                      <image>
                         <Image url="@../icons/icons8-Question%20Mark-96.PNG" />
                      </image>

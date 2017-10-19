@@ -123,7 +123,7 @@ public class Main extends Application {
 		} else {
 			_helpStage = new Stage();
 			showScene(_helpStage, _helpScene);
-			_helpSceneController.initData(f);
+			_helpSceneController.switchTo(f);
 		}
 	}
 

@@ -32,10 +32,8 @@ public class User {
 		_results = new HashMap<Integer, List<Integer>>();
 
 		// load or create local file which stores user records
-		// TODO currently using windows syntax, going to change that into Linux syntax
-		URL url = Main.class.getResource("/usrRecords/" + name + ".csv");
 		try {
-			_localFile = new File(url.toURI());
+			_localFile = new File("usrRecords/" + name + ".csv");
 
 			if (!_localFile.exists()) {
 				// create file if does not exist
@@ -66,7 +64,7 @@ public class User {
 					}
 				}
 			}
-		} catch (URISyntaxException | IOException e1) {
+		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 

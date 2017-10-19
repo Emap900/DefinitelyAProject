@@ -17,7 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class HelpController implements Initializable {
+public class HelpController {
 	@FXML
 	private Button previous;
 	@FXML
@@ -30,11 +30,6 @@ public class HelpController implements Initializable {
 	private List<Image> pages = new ArrayList<Image>();
 
 	private int _currentPage;
-
-	public void initData(Function f) {
-		imageView.setImage(pages.get(0));
-		switchTo(f);
-	}
 
 	private void show() {
 		switch (_currentPage) {
@@ -66,7 +61,8 @@ public class HelpController implements Initializable {
 
 		}
 
-		imageView.setImage(pages.get(_currentPage - 1));
+		Image img = new Image(Main.class.getResourceAsStream("/help/" + _currentPage + ".PNG"));
+		imageView.setImage(img);
 	}
 
 	public void switchTo(Function f) {
@@ -104,22 +100,6 @@ public class HelpController implements Initializable {
 			_currentPage--;
 		}
 		show();
-	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		// load image for practise tips
-		for (int i = 1; i < 6; i++) {
-			pages.add(new Image(Main.class.getResource("/help/Practise" + i + ".PNG").toString()));
-		}
-		// load image for math game tips
-		for (int i = 1; i < 6; i++) {
-			pages.add(new Image(Main.class.getResource("/help/Math" + i + ".PNG").toString()));
-		}
-		// load image for score tips
-		for (int i = 1; i < 4; i++) {
-			pages.add(new Image(Main.class.getResource("/help/Score" + i + ".PNG").toString()));
-		}
 	}
 
 }
