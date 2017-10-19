@@ -110,6 +110,7 @@ public class QuestionSceneController implements Initializable {
 			}
 		};
 		record.setOnSucceeded(e -> {
+			_recordBtn.setText("Checking...");
 			_parentController.showResult();
 		});
 

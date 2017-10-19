@@ -56,6 +56,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		_primaryStage = primaryStage;
+		_primaryStage.setMinHeight(640);
+		_primaryStage.setMinWidth(1000);
 
 		// initialize models
 		QuestionModel.getInstance();
@@ -121,6 +123,8 @@ public class Main extends Application {
 			_helpStage.toFront();
 		} else {
 			_helpStage = new Stage();
+			_helpStage.setMinHeight(700);
+			_helpStage.setMinWidth(1200);
 			showScene(_helpStage, _helpScene);
 			_helpSceneController.switchTo(f);
 		}
@@ -177,7 +181,6 @@ public class Main extends Application {
 				throw new RuntimeException();
 			}
 			stage.setScene(scene);
-			stage.sizeToScene();
 			stage.show();
 		} catch (RuntimeException e) {
 			e.printStackTrace();
