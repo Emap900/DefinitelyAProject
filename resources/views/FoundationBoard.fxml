@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDrawer?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<StackPane fx:id="_background" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FoundationBoardController">
+   <children>
+      <VBox>
+         <children>
+            <HBox alignment="CENTER" minHeight="-Infinity" prefHeight="50.0" style="-fx-background-color: #1976d2;">
+               <children>
+                  <JFXButton fx:id="_homeBtn" onAction="#backToHome" prefHeight="50.0" prefWidth="150.0" text="Home" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Label fx:id="_modeLabel" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Region prefWidth="150.0" />
+               </children>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" height="30.0" radius="7.0" width="0.0" />
+               </effect>
+            </HBox>
+            <HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1000.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox alignment="CENTER" prefWidth="800.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                           <children>
+                              <HBox fx:id="_mainPane" alignment="CENTER" HBox.hgrow="ALWAYS">
+                                 <padding>
+                                    <Insets bottom="60.0" left="80.0" right="80.0" top="60.0" />
+                                 </padding>
+                              </HBox>
+                              <JFXDrawer fx:id="_statisticsBar" defaultDrawerSize="200.0" direction="RIGHT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="500.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="BOTTOM_CENTER" minHeight="-Infinity" prefHeight="50.0">
+                           <children>
+                              <JFXButton fx:id="_helpBtn" onAction="#showHelp" prefHeight="50.0" prefWidth="80.0" text="Help" underline="true">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </JFXButton>
+                              <Region HBox.hgrow="ALWAYS" />
+                              <HBox fx:id="_infoBar" alignment="CENTER" prefHeight="50.0" prefWidth="650.0" style="-fx-background-color: #4db6ac;">
+                                 <children>
+                                    <Label text="Score: ">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="_scoreLabel" text="&lt;Score&gt;">
+                                       <font>
+                                          <Font name="System Bold" size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Label text="Number of questions left: ">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <Label fx:id="_numQLeftLabel" text="&lt;NumLeft&gt;">
+                                       <font>
+                                          <Font name="System Bold" size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <JFXButton onAction="#showStatisticsBar" prefHeight="50.0" prefWidth="100.0" text="Details">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </JFXButton>
+                                 </children>
+                                 <effect>
+                                    <DropShadow blurType="GAUSSIAN" height="25.0" radius="12.0" width="25.0" />
+                                 </effect>
+                                 <padding>
+                                    <Insets left="30.0" />
+                                 </padding>
+                              </HBox>
+                              <Region HBox.hgrow="ALWAYS" />
+                              <Region prefHeight="50.0" prefWidth="80.0" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</StackPane>

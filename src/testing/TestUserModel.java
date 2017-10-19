@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import application.Mode;
-import application.UserModel;
+import enums.Mode;
+import models.UserModel;
 
 public class TestUserModel {
 

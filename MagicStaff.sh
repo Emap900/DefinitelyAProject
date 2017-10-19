@@ -14,7 +14,7 @@ remove(){
 
 speechRecognize()
 {
-HVite -H HMMs/hmm15/macros -H HMMs/hmm15/hmmdefs -C user/configLR  -w user/wordNetworkNum -o SWT -l '*' -i recout.mlf -p 0.0 -s 5.0  user/dictionaryD user/tiedList "$1".wav
+HVite -H HTK/HMMs/hmm15/macros -H HTK/HMMs/hmm15/hmmdefs -C HTK/user/configLR  -w HTK/user/wordNetworkNum -o SWT -l '*' -i HTK/recout.mlf -p 0.0 -s 5.0  HTK/user/dictionaryD HTK/user/tiedList "$1".wav
 }
 
 # call arguments verbatim:

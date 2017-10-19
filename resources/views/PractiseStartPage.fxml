@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PractiseStartPageController">
+   <children>
+      <Label text="Practise Maori Pronunciation">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER">
+         <children>
+            <VBox>
+               <HBox.margin>
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+               </HBox.margin>
+               <children>
+                  <Label fx:id="_tipMessage" text="Please enter a number from 1 to 99">
+                     <VBox.margin>
+                        <Insets left="2.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="_numberTextField" prefHeight="40.0" prefWidth="400.0" promptText="Enter a number from 1 to 99" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER">
+         <children>
+            <JFXButton fx:id="_specificPractiseButton" alignment="CENTER" buttonType="RAISED" minWidth="170.0" onAction="#specificPractiseButtonClicked" prefHeight="35.0" style="-fx-background-color: #1976d2;" text="Practise This Number" textFill="WHITE">
+               <HBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </HBox.margin>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <JFXButton fx:id="_autoGenerateButton" buttonType="RAISED" minWidth="170.0" onAction="#autoGenerateButtonClicked" prefHeight="35.0" style="-fx-background-color: #1976d2;" text="Auto Generate (1 - 99)" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </HBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+         </children>
+      </HBox>
+   </children>
+   <effect>
+      <DropShadow blurType="GAUSSIAN" color="#00000080" height="50.0" radius="24.5" width="50.0" />
+   </effect>
+</VBox>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ResultSceneController">
+   <children>
+      <StackPane prefHeight="250.0">
+         <children>
+            <VBox alignment="CENTER">
+               <children>
+                  <Label fx:id="_correctness" text="Correctness">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox alignment="CENTER">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                     <children>
+                        <JFXButton fx:id="_replayBtn" buttonType="RAISED" onAction="#replayBtnClicked" style="-fx-background-color: white;" text="Replay">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                        <Region prefWidth="20.0" />
+                        <JFXButton fx:id="_retryBtn" buttonType="RAISED" disable="true" onAction="#retryBtnClicked" style="-fx-background-color: white;" text="Try again">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="_usrAnsBox" alignment="CENTER" visible="false">
+                     <children>
+                        <Label text="Your answer is: ">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label fx:id="_usrAnsLabel" text="&lt;UsrAnswer&gt;">
+                           <font>
+                              <Font size="18.0" />
+                           </font></Label>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="_correctAnsBox" alignment="CENTER" layoutX="10.0" layoutY="131.0" visible="false">
+                     <children>
+                        <Label text="Correct answer is: ">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="_correctAnsLabel" text="&lt;CorrectAns&gt;">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+               <StackPane.margin>
+                  <Insets />
+               </StackPane.margin>
+            </VBox>
+         </children>
+      </StackPane>
+      <VBox alignment="CENTER" VBox.vgrow="ALWAYS">
+         <children>
+            <HBox alignment="TOP_CENTER">
+               <children>
+                  <JFXButton fx:id="_nextBtn" buttonType="RAISED" minWidth="200.0" onAction="#nextBtnClicked" prefHeight="40.0" style="-fx-background-color: #1976d2;" text="Next question" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="10.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <JFXButton fx:id="_finishBtn" buttonType="RAISED" minWidth="200.0" onAction="#finishBtnClicked" prefHeight="40.0" style="-fx-background-color: #1976d2;" text="Skip the rest and finish" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="10.0" />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+   <effect>
+      <DropShadow blurType="GAUSSIAN" color="#00000080" height="50.0" radius="24.5" width="50.0" />
+   </effect>
+</VBox>

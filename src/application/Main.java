@@ -3,8 +3,17 @@ package application;
 import java.io.IOException;
 import java.io.InputStream;
 
+import controllers.FoundationBoardController;
+import controllers.HelpController;
+import controllers.HomeController;
+import controllers.LeaderBoardController;
+import controllers.PersonalPanelController;
+import controllers.SettingsController;
+import enums.Function;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import models.QuestionModel;
+import models.UserModel;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -21,20 +30,56 @@ import javafx.fxml.JavaFXBuilderFactory;
  */
 public class Main extends Application {
 
-	// private HomeController _homePageController;
-	// private Scene _homePage;
-	// private HomePageController HomePage;
+	// constants
 	public static final int NUMLOWERBOUND = 1;
 	public static final int NUMUPPERBOUND = 99;
 
+	// stages
 	private Stage _primaryStage;
 	private Stage _helpStage;
+
+	// scenes
+	private Scene _homePage;
+	private Scene _foundationBoard;
+	private Scene _leaderBoard;
+	private Scene _settings;
+	private Scene _helpScene;
+
+	// controllers
+	private HomeController _homePageController;
+	private FoundationBoardController _foundationBoardController;
+	private LeaderBoardController _leaderBoardController;
+	private SettingsController _settingsController;
+	private HelpController _helpSceneController;
 
 	@Override
 	public void start(Stage primaryStage) {
 		_primaryStage = primaryStage;
+
+		// initialize models
 		QuestionModel.getInstance();
 		UserModel.getInstance();
+
+		// initialize scenes
+		_homePage = loadScene("Home.fxml");
+		_foundationBoard = loadScene("FoundationBoard.fxml");
+		_leaderBoard = loadScene("LeaderBoard.fxml");
+		_settings = loadScene("Settings.fxml");
+		_helpScene = loadScene("Help.fxml");
+
+		// load controllers
+		_homePageController = (HomeController) _homePage.getUserData();
+		_foundationBoardController = (FoundationBoardController) _foundationBoard.getUserData();
+		_leaderBoardController = (LeaderBoardController) _leaderBoard.getUserData();
+		_settingsController = (SettingsController) _settings.getUserData();
+		_helpSceneController = (HelpController) _helpScene.getUserData();
+
+		// make links between controllers and the main class
+		_homePageController.setParent(this);
+		_foundationBoardController.setParent(this);
+		_leaderBoardController.setParent(this);
+		_settingsController.setParent(this);
+
 		showHome();
 	}
 
@@ -44,10 +89,8 @@ public class Main extends Application {
 			_helpStage.toFront();
 		} else {
 			_helpStage = new Stage();
-			Scene helpScene = loadScene("Help.fxml");
-			HelpController helpController = (HelpController) helpScene.getUserData();
-			helpController.initData(f);
-			showScene(_helpStage, helpScene);
+			_helpSceneController.initData(f);
+			showScene(_helpStage, _helpScene);
 		}
 	}
 
@@ -82,11 +125,6 @@ public class Main extends Application {
 		showScene(_primaryStage, foundationBoard);
 	}
 
-	public void showSettingsScene() {
-		Scene settings = loadScene("Setttings.fxml");
-		showScene(_primaryStage, settings);
-	}
-
 	/**
 	 * Get a FXMLLoader that loads the fxml file into a scene and set the default
 	 * style sheet application.css as its style sheet. The scene has its controller
@@ -100,14 +138,14 @@ public class Main extends Application {
 		// TODO
 		// loading fxml from FXML loader
 		FXMLLoader loader = new FXMLLoader();
-		InputStream in = Main.class.getResourceAsStream(fxml);
+		InputStream in = Main.class.getResourceAsStream("/views/" + fxml);
 		loader.setBuilderFactory(new JavaFXBuilderFactory());
-		loader.setLocation(Main.class.getResource(fxml));
+		loader.setLocation(Main.class.getResource("/views/" + fxml));
 		Scene scene = null;
 		try {
 			Pane content = (Pane) loader.load(in);
 			scene = new Scene(content);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("/views/application.css").toExternalForm());
 			scene.setUserData(loader.getController());
 			in.close();
 		} catch (IOException e) {
@@ -133,6 +171,7 @@ public class Main extends Application {
 			stage.sizeToScene();
 			stage.show();
 		} catch (RuntimeException e) {
+			e.printStackTrace();
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error: Could Not Load Page!");
 			alert.setHeaderText("Could not load the page!");
@@ -143,16 +182,7 @@ public class Main extends Application {
 	}
 
 	public void showHome() {
-		try {
-			Scene homePage = loadScene("Home.fxml");
-			HomeController homeController = (HomeController) homePage.getUserData();
-			homeController.setParent(this);
-			showScene(_primaryStage, homePage);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		showScene(_primaryStage, _homePage);
 	}
 
 	public void showPersonalPanel(String userName) {
@@ -165,6 +195,7 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
+		System.out.println("Loading...");
 		launch(args);
 	}
 

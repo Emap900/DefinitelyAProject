@@ -6,6 +6,8 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 
+import models.QuestionModel;
+
 public final class SpeechRecognizer {
 
 	/**
@@ -49,7 +51,7 @@ public final class SpeechRecognizer {
 
 		new BashProcess("./MagicStaff.sh", "speechRecognize", _questionModel.currentAnswer());
 
-		List<String> htkResult = Files.readAllLines(Paths.get("recout.mlf"));
+		List<String> htkResult = Files.readAllLines(Paths.get("HTK/recout.mlf"));
 
 		String result = "";
 		for (String s : htkResult) {
