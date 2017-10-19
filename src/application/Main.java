@@ -11,6 +11,7 @@ import controllers.PersonalPanelController;
 import controllers.SettingsController;
 import enums.Function;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import models.QuestionModel;
 import models.UserModel;
@@ -155,7 +156,7 @@ public class Main extends Application {
 		try {
 			Pane content = (Pane) loader.load(in);
 			scene = new Scene(content);
-			scene.getStylesheets().add(getClass().getResource("/views/application.css").toExternalForm());
+			// scene.getStylesheets().add(getClass().getResource("/views/application.css").toExternalForm());
 			scene.setUserData(loader.getController());
 			in.close();
 		} catch (IOException e) {
