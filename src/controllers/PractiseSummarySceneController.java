@@ -72,7 +72,7 @@ public class PractiseSummarySceneController {
 
 		});
 
-		_barChart.getData().add(series);
+		_barChart.getData().setAll(series);
 	}
 
 }

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,16 +27,12 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import models.QuestionModel;
 import models.UserModel;
@@ -91,19 +86,28 @@ public class FoundationBoardController implements Initializable {
 	private int _trailNum;
 	private int _maxTrailNum;
 
-	private static StatisticsBarController _statistics;
 	private Main _main;
 
-	/**
-	 * Initialize the controller
-	 */
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	// controllers
+	private MathStartPageController _mathStartPageController;
+	private PractiseStartPageController _practiseStartPageController;
+	private QuestionSceneController _questionSceneController;
+	private ResultSceneController _resultSceneController;
+	private PractiseSummarySceneController _practiseSummarySceneController;
+	private StatisticsSidePaneController _statistics;
 
+	// sub panes
+	private Pane _mathStartPage;
+	private Pane _practiseStartPage;
+	private Pane _questionScene;
+	private Pane _resultScene;
+	private Pane _practiseSummaryScene;
+	private Pane _statisticsSidePane;
+
+	public FoundationBoardController(Main main) {
+		_main = main;
 		_userModel = UserModel.getInstance();
 		_questionModel = QuestionModel.getInstance();
-
-		_infoBar.setVisible(false);
 
 		_trailNum = 0;
 
@@ -129,10 +133,33 @@ public class FoundationBoardController implements Initializable {
 		}
 		_maxTrailNum = Integer.parseInt(maxTrailNumber);
 
+		// initialize controllers
+		_practiseStartPageController = new PractiseStartPageController(this);
+		_mathStartPageController = new MathStartPageController(this);
+		_questionSceneController = new QuestionSceneController(this);
+		_resultSceneController = new ResultSceneController(this);
+		_practiseSummarySceneController = new PractiseSummarySceneController();
+		_statistics = new StatisticsSidePaneController();
+
+		// load sub panes
+		_practiseStartPage = _main.loadScene("PractiseStartPage.fxml", _practiseStartPageController);
+		_mathStartPage = _main.loadScene("MathStartPage.fxml", _mathStartPageController);
+		_questionScene = _main.loadScene("QuestionScene.fxml", _questionSceneController);
+		_resultScene = _main.loadScene("ResultScene.fxml", _resultSceneController);
+		_practiseSummaryScene = _main.loadScene("PractiseSummaryScene.fxml", _practiseSummarySceneController);
+		_statisticsSidePane = _main.loadScene("StatisticsSidePane.fxml", _statistics);
+	}
+
+	/**
+	 * Initialize the controller
+	 */
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+
+		_infoBar.setVisible(false);
+
 		// load statistics bar
-		Pane statBar = new Pane();
-		_statistics = (StatisticsBarController) replacePaneContent(statBar, "StatisticsSidePane.fxml");
-		_statisticsBar.setSidePane(statBar);
+		_statisticsBar.setSidePane(_statisticsSidePane);
 	}
 
 	/**
@@ -149,32 +176,19 @@ public class FoundationBoardController implements Initializable {
 			_modeLabel.setText("Practise");
 
 			// show practise start page
-			PractiseStartPageController pController = (PractiseStartPageController) replacePaneContent(_mainPane,
-					"PractiseStartPage.fxml");
-			pController.setParent(this);
+			_mainPane.getChildren().setAll(_practiseStartPage);
 			break;
 
 		case MATH:
 			_modeLabel.setText("Math Game");
 
 			// show math start page
-			MathStartPageController mController = (MathStartPageController) replacePaneContent(_mainPane,
-					"MathStartPage.fxml");
-			mController.setParent(this);
+			_mainPane.getChildren().setAll(_mathStartPage);
 			break;
 
 		default:
 			throw new RuntimeException("Function can only be PRACTISE or MATH");
 		}
-	}
-
-	/**
-	 * Make a link to Main class.
-	 * 
-	 * @param main
-	 */
-	public void setParent(Main main) {
-		_main = main;
 	}
 
 	/**
@@ -252,11 +266,9 @@ public class FoundationBoardController implements Initializable {
 	 * Show the QuestionScene on the main pane
 	 */
 	public void showQuestionScene() {
-		QuestionSceneController controller = (QuestionSceneController) replacePaneContent(_mainPane,
-				"QuestionScene.fxml");
-		controller.setParent(this);
+		_mainPane.getChildren().setAll(_questionScene);
 		// ask for current question and answer
-		controller.setQuestion(_questionModel.currentQuestion(), _questionModel.currentAnswer());
+		_questionSceneController.setQuestion(_questionModel.currentQuestion(), _questionModel.currentAnswer());
 	}
 
 	/**
@@ -281,32 +293,33 @@ public class FoundationBoardController implements Initializable {
 		check.setOnSucceeded(rce -> {
 			// ask question model for correctness of the current question
 			boolean isCorrect = _questionModel.isUserCorrect();
-			// show result scene
-			ResultSceneController resultController = (ResultSceneController) replacePaneContent(_mainPane,
-					"ResultScene.fxml");
-			resultController.setParent(this);
 
 			// set the required info of the result controller
-			resultController.resultIsCorrect(isCorrect);
+			_resultSceneController.resultIsCorrect(isCorrect);
 
 			// show the user's answer
-			resultController.setUserAnswer(_questionModel.answerOfUser());
+			_resultSceneController.setUserAnswer(_questionModel.answerOfUser());
 
 			if (!isCorrect) {
 				// check if the user has a chance to retry
-				resultController.setCanRetry(_trailNum < _maxTrailNum);
+				_resultSceneController.setCanRetry(_trailNum < _maxTrailNum);
+			} else {
+				_resultSceneController.setCanRetry(false);
 			}
 
 			// if is in practise mode and the user's answer in incorrect, show the
 			// correct answer in result scene
 			if (_mode == Mode.PRACTISE && !_questionModel.isUserCorrect()) {
-				resultController.showCorrectAnswer(_questionModel.correctWord());
+				_resultSceneController.showCorrectAnswer(_questionModel.correctWord());
+			} else {
+				_resultSceneController.showCorrectAnswer(null);
 			}
 
 			// check is the question the final one
-			if (!_questionModel.hasNext()) {
-				resultController.setFinal(true);
-			}
+			_resultSceneController.setFinal(!_questionModel.hasNext());
+
+			// show the result scene
+			_mainPane.getChildren().setAll(_resultScene);
 
 		});
 		new Thread(check).start();
@@ -369,10 +382,6 @@ public class FoundationBoardController implements Initializable {
 					_userModel.appendRecord(_userName, _mode, _questionModel.getScore());
 					_main.showPersonalPanel(_userName);
 				}
-
-				// reset statistics and QuestionModel
-				_statistics.reset();
-				_questionModel.clear();
 			}
 		};
 
@@ -409,11 +418,10 @@ public class FoundationBoardController implements Initializable {
 	 * Show the summary scene for the practise
 	 */
 	private void showPractiseSummary() {
-		PractiseSummarySceneController controller = (PractiseSummarySceneController) replacePaneContent(_mainPane,
-				"PractiseSummaryScene.fxml");
+		_mainPane.getChildren().setAll(_practiseSummaryScene);
 		double correctRate = (double) _questionModel.getScore() / _statistics.getNumOfRecords();
-		controller.setCorrectRate(correctRate);
-		controller.setWrongAnswerChartData(_wrongQuestions);
+		_practiseSummarySceneController.setCorrectRate(correctRate);
+		_practiseSummarySceneController.setWrongAnswerChartData(_wrongQuestions);
 	}
 
 	/**
@@ -476,32 +484,6 @@ public class FoundationBoardController implements Initializable {
 	@FXML
 	private void showHelp(ActionEvent event) {
 		_main.showHelp(_function);
-	}
-
-	/**
-	 * Replaces the content in the pane with the pane defined by the FXML file, and
-	 * return the controller for the FXML
-	 * 
-	 * @param pane
-	 * @param fxml
-	 * @return Controller
-	 */
-	private Object replacePaneContent(Pane pane, String fxml) {
-		FXMLLoader loader = new FXMLLoader();
-		InputStream in = Main.class.getResourceAsStream("/views/" + fxml);
-		loader.setBuilderFactory(new JavaFXBuilderFactory());
-		loader.setLocation(Main.class.getResource("/views/" + fxml));
-		try {
-			Pane content = (Pane) loader.load(in);
-			HBox.setHgrow(content, Priority.ALWAYS);
-			VBox.setVgrow(content, Priority.ALWAYS);
-			pane.getChildren().setAll(content);
-			in.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return loader.getController();
 	}
 
 	/**

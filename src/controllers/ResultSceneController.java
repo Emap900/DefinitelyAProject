@@ -43,6 +43,10 @@ public class ResultSceneController {
 
 	private FoundationBoardController _parentController;
 
+	public ResultSceneController(FoundationBoardController foundationBoardController) {
+		_parentController = foundationBoardController;
+	}
+
 	/**
 	 * Tell controller if the user has another chance to retry
 	 * 
@@ -62,12 +66,17 @@ public class ResultSceneController {
 	 * @param userAnswer
 	 */
 	public void setUserAnswer(String userAnswer) {
-		if (userAnswer != null && !userAnswer.isEmpty()) {
-			_usrAnsLabel.setText(userAnswer);
+		if (userAnswer == null) {
+			_usrAnsBox.setVisible(false);
 		} else {
-			_usrAnsLabel.setText("No Answer");
+			if (!userAnswer.isEmpty()) {
+				_usrAnsLabel.setText(userAnswer);
+			} else {
+				_usrAnsLabel.setText("No Answer");
+			}
+			_usrAnsBox.setVisible(true);
 		}
-		_usrAnsBox.setVisible(true);
+
 	}
 
 	/**
@@ -108,11 +117,9 @@ public class ResultSceneController {
 		if (correctWord != null && !correctWord.isEmpty()) {
 			_correctAnsLabel.setText(correctWord);
 			_correctAnsBox.setVisible(true);
+		} else {
+			_correctAnsBox.setVisible(false);
 		}
-	}
-
-	public void setParent(FoundationBoardController controller) {
-		_parentController = controller;
 	}
 
 	@FXML

@@ -34,6 +34,10 @@ public class LeaderBoardController implements Initializable {
 	private ObservableList<UserDataTuple> _normalRanking = FXCollections.observableArrayList();
 	private ObservableList<UserDataTuple> _endlessRanking = FXCollections.observableArrayList();
 
+	public LeaderBoardController(Main main) {
+		_main = main;
+	}
+
 	@FXML
 	void backToHome(ActionEvent event) {
 		_main.showHome();
@@ -47,10 +51,6 @@ public class LeaderBoardController implements Initializable {
 	@FXML
 	void showHelp(ActionEvent event) {
 		_main.showHelp(Function.SCORE);
-	}
-
-	public void setParent(Main main) {
-		_main = main;
 	}
 
 	/**
@@ -94,7 +94,6 @@ public class LeaderBoardController implements Initializable {
 			}
 
 		});
-
 		_endlessModeListView.getSelectionModel().selectedItemProperty()
 				.addListener((observable, oldValue, newValue) -> {
 					if (newValue == null) {

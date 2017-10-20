@@ -6,7 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.paint.Color;
 
-public class StatisticsBarController {
+public class StatisticsSidePaneController {
 
 	@FXML
 	private ListView<Node> _resultListView;

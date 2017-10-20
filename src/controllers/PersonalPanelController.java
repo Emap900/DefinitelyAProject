@@ -38,6 +38,10 @@ public class PersonalPanelController {
 
 	private Main _main;
 
+	public PersonalPanelController(Main main) {
+		_main = main;
+	}
+
 	/**
 	 * Show the history of the user.
 	 * 
@@ -48,18 +52,18 @@ public class PersonalPanelController {
 		// clear previews chart data
 		_normalModeChart.getData().clear();
 		_endlessModeChart.getData().clear();
-	
+
 		// show name
 		_name.setText(userName);
-	
+
 		// show latest score and rank
 		_latestScore.setText(model.getLatestGameScore(userName));
 		_latestMode.setText(model.getLatestGameMode(userName));
-	
+
 		// show data of normal mode
 		_normalModeRank.setText(model.getRank(Mode.NORMALMATH, userName)); // rank
 		_normalModeScore.setText(model.getPersonalBest(Mode.NORMALMATH, userName)); // score
-	
+
 		// add history to the chart
 		int[] history = model.getPersonalHistory(Mode.NORMALMATH, userName);
 		XYChart.Series<String, Number> series = new Series<String, Number>();
@@ -67,11 +71,11 @@ public class PersonalPanelController {
 			series.getData().add(new Data<String, Number>("" + i, history[i]));
 		}
 		_normalModeChart.getData().add(series);
-	
+
 		// show data of endless mode
 		_endlessModeRank.setText(model.getRank(Mode.ENDLESSMATH, userName)); // rank
 		_endlessModeScore.setText(model.getPersonalBest(Mode.ENDLESSMATH, userName)); // score
-	
+
 		// add history to the chart
 		history = model.getPersonalHistory(Mode.ENDLESSMATH, userName);
 		series = new Series<String, Number>();
@@ -79,11 +83,7 @@ public class PersonalPanelController {
 			series.getData().add(new Data<String, Number>("" + i, history[i]));
 		}
 		_endlessModeChart.getData().add(series);
-	
-	}
 
-	public void setParent(Main main) {
-		_main = main;
 	}
 
 	@FXML

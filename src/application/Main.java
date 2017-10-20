@@ -17,7 +17,10 @@ import models.UserModel;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 
@@ -38,12 +41,12 @@ public class Main extends Application {
 	private Stage _helpStage;
 
 	// scenes
-	private Scene _homePage;
-	private Scene _foundationBoard;
-	private Scene _leaderBoard;
-	private Scene _personalPanel;
-	private Scene _settings;
-	private Scene _helpScene;
+	private Pane _homePage;
+	private Pane _foundationBoard;
+	private Pane _leaderBoard;
+	private Pane _personalPanel;
+	private Pane _settings;
+	private Pane _helpScene;
 
 	// controllers
 	private HomeController _homePageController;
@@ -64,30 +67,23 @@ public class Main extends Application {
 		UserModel.getInstance();
 		System.out.println("Models successfully loaded...");
 
-		// initialize scenes
-		_homePage = loadScene("Home.fxml");
-		_foundationBoard = loadScene("FoundationBoard.fxml");
-		_leaderBoard = loadScene("LeaderBoard.fxml");
-		_personalPanel = loadScene("PersonalPanel.fxml");
-		_settings = loadScene("Settings.fxml");
-		_helpScene = loadScene("Help.fxml");
+		// initialize controllers
+		_homePageController = new HomeController(this);
+		_foundationBoardController = new FoundationBoardController(this);
+		_leaderBoardController = new LeaderBoardController(this);
+		_personalPanelController = new PersonalPanelController(this);
+		_settingsController = new SettingsController(this);
+		_helpSceneController = new HelpController();
+		System.out.println("Controllers successfully initialized...");
+
+		// load FXMLs
+		_homePage = loadScene("Home.fxml", _homePageController);
+		_foundationBoard = loadScene("FoundationBoard.fxml", _foundationBoardController);
+		_leaderBoard = loadScene("LeaderBoard.fxml", _leaderBoardController);
+		_personalPanel = loadScene("PersonalPanel.fxml", _personalPanelController);
+		_settings = loadScene("Settings.fxml", _settingsController);
+		_helpScene = loadScene("Help.fxml", _helpSceneController);
 		System.out.println("Views successfully loaded...");
-
-		// load controllers
-		_homePageController = (HomeController) _homePage.getUserData();
-		_foundationBoardController = (FoundationBoardController) _foundationBoard.getUserData();
-		_leaderBoardController = (LeaderBoardController) _leaderBoard.getUserData();
-		_personalPanelController = (PersonalPanelController) _personalPanel.getUserData();
-		_settingsController = (SettingsController) _settings.getUserData();
-		_helpSceneController = (HelpController) _helpScene.getUserData();
-
-		// make links between controllers and the main class
-		_homePageController.setParent(this);
-		_foundationBoardController.setParent(this);
-		_leaderBoardController.setParent(this);
-		_personalPanelController.setParent(this);
-		_settingsController.setParent(this);
-		System.out.println("Controllers successfully loaded...");
 		System.out.println("All done... Home page opening");
 
 		showHome();
@@ -140,47 +136,54 @@ public class Main extends Application {
 	}
 
 	/**
-	 * Get a FXMLLoader that loads the fxml file into a scene and set the default
-	 * style sheet application.css as its style sheet. The scene has its controller
-	 * be set as its user data and controller be retrieved by calling getUserData()
-	 * on the scene. Null will be returned if the scene cannot be loaded.
+	 * Get a FXMLLoader that loads the fxml file into a root pane and set the
+	 * controller passes in as its controller.
 	 * 
 	 * @param fxml
+	 * @param controller
 	 * @return Scene loaded from the fxml file
 	 */
-	public Scene loadScene(String fxml) {
+	public Pane loadScene(String fxml, Object controller) {
 		// loading fxml from FXML loader
 		FXMLLoader loader = new FXMLLoader();
 		InputStream in = Main.class.getResourceAsStream("/views/" + fxml);
 		loader.setBuilderFactory(new JavaFXBuilderFactory());
 		loader.setLocation(Main.class.getResource("/views/" + fxml));
-		Scene scene = null;
+		loader.setController(controller);
+		Pane root = null;
 		try {
-			Pane content = (Pane) loader.load(in);
-			scene = new Scene(content);
-			// scene.getStylesheets().add(getClass().getResource("/views/application.css").toExternalForm());
-			scene.setUserData(loader.getController());
+			root = (Pane) loader.load(in);
+			HBox.setHgrow(root, Priority.ALWAYS);
+			VBox.setVgrow(root, Priority.ALWAYS);
 			in.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		return scene;
+		return root;
 	}
 
 	/**
-	 * Make the scene showing on the stage. If the scene is null or the scene cannot
-	 * be set, an error dialog will be popped up.
-	 * 
+	 * Make the root showing on the scene of the stage. If the root is null, a
+	 * runtime exception will be thrown. If the root cannot be set, an error dialog
+	 * will be popped up.
+	 *
 	 * @param stage
-	 * @param scene
+	 * @param root
 	 */
-	public void showScene(Stage stage, Scene scene) {
+	public void showScene(Stage stage, Pane root) {
 		try {
-			if (scene == null) {
-				throw new RuntimeException();
+			if (root == null) {
+				throw new RuntimeException("The root can not be null.");
 			}
-			stage.setScene(scene);
+
+			Scene scene = stage.getScene();
+			if (scene == null) {
+				scene = new Scene(root);
+				stage.setScene(scene);
+			} else {
+				scene.setRoot(root);
+			}
 			stage.show();
 		} catch (RuntimeException e) {
 			e.printStackTrace();

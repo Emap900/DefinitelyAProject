@@ -40,6 +40,10 @@ public class HomeController implements Initializable {
 
 	private Main _main;
 
+	public HomeController(Main main) {
+		_main = main;
+	}
+
 	// Event Listener on Button[#_practiseBtn].onAction
 	@FXML
 	public void goPractise(ActionEvent event) {
@@ -67,10 +71,6 @@ public class HomeController implements Initializable {
 	@FXML
 	public void showHelp(ActionEvent event) {
 		_main.showHelp(Function.HELP);
-	}
-
-	public void setParent(Main main) {
-		_main = main;
 	}
 
 	@Override

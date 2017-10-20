@@ -10,32 +10,35 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddNewQuestionDialogController">
-   <columnConstraints>
-      <ColumnConstraints />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints />
-   </rowConstraints>
-   <children>
-      <VBox prefHeight="200.0" prefWidth="400.0">
-         <children>
-            <Region prefHeight="20.0" prefWidth="400.0" />
-            <Label text="Enter your equation below" />
-            <Region prefHeight="20.0" prefWidth="400.0" />
-            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="400.0">
-               <children>
-                  <JFXTextField fx:id="questionTextField" prefHeight="50.0" prefWidth="250.0" />
-                  <Label text="=" />
-                  <JFXTextField fx:id="answerTestField" prefHeight="50.0" prefWidth="60.0" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="75.0" prefWidth="400.0">
-               <children>
-                  <JFXButton fx:id="confirmAdd" defaultButton="true" onAction="#addQuestion" text="Add" />
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </children>
+<GridPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" >
+	<columnConstraints>
+		<ColumnConstraints />
+	</columnConstraints>
+	<rowConstraints>
+		<RowConstraints />
+	</rowConstraints>
+	<children>
+		<VBox prefHeight="200.0" prefWidth="400.0">
+			<children>
+				<Region prefHeight="20.0" prefWidth="400.0" />
+				<Label text="Enter your equation below" />
+				<Region prefHeight="20.0" prefWidth="400.0" />
+				<HBox alignment="CENTER" prefHeight="50.0" prefWidth="400.0">
+					<children>
+						<JFXTextField fx:id="questionTextField" prefHeight="50.0"
+							prefWidth="250.0" />
+						<Label text="=" />
+						<JFXTextField fx:id="answerTestField" prefHeight="50.0"
+							prefWidth="60.0" />
+					</children>
+				</HBox>
+				<HBox alignment="CENTER_RIGHT" prefHeight="75.0" prefWidth="400.0">
+					<children>
+						<JFXButton fx:id="confirmAdd" defaultButton="true"
+							onAction="#addQuestion" text="Add" />
+					</children>
+				</HBox>
+			</children>
+		</VBox>
+	</children>
 </GridPane>

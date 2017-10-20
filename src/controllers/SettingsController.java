@@ -2,13 +2,13 @@ package controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import models.QuestionModel;
 
@@ -16,7 +16,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -51,18 +50,22 @@ public class SettingsController implements Initializable {
 	private Button confirmBtn;
 
 	private Stage _editPanelStage;
-	
+
 	private Stage _userPickingStage;
 	private Main _main;
 	private QuestionModel _questionModel;
 
 	private Properties _props;
 
+	public SettingsController(Main main) {
+		_main = main;
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		_questionModel = QuestionModel.getInstance();
 		updateSetList();
-	
+
 		_props = new Properties();
 		try {
 			_props.load(new FileInputStream("config.properties"));
@@ -75,11 +78,7 @@ public class SettingsController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	
-	}
 
-	public void setParent(Main main) {
-		_main = main;
 	}
 
 	// Event Listener on Button[#addNewSetBtn].onAction
@@ -151,13 +150,11 @@ public class SettingsController implements Initializable {
 	@FXML
 	public void pickCustomizedList(ActionEvent event) {
 		_userPickingStage = new Stage();
-		Scene pickingScene = _main.loadScene("PickQuestionListScene.fxml");
-		PickQuestionListSceneController pickSceneController = (PickQuestionListSceneController) pickingScene
-				.getUserData();
+		PickQuestionListSceneController pickSceneController = new PickQuestionListSceneController();
+		Pane root = _main.loadScene("PickQuestionListScene.fxml", pickSceneController);
+		_main.showScene(_userPickingStage, root);
 		String setName = quesitonSetComboBox.getValue().toString();
 		pickSceneController.initData(_userPickingStage, setName);
-		System.out.println("Step 1 done.");
-		_main.showScene(_userPickingStage, pickingScene);
 	}
 
 	// Event Listener on Button[#confirmBtn].onAction
@@ -186,13 +183,11 @@ public class SettingsController implements Initializable {
 	public void openeditPanel(String setName) {
 		// TODO pass questionSetName to edit panel
 		_editPanelStage = new Stage();
-		Scene editPanelScene = _main.loadScene("QuestionSetEditPanel.fxml");
-		QuestionSetEditPanelController editPanelController = (QuestionSetEditPanelController) editPanelScene
-				.getUserData();
+		QuestionSetEditPanelController editPanelController = new QuestionSetEditPanelController();
+		Pane root = _main.loadScene("QuestionSetEditPanel.fxml", editPanelController);
+		_main.showScene(_editPanelStage, root);
 		editPanelController.initData(_editPanelStage, setName);
 		editPanelController.setParent(_main);
-		System.out.println("Step 1 done.");
-		_main.showScene(_editPanelStage, editPanelScene);
 	}
 
 	private void updateSetList() {

@@ -27,6 +27,11 @@ public class PractiseStartPageController implements Initializable {
 
 	private FoundationBoardController _parentController;
 
+	public PractiseStartPageController(FoundationBoardController foundationBoardController) {
+		// TODO Auto-generated constructor stub
+		_parentController = foundationBoardController;
+	}
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
@@ -86,10 +91,6 @@ public class PractiseStartPageController implements Initializable {
 			// disable the specificPractiseButton if needed
 			_specificPractiseButton.setDisable(toBeDisabled);
 		});
-	}
-
-	public void setParent(FoundationBoardController parentController) {
-		_parentController = parentController;
 	}
 
 	@FXML

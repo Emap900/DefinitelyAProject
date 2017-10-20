@@ -27,6 +27,10 @@ public class MathStartPageController implements Initializable {
 
 	private FoundationBoardController _parentController;
 
+	public MathStartPageController(FoundationBoardController foundationBoardController) {
+		_parentController = foundationBoardController;
+	}
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		/*
@@ -62,10 +66,6 @@ public class MathStartPageController implements Initializable {
 			}
 
 		});
-	}
-
-	public void setParent(FoundationBoardController parentController) {
-		_parentController = parentController;
 	}
 
 	@FXML

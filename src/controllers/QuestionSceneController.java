@@ -23,7 +23,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import models.QuestionModel;
 
-public class QuestionSceneController implements Initializable {
+public class QuestionSceneController {
 	@FXML
 	private Label _question;
 	@FXML
@@ -33,12 +33,8 @@ public class QuestionSceneController implements Initializable {
 	private FoundationBoardController _parentController;
 	private String _answer;
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		QuestionModel questionModel = QuestionModel.getInstance();
-		_question.setText(questionModel.currentQuestion());
-		_answer = questionModel.currentAnswer();
-
+	public QuestionSceneController(FoundationBoardController foundationBoardController) {
+		_parentController = foundationBoardController;
 	}
 
 	// Event Listener on Button[#_recordBtn].onAction
@@ -103,7 +99,7 @@ public class QuestionSceneController implements Initializable {
 
 		Task<Void> record = new Task<Void>() {
 			@Override
-			public Void call() {
+			public Void call() throws IOException {
 				new BashProcess("./MagicStaff.sh", "record", _answer);
 
 				return null;
@@ -112,6 +108,7 @@ public class QuestionSceneController implements Initializable {
 		record.setOnSucceeded(e -> {
 			_recordBtn.setText("Checking...");
 			_parentController.showResult();
+			timer.cancel();
 		});
 
 		Thread th = new Thread(record);
@@ -128,15 +125,8 @@ public class QuestionSceneController implements Initializable {
 	public void setQuestion(String question, String answer) {
 		_question.setText(question);
 		_answer = answer;
+		_progressBar.setProgress(0);
+		_recordBtn.setText("Record");
+		_recordBtn.setDisable(false);
 	}
-
-	/**
-	 * Make a link to the FoundationBoardController
-	 * 
-	 * @param parentController
-	 */
-	public void setParent(FoundationBoardController parentController) {
-		_parentController = parentController;
-	}
-
 }

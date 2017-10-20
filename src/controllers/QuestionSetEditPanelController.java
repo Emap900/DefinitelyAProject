@@ -2,6 +2,7 @@ package controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.event.ActionEvent;
 
 import javafx.stage.Stage;
@@ -36,19 +37,19 @@ public class QuestionSetEditPanelController {
 	private Stage _editPanelStage;
 
 	private Stage _newQuestionStage;
-	
+
 	private QuestionModel _questionModel;
 
 	private List<String> _listOfQuestions;
 
 	private String _currentSetName;
-	
+
 	private Main _main;
-	
+
 	public void setParent(Main main) {
 		_main = main;
 	}
-	
+
 	public void initData(Stage stage, String setName) {
 		_questionModel = QuestionModel.getInstance();
 		_editPanelStage = stage;
@@ -57,7 +58,7 @@ public class QuestionSetEditPanelController {
 		loadQuestions();
 
 	}
-	
+
 	public void loadQuestions() {
 		_listOfQuestions.clear();
 		List<List<String>> rawData = _questionModel.getQuestionsFromSpecificSet(_currentSetName);
@@ -72,14 +73,21 @@ public class QuestionSetEditPanelController {
 
 	@FXML
 	public void addNewQuestion(ActionEvent event) {
-		//_questionModel.addQuestionToQuestionSet(_currentSetName, question, answer);
+		// _questionModel.addQuestionToQuestionSet(_currentSetName, question, answer);
 		_newQuestionStage = new Stage();
-		Scene NQScene = _main.loadScene("AddNewQuestionDialog.fxml");
-		AddNewQuestionDialogController aqdController = (AddNewQuestionDialogController)NQScene.getUserData();
+		// Scene NQScene = _main.loadScene("AddNewQuestionDialog.fxml");
+		// AddNewQuestionDialogController aqdController =
+		// (AddNewQuestionDialogController)NQScene.getUserData();
+		// aqdController.initData(_currentSetName, _newQuestionStage);
+		// aqdController.setParent(this);
+		// System.out.println("Step 1 done.");
+		// _main.showScene(_newQuestionStage, NQScene);
+		AddNewQuestionDialogController aqdController = new AddNewQuestionDialogController();
+		Pane root = _main.loadScene("AddNewQuestionDialog.fxml", aqdController);
+		_main.showScene(_newQuestionStage, root);
 		aqdController.initData(_currentSetName, _newQuestionStage);
 		aqdController.setParent(this);
-		System.out.println("Step 1 done.");
-		_main.showScene(_newQuestionStage, NQScene);
+
 		loadQuestions();
 	}
 
@@ -92,7 +100,7 @@ public class QuestionSetEditPanelController {
 	public void deleteSelectedQuestion(ActionEvent event) {
 		String selectedQ = questionList.getSelectionModel().getSelectedItem();
 		String key = selectedQ.split("=")[0];
-		System.out.println(key); //TODO
+		System.out.println(key); // TODO
 		_questionModel.deleteQuestionFromQuestionSet(_currentSetName, key);
 		loadQuestions();
 	}
