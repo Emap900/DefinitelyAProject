@@ -18,20 +18,25 @@ Executing instruction:
 
 
 
-------------------------------------------------------------------------------------------
-Special thanks to Icons8 who is the provider of icons used in this project.
-	Link of Icons8: https://icons8.com
-
+===========================================================================================
 Copyright 2017 Eric Chen & Carl Tang
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+Special thanks to:
+	
+	JFoenix who is the provider of the material design controls.
+	
+		Link of JFoenix: http://www.jfoenix.com/index.html#start
+		License for JFoenix: http://www.jfoenix.com/documentation.html#license
+		
+	Our lecturer Catherine Inez Watson and her research team who provided the Maori speech 
+	recognition models that supports the recognition of numbers from 1 to 99 spoke in Maori.
+		
+	Icons8 who is the provider of icons used in this project.
+	
+		Link of Icons8: https://icons8.com
+		
+	HTK toolkit which is used for speech recognition.
+	
+		Link of HTK toolkit: http://htk.eng.cam.ac.uk/
+		License for HTK toolkit: http://htk.eng.cam.ac.uk/docs/license.shtml
+		
