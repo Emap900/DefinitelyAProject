@@ -63,44 +63,13 @@ public class QuestionSceneController {
 				}
 			}
 
-			/**
-			 * Get the recording time from config file.
-			 *
-			 * @return
-			 */
-			private double getRecordingTime() {
-				// read local config file
-				File configFile = new File("config.properties");
-
-				// default recording time is 3 seconds
-				String recordingTime = "3.0";
-
-				try {
-					FileReader reader = new FileReader(configFile);
-					Properties props = new Properties();
-					props.load(reader);
-
-					recordingTime = props.getProperty("recordingTime");
-					if (recordingTime == null) {
-						recordingTime = "3.0";
-					}
-
-					reader.close();
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-				return Double.parseDouble(recordingTime);
-			}
-
 		}, 0, 10);
 
 		Task<Void> record = new Task<Void>() {
 			@Override
 			public Void call() throws IOException {
-				new BashProcess("./MagicStaff.sh", "record", _answer);
+				String args = _answer + " " + getRecordingTime();
+				new BashProcess("./MagicStaff.sh", "record", args);
 
 				return null;
 			}
@@ -128,5 +97,37 @@ public class QuestionSceneController {
 		_progressBar.setProgress(0);
 		_recordBtn.setText("Record");
 		_recordBtn.setDisable(false);
+	}
+
+	/**
+	 * Get the recording time from config file.
+	 *
+	 * @return
+	 */
+	private double getRecordingTime() {
+		// read local config file
+		File configFile = new File("config.properties");
+
+		// default recording time is 3 seconds
+		String recordingTime = "3.0";
+
+		try {
+			FileReader reader = new FileReader(configFile);
+			Properties props = new Properties();
+			props.load(reader);
+
+			recordingTime = props.getProperty("recordingTime");
+			if (recordingTime == null) {
+				recordingTime = "3.0";
+			}
+
+			reader.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return Double.parseDouble(recordingTime);
 	}
 }

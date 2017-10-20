@@ -112,26 +112,7 @@ public class FoundationBoardController implements Initializable {
 		_trailNum = 0;
 
 		// load local config file and get the maximum trail number
-		File configFile = new File("config.properties");
-		// default number of chances to retry is 2
-		String maxTrailNumber = "2";
-		try {
-			FileReader reader = new FileReader(configFile);
-			Properties props = new Properties();
-			props.load(reader);
-
-			maxTrailNumber = props.getProperty("maxTrailNumber");
-			if (maxTrailNumber == null) {
-				maxTrailNumber = "2";
-			}
-
-			reader.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		_maxTrailNum = Integer.parseInt(maxTrailNumber);
+		_maxTrailNum = loadMaxTrailNum();
 
 		// initialize controllers
 		_practiseStartPageController = new PractiseStartPageController(this);
@@ -171,6 +152,11 @@ public class FoundationBoardController implements Initializable {
 	public void setFunction(Function function) {
 		_function = function;
 
+		// renew max trail number
+		_maxTrailNum = loadMaxTrailNum();
+
+		_infoBar.setVisible(false);
+
 		switch (function) {
 		case PRACTISE:
 			_modeLabel.setText("Practise");
@@ -189,6 +175,7 @@ public class FoundationBoardController implements Initializable {
 		default:
 			throw new RuntimeException("Function can only be PRACTISE or MATH");
 		}
+
 	}
 
 	/**
@@ -387,6 +374,31 @@ public class FoundationBoardController implements Initializable {
 
 		showConfirmDialog(title, body, okHandler, null);
 
+	}
+
+	/**
+	 * Load the maximum trial number from the local properties file
+	 * 
+	 * @return maximum trial number
+	 */
+	private int loadMaxTrailNum() {
+		File configFile = new File("config.properties");
+		// default number of chances to retry is 2
+		String maxTrailNumber = "2";
+		try {
+			FileReader reader = new FileReader(configFile);
+			Properties props = new Properties();
+			props.load(reader);
+
+			maxTrailNumber = props.getProperty("maxTrailNumber", "2");
+
+			reader.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return Integer.parseInt(maxTrailNumber);
 	}
 
 	/**

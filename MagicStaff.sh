@@ -1,7 +1,7 @@
 #!/bin/bash
 
 record(){
-	ffmpeg -loglevel quiet -f pulse -i default -t 3 -acodec pcm_s16le -ar 16000 -ac 1 -y $1.wav
+	ffmpeg -loglevel quiet -f pulse -i default -t $2 -acodec pcm_s16le -ar 16000 -ac 1 -y $1.wav
 }
 
 replay(){
