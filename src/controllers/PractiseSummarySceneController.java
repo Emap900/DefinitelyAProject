@@ -46,6 +46,7 @@ public class PractiseSummarySceneController {
 	 *            which is a map with keys of the questions the user did wrong, and
 	 *            values of the number of times the user got the question wrong
 	 */
+	@SuppressWarnings("unchecked")
 	public void setWrongAnswerChartData(Map<String, Integer> wrongQuestions) {
 		// create a new series
 		XYChart.Series<String, Number> series = new Series<String, Number>();

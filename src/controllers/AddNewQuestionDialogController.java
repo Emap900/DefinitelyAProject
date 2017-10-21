@@ -16,7 +16,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import models.QuestionModel;
 
@@ -35,12 +34,10 @@ public class AddNewQuestionDialogController implements Initializable {
 
 	private String _setName;
 
-	private boolean _answerIsValid;
 
 	private QuestionSetEditPanelController _parent;
 
 	private Stage _stage;
-	private boolean _questionIsValid;
 
 	public void setParent(QuestionSetEditPanelController parent) {
 		_parent = parent;

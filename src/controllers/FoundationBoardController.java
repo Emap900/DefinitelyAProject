@@ -11,8 +11,6 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialog.DialogTransition;
 
 import application.BashProcess;
 import application.Main;
@@ -20,7 +18,6 @@ import application.SpeechRecognizer;
 import enums.Function;
 import enums.Mode;
 
-import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXDrawer;
 
 import javafx.concurrent.Task;
@@ -33,7 +30,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 import models.QuestionModel;
 import models.UserModel;
 
@@ -123,12 +119,12 @@ public class FoundationBoardController implements Initializable {
 		_statistics = new StatisticsSidePaneController();
 
 		// load sub panes
-		_practiseStartPage = _main.loadScene("PractiseStartPage.fxml", _practiseStartPageController);
-		_mathStartPage = _main.loadScene("MathStartPage.fxml", _mathStartPageController);
-		_questionScene = _main.loadScene("QuestionScene.fxml", _questionSceneController);
-		_resultScene = _main.loadScene("ResultScene.fxml", _resultSceneController);
-		_practiseSummaryScene = _main.loadScene("PractiseSummaryScene.fxml", _practiseSummarySceneController);
-		_statisticsSidePane = _main.loadScene("StatisticsSidePane.fxml", _statistics);
+		_practiseStartPage = Main.loadScene("PractiseStartPage.fxml", _practiseStartPageController);
+		_mathStartPage = Main.loadScene("MathStartPage.fxml", _mathStartPageController);
+		_questionScene = Main.loadScene("QuestionScene.fxml", _questionSceneController);
+		_resultScene = Main.loadScene("ResultScene.fxml", _resultSceneController);
+		_practiseSummaryScene = Main.loadScene("PractiseSummaryScene.fxml", _practiseSummarySceneController);
+		_statisticsSidePane = Main.loadScene("StatisticsSidePane.fxml", _statistics);
 	}
 
 	/**

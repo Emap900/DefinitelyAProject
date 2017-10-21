@@ -1,16 +1,13 @@
 package controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Properties;
-import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -21,7 +18,6 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 
 import javafx.scene.control.Label;
-import models.QuestionModel;
 
 public class QuestionSceneController {
 	@FXML

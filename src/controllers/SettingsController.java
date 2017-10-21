@@ -11,8 +11,6 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.QuestionModel;
 
@@ -20,18 +18,13 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXDialog.DialogTransition;
 
 import application.Main;
 import enums.Function;
@@ -246,7 +239,7 @@ public class SettingsController implements Initializable {
 	public void pickCustomizedList(ActionEvent event) {
 		_userPickingStage = new Stage();
 		PickQuestionListSceneController pickSceneController = new PickQuestionListSceneController();
-		Pane root = _main.loadScene("PickQuestionListScene.fxml", pickSceneController);
+		Pane root = Main.loadScene("PickQuestionListScene.fxml", pickSceneController);
 		Main.showScene(_userPickingStage, root);
 		String setName = quesitonSetComboBox.getValue().toString();
 		pickSceneController.initData(_userPickingStage, setName);
@@ -296,11 +289,11 @@ public class SettingsController implements Initializable {
 		Pane root = Main.loadScene("QuestionSetEditPanel.fxml", editPanelController);
 		Main.showScene(_editPanelStage, root);
 		editPanelController.initData(setName);
-		editPanelController.setParent(_main);
+		// editPanelController.setParent(_main);
 	}
 
 	private void updateSetList() {
-		ObservableList ol = FXCollections.observableArrayList(_questionModel.getListOfsets());
+		ObservableList<String> ol = FXCollections.observableArrayList(_questionModel.getListOfsets());
 		quesitonSetComboBox.setItems(ol);
 
 		System.out.println(_questionModel.getListOfsets().toString());
