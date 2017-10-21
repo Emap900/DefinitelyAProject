@@ -117,6 +117,7 @@ public class Main extends Application {
 			break;
 		case SETTINGS:
 			showScene(_primaryStage, _settings);
+			_settingsController.initData();
 			break;
 		default:
 			throw new RuntimeException(
@@ -244,6 +245,34 @@ public class Main extends Application {
 		cancelBtn.setOnAction(e -> {
 			if (cancelHandler != null) {
 				cancelHandler.handle(e);
+			}
+			dialog.close();
+		});
+
+		dialog.show();
+	}
+
+	/**
+	 * Show a jfoenix material error dialog on the given background stackPane.
+	 * 
+	 * @param title
+	 * @param body
+	 * @param okHandler
+	 * @param background
+	 */
+	public static void showErrorDialog(String title, String body, EventHandler<ActionEvent> okHandler,
+			StackPane background) {
+		// ask user for confirm
+		JFXDialogLayout content = new JFXDialogLayout();
+		content.setHeading(new Text(title));
+		content.setBody(new Text(body));
+		JFXButton okBtn = new JFXButton("OK");
+		content.setActions(okBtn);
+		JFXDialog dialog = new JFXDialog(background, content, DialogTransition.CENTER);
+
+		okBtn.setOnAction(e -> {
+			if (okHandler != null) {
+				okHandler.handle(e);
 			}
 			dialog.close();
 		});

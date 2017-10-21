@@ -8,7 +8,11 @@ import javafx.scene.control.Button;
 
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.QuestionModel;
 
@@ -16,11 +20,21 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
+import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXDialog.DialogTransition;
+
 import application.Main;
+import enums.Function;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,6 +44,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ComboBox;
 
 public class SettingsController implements Initializable {
+	@FXML
+	private StackPane background;
 	@FXML
 	private ComboBox<String> quesitonSetComboBox;
 	@FXML
@@ -47,7 +63,15 @@ public class SettingsController implements Initializable {
 	@FXML
 	private Button pickYourselfBtn;
 	@FXML
-	private Button confirmBtn;
+	private JFXButton homeBtn;
+	@FXML
+	private HBox customizeQListBox;
+	@FXML
+	private JFXComboBox<String> recordingTimeComboBox;
+	@FXML
+	private JFXTextField maxTrailNumTextField;
+	@FXML
+	private JFXButton helpBtn;
 
 	private Stage _editPanelStage;
 
@@ -64,21 +88,74 @@ public class SettingsController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		_questionModel = QuestionModel.getInstance();
+
+		// add change listers to the numOfQuestionsTextFieldForRandom and
+		// maxTrailNumTextField to make them only accept numbers
+		numOfQuestionsTextFieldForRandom.textProperty().addListener((observable, oldValue, newValue) -> {
+			if (!newValue.isEmpty()) {
+				// check are all characters in the user input digits
+				boolean isNumber = true;
+				for (char ch : newValue.toCharArray()) {
+					if (!Character.isDigit(ch)) {
+						isNumber = false;
+					}
+				}
+
+				if (!isNumber) { // check is the input a number
+					// unto typing
+					numOfQuestionsTextFieldForRandom.setText(oldValue);
+				}
+			}
+		});
+		maxTrailNumTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+			if (!newValue.isEmpty()) {
+				// check are all characters in the user input digits
+				boolean isNumber = true;
+				for (char ch : newValue.toCharArray()) {
+					if (!Character.isDigit(ch)) {
+						isNumber = false;
+					}
+				}
+
+				if (!isNumber) { // check is the input a number
+					// unto typing
+					maxTrailNumTextField.setText(oldValue);
+				}
+			}
+		});
+
+		initData();
+	}
+
+	/**
+	 * Read the config.properties and set the content of text fields and combo
+	 * boxes.
+	 */
+	public void initData() {
+		// update the question set combo box
 		updateSetList();
+
+		// set items in recording time combo box
+		recordingTimeComboBox.getItems().setAll("2.0", "2.5", "3.0", "4.0", "5.0");
 
 		_props = new Properties();
 		try {
 			_props.load(new FileInputStream("config.properties"));
 			String setChosen = _props.getProperty("QSet", "Default");
 			String listSize = _props.getProperty("listSize", "10");
-			if (setChosen != null && quesitonSetComboBox.getItems().contains(setChosen)) {
+			String recordingTime = _props.getProperty("recordingTime", "3");
+			String maxTrailNumber = _props.getProperty("maxTrailMumber", "2");
+			if (quesitonSetComboBox.getItems().contains(setChosen)) {
 				quesitonSetComboBox.getSelectionModel().select(setChosen);
 			}
+			if (recordingTimeComboBox.getItems().contains(recordingTime)) {
+				recordingTimeComboBox.getSelectionModel().select(recordingTime);
+			}
 			numOfQuestionsTextFieldForRandom.setText(listSize);
+			maxTrailNumTextField.setText(maxTrailNumber);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	// Event Listener on Button[#addNewSetBtn].onAction
@@ -137,12 +214,30 @@ public class SettingsController implements Initializable {
 	@FXML
 	public void pickRandomList(ActionEvent event) {
 		String numOfQuestions = numOfQuestionsTextFieldForRandom.getText();
-		if (numOfQuestions != null) {
-			String setName = quesitonSetComboBox.getValue().toString();
-			_questionModel.setLengthOfQuestionList(Integer.parseInt(numOfQuestions));
-			_questionModel.generateQuestionListRandom(setName);
+		if (numOfQuestions != null && !numOfQuestions.isEmpty() && Integer.parseInt(numOfQuestions) > 0) {
+			// check is auto generate already activated by checking is the customizeQListBox
+			// already disabled
+			if (customizeQListBox.isDisabled()) {
+				// if is activated, deactivate and use preload question list
+				_questionModel.generateQuestionListFromPreload("median", 10);
+				pickARandomListBtn.setStyle("-fx-background-color: white; -fx-text-fill: black;");
+				customizeQListBox.setDisable(false);
+			} else {
+				// if is not activated, activate and ask question model to automatically pick
+				// questions
+				String setName = quesitonSetComboBox.getValue().toString();
+				_questionModel.setLengthOfQuestionList(Integer.parseInt(numOfQuestions));
+				_questionModel.generateQuestionListRandom(setName);
+				pickARandomListBtn.setStyle("-fx-background-color: #424242; -fx-text-fill: #eeeeee;");
+				customizeQListBox.setDisable(true);
+			}
+
 			// TODO underlying code actually support more functionality such as user do not
 			// need to specify numberOfQuestions
+		} else {
+			// show error dialog
+			Main.showErrorDialog("Error!", "The size of the question list can only be a positive interger.", null,
+					background);
 		}
 	}
 
@@ -152,21 +247,29 @@ public class SettingsController implements Initializable {
 		_userPickingStage = new Stage();
 		PickQuestionListSceneController pickSceneController = new PickQuestionListSceneController();
 		Pane root = _main.loadScene("PickQuestionListScene.fxml", pickSceneController);
-		_main.showScene(_userPickingStage, root);
+		Main.showScene(_userPickingStage, root);
 		String setName = quesitonSetComboBox.getValue().toString();
 		pickSceneController.initData(_userPickingStage, setName);
 	}
 
-	// Event Listener on Button[#confirmBtn].onAction
+	// Event Listener on Button[#homeBtn].onAction
 	@FXML
-	public void confirmSetting(ActionEvent event) {
+	public void backToHome(ActionEvent event) {
 		_props = new Properties();
 		try {
 			_props.load(new FileInputStream("config.properties"));
 			String setChosen = quesitonSetComboBox.getSelectionModel().getSelectedItem();
 			String listSize = numOfQuestionsTextFieldForRandom.getText();
+			String recordingTime = recordingTimeComboBox.getSelectionModel().getSelectedItem();
+			String maxTrailNumber = maxTrailNumTextField.getText();
 			if (setChosen != null && !setChosen.isEmpty()) {
 				_props.setProperty("QSet", setChosen);
+			}
+			if (listSize != null && !listSize.isEmpty()) {
+				_props.setProperty("listSize", listSize);
+			}
+			if (recordingTime != null && !recordingTime.isEmpty()) {
+				_props.setProperty("recordingTime", recordingTime);
 			}
 			if (listSize != null && !listSize.isEmpty()) {
 				_props.setProperty("listSize", listSize);
@@ -180,13 +283,19 @@ public class SettingsController implements Initializable {
 		_main.showHome();
 	}
 
+	// Event Listener on Button[#helpBtn].onAction
+	@FXML
+	void showHelp(ActionEvent event) {
+		_main.showHelp(Function.SETTINGS);
+	}
+
 	public void openeditPanel(String setName) {
 		// TODO pass questionSetName to edit panel
 		_editPanelStage = new Stage();
-		QuestionSetEditPanelController editPanelController = new QuestionSetEditPanelController();
-		Pane root = _main.loadScene("QuestionSetEditPanel.fxml", editPanelController);
-		_main.showScene(_editPanelStage, root);
-		editPanelController.initData(_editPanelStage, setName);
+		QuestionSetEditPanelController editPanelController = new QuestionSetEditPanelController(_editPanelStage);
+		Pane root = Main.loadScene("QuestionSetEditPanel.fxml", editPanelController);
+		Main.showScene(_editPanelStage, root);
+		editPanelController.initData(setName);
 		editPanelController.setParent(_main);
 	}
 

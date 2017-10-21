@@ -3,6 +3,8 @@ package controllers;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.event.ActionEvent;
 
 import javafx.stage.Stage;
@@ -12,11 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXDialog.DialogTransition;
 
 import application.Main;
 
 public class QuestionSetEditPanelController {
+
+	@FXML
+	private StackPane background;
 
 	// list view multiple selection to be implemented
 	@FXML
@@ -46,17 +54,27 @@ public class QuestionSetEditPanelController {
 
 	private Main _main;
 
+	public QuestionSetEditPanelController(Stage editPanelStage) {
+		_editPanelStage = editPanelStage;
+		// stop the stage from closing if the question set is still empty and show an
+		// error panel
+		_editPanelStage.setOnCloseRequest(e -> {
+			if (_listOfQuestions == null || _listOfQuestions.isEmpty()) {
+				e.consume();
+				showEmptyErrorPanel();
+			}
+		});
+	}
+
 	public void setParent(Main main) {
 		_main = main;
 	}
 
-	public void initData(Stage stage, String setName) {
+	public void initData(String setName) {
 		_questionModel = QuestionModel.getInstance();
-		_editPanelStage = stage;
 		_currentSetName = setName;
 		_listOfQuestions = new ArrayList<String>();
 		loadQuestions();
-
 	}
 
 	public void loadQuestions() {
@@ -73,18 +91,11 @@ public class QuestionSetEditPanelController {
 
 	@FXML
 	public void addNewQuestion(ActionEvent event) {
-		// _questionModel.addQuestionToQuestionSet(_currentSetName, question, answer);
+
 		_newQuestionStage = new Stage();
-		// Scene NQScene = _main.loadScene("AddNewQuestionDialog.fxml");
-		// AddNewQuestionDialogController aqdController =
-		// (AddNewQuestionDialogController)NQScene.getUserData();
-		// aqdController.initData(_currentSetName, _newQuestionStage);
-		// aqdController.setParent(this);
-		// System.out.println("Step 1 done.");
-		// _main.showScene(_newQuestionStage, NQScene);
 		AddNewQuestionDialogController aqdController = new AddNewQuestionDialogController();
-		Pane root = _main.loadScene("AddNewQuestionDialog.fxml", aqdController);
-		_main.showScene(_newQuestionStage, root);
+		Pane root = Main.loadScene("AddNewQuestionDialog.fxml", aqdController);
+		Main.showScene(_newQuestionStage, root);
 		aqdController.initData(_currentSetName, _newQuestionStage);
 		aqdController.setParent(this);
 
@@ -93,7 +104,11 @@ public class QuestionSetEditPanelController {
 
 	@FXML
 	public void confirmCreation(ActionEvent event) {
-		_editPanelStage.close();
+		if (_listOfQuestions.isEmpty()) {
+			showEmptyErrorPanel();
+		} else {
+			_editPanelStage.close();
+		}
 	}
 
 	@FXML
@@ -103,5 +118,13 @@ public class QuestionSetEditPanelController {
 		System.out.println(key); // TODO
 		_questionModel.deleteQuestionFromQuestionSet(_currentSetName, key);
 		loadQuestions();
+	}
+
+	/**
+	 * Show an error panel when the set is empty, ask the user to add at least one
+	 * question.
+	 */
+	private void showEmptyErrorPanel() {
+		Main.showErrorDialog("Error!", "The question set should contain at least one question.", null, background);
 	}
 }
