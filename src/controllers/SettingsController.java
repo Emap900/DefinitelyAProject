@@ -144,7 +144,7 @@ public class SettingsController implements Initializable {
 			String setChosen = _props.getProperty("QSet", "Default");
 			String listSize = _props.getProperty("listSize", "10");
 			String recordingTime = _props.getProperty("recordingTime", "3");
-			String maxTrailNumber = _props.getProperty("maxTrailMumber", "2");
+			String maxTrailNumber = _props.getProperty("maxTrailNumber", "2");
 			if (quesitonSetComboBox.getItems().contains(setChosen)) {
 				quesitonSetComboBox.getSelectionModel().select(setChosen);
 			}
@@ -271,8 +271,8 @@ public class SettingsController implements Initializable {
 			if (recordingTime != null && !recordingTime.isEmpty()) {
 				_props.setProperty("recordingTime", recordingTime);
 			}
-			if (listSize != null && !listSize.isEmpty()) {
-				_props.setProperty("listSize", listSize);
+			if (maxTrailNumber != null && !maxTrailNumber.isEmpty() && Integer.parseInt(maxTrailNumber) > 0) {
+				_props.setProperty("maxTrailNumber", maxTrailNumber);
 			}
 
 			_props.store(new FileOutputStream("config.properties"), "System Settings");
