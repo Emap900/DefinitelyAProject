@@ -372,7 +372,7 @@ public class FoundationBoardController implements Initializable {
 			}
 		};
 
-		showConfirmDialog(title, body, okHandler, null);
+		Main.showConfirmDialog(title, body, okHandler, null, _background);
 
 	}
 
@@ -469,7 +469,7 @@ public class FoundationBoardController implements Initializable {
 				}
 			};
 
-			showConfirmDialog(title, body, okHandler, null);
+			Main.showConfirmDialog(title, body, okHandler, null, _background);
 
 		}
 
@@ -498,39 +498,43 @@ public class FoundationBoardController implements Initializable {
 		_main.showHelp(_function);
 	}
 
-	/**
-	 * Show a jfoenix material confirmation dialog.
-	 * 
-	 * @param title
-	 * @param body
-	 * @param okHandler
-	 * @param cancelHandler
-	 */
-	private void showConfirmDialog(String title, String body, EventHandler<ActionEvent> okHandler,
-			EventHandler<ActionEvent> cancelHandler) {
-		// ask user for confirm
-		JFXDialogLayout content = new JFXDialogLayout();
-		content.setHeading(new Text(title));
-		content.setBody(new Text(body));
-		JFXButton okBtn = new JFXButton("OK");
-		JFXButton cancelBtn = new JFXButton("Cancel");
-		content.setActions(okBtn, cancelBtn);
-		JFXDialog dialog = new JFXDialog(_background, content, DialogTransition.CENTER);
-
-		okBtn.setOnAction(e -> {
-			if (okHandler != null) {
-				okHandler.handle(e);
-			}
-			dialog.close();
-		});
-		cancelBtn.setOnAction(e -> {
-			if (cancelHandler != null) {
-				cancelHandler.handle(e);
-			}
-			dialog.close();
-		});
-
-		dialog.show();
-	}
+	// /**
+	// * Show a jfoenix material confirmation dialog on the given background
+	// * stackPane.
+	// *
+	// * @param title
+	// * @param body
+	// * @param okHandler
+	// * @param cancelHandler
+	// * @param background
+	// */
+	// private void showConfirmDialog(String title, String body,
+	// EventHandler<ActionEvent> okHandler,
+	// EventHandler<ActionEvent> cancelHandler, StackPane background) {
+	// // ask user for confirm
+	// JFXDialogLayout content = new JFXDialogLayout();
+	// content.setHeading(new Text(title));
+	// content.setBody(new Text(body));
+	// JFXButton okBtn = new JFXButton("OK");
+	// JFXButton cancelBtn = new JFXButton("Cancel");
+	// content.setActions(okBtn, cancelBtn);
+	// JFXDialog dialog = new JFXDialog(background, content,
+	// DialogTransition.CENTER);
+	//
+	// okBtn.setOnAction(e -> {
+	// if (okHandler != null) {
+	// okHandler.handle(e);
+	// }
+	// dialog.close();
+	// });
+	// cancelBtn.setOnAction(e -> {
+	// if (cancelHandler != null) {
+	// cancelHandler.handle(e);
+	// }
+	// dialog.close();
+	// });
+	//
+	// dialog.show();
+	// }
 
 }
