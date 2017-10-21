@@ -106,17 +106,17 @@ public class QuestionModel {
 		// TODO testing code
 		_listOfSetNames.add("Default");
 		_preloadSortedQuestionSet = new ArrayList<List<String>>();
-	
+
 		_toDoList = new ArrayList<List>();
 		_questionsDid = new ArrayList<List>();
-	
+
 		_generatedQuestionList = new ArrayList<List>();
-	
+
 		_pronounciationHardnessFactor = 1;
 		_numOfquestionsGotCorrect = 0;
-	
+
 		_currentScore = 0;
-	
+
 		loadLocalLists();// TODO for size of _sets, load them all
 		Scanner s;
 		InputStream in = Main.class.getResourceAsStream("/Default.csv");
@@ -318,9 +318,9 @@ public class QuestionModel {
 
 	// getListOfQuestions in a specific set
 	public List<List<String>> getQuestionsFromSpecificSet(String setName) {
-	
+
 		System.out.println("Step 3 succeed.");
-	
+
 		return _sets.get(setName).getQuestionsInSet();
 	}
 
@@ -329,6 +329,7 @@ public class QuestionModel {
 	public void generateQuestionListFromPreload(String hardness, int numOfQuestions) {
 		Random r = new Random();
 		int barrier = 100;
+		_generatedQuestionList.clear();
 		switch (hardness) {
 		case "easy":
 			for (int i = 0; i < numOfQuestions; i++) {
@@ -434,7 +435,6 @@ public class QuestionModel {
 		return _currentAnswer;
 	}
 
-
 	// return correct maori word
 	public String correctWord() {
 		return _correctWord;
@@ -468,18 +468,18 @@ public class QuestionModel {
 		// TODO testing code
 		System.out.println(_listOfSetNames.toString());
 		// _preloadSortedQuestionSet = new ArrayList<List<String>>();
-	
+
 		_toDoList = _generatedQuestionList;
 		_questionsDid = new ArrayList<List>();
-	
+
 		_pronounciationHardnessFactor = 1;
 		_numOfquestionsGotCorrect = 0;
-	
+
 		_currentScore = 0;
 		_numOfquestionsGotCorrect = 0;
 		_currentScore = 0;
 		_isFinished = false;
-	
+
 	}
 
 	public int getScore() {
@@ -512,7 +512,7 @@ public class QuestionModel {
 				_currentScore = score;
 			}
 		}
-	
+
 	}
 
 	private void calculateHardnessFactor() {
@@ -529,11 +529,11 @@ public class QuestionModel {
 		} else {
 			currentQuesHardness = 1.6;
 		}
-	
+
 		double hardnessFactor = ((prevFactor * (_questionsDid.size())) + currentQuesHardness)
 				/ (_questionsDid.size() + 1);
-	
+
 		_pronounciationHardnessFactor = hardnessFactor;
-	
+
 	}
 }
