@@ -31,7 +31,8 @@ import enums.Function;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 
 import javafx.scene.control.ComboBox;
@@ -161,8 +162,22 @@ public class SettingsController implements Initializable {
 
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()) {
-			if (_questionModel.createLocalQuestionSet(result.get())) {
-				openeditPanel(result.get());
+			if (result.get().equals("Default")) {
+				Main.showErrorDialog("Error!", "The new set cannot use the name Default.", null, background);
+			} else {
+				EventHandler<ActionEvent> okHandler = new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent event) {
+						_questionModel.createLocalQuestionSet(result.get());
+						openeditPanel(result.get());
+					}
+
+				};
+
+				// ask user for confirmation of overwriting the existed question set
+				Main.showConfirmDialog("Confirm Overwrite", "Do you want to overwrite the question set " + result.get()
+						+ "? The questions stored in the old set will be losted.", okHandler, null, background);
 			}
 		}
 		updateSetList();
@@ -172,7 +187,7 @@ public class SettingsController implements Initializable {
 	@FXML
 	public void editAQuestionSet(ActionEvent event) {
 		if (!quesitonSetComboBox.getSelectionModel().isEmpty()
-				&& !quesitonSetComboBox.getValue().toString().equals("setABC")) {
+				&& !quesitonSetComboBox.getValue().toString().equals("Default")) {
 			String currentSet = quesitonSetComboBox.getValue().toString();
 			System.out.println("Step 0 ... PATH start");
 			openeditPanel(currentSet);
@@ -185,7 +200,7 @@ public class SettingsController implements Initializable {
 	@FXML
 	public void deleteSet(ActionEvent event) {
 		if (!quesitonSetComboBox.getSelectionModel().isEmpty()
-				&& !quesitonSetComboBox.getValue().toString().equals("setABC")) {
+				&& !quesitonSetComboBox.getValue().toString().equals("Default")) {
 			String setName = quesitonSetComboBox.getValue().toString();
 			_questionModel.deleteLocalQuestionSet(setName);
 			updateSetList();

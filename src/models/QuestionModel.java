@@ -158,26 +158,27 @@ public class QuestionModel {
 	}
 
 	// create new question set
-	public boolean createLocalQuestionSet(String setName) {
+	// public boolean createLocalQuestionSet(String setName) {
+	public void createLocalQuestionSet(String setName) {
 		if (isQuestionSetExist(setName)) {
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Duplicate flag");
-			alert.setHeaderText("Look, a Confirmation Dialog");
-			alert.setContentText("Are you ok with this?");
-
-			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == ButtonType.OK) {
-				_sets.get(setName).deleteLocalFile();
-				_sets.remove(setName);
-				_sets.put(setName, new QuestionSet(setName));
-			} else {
-				return false;
-			}
+			// Alert alert = new Alert(AlertType.CONFIRMATION);
+			// alert.setTitle("Duplicate flag");
+			// alert.setHeaderText("Look, a Confirmation Dialog");
+			// alert.setContentText("Are you ok with this?");
+			//
+			// Optional<ButtonType> result = alert.showAndWait();
+			// if (result.get() == ButtonType.OK) {
+			_sets.get(setName).deleteLocalFile();
+			_sets.remove(setName);
+			_sets.put(setName, new QuestionSet(setName));
+			// } else {
+			// return false;
+			// }
 		} else {
 			_sets.put(setName, new QuestionSet(setName));
 			_listOfSetNames.add(setName);
 		}
-		return true;
+		// return true;
 	}
 
 	// delete existing question set
