@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.media.AudioClip;
+import javafx.scene.paint.Color;
 import models.QuestionModel;
 
 public class ResultSceneController {
@@ -103,8 +104,10 @@ public class ResultSceneController {
 	public void resultIsCorrect(boolean isCorrect) {
 		if (!isCorrect) {
 			_correctness.setText("Wrong");
+			_correctness.setTextFill(Color.RED);
 		} else {
 			_correctness.setText("Correct");
+			_correctness.setTextFill(Color.GREEN);
 		}
 	}
 

@@ -25,7 +25,7 @@ public class StatisticsSidePaneController {
 		int questionNumber = _resultListView.getItems().size() + 1;
 		if (isCorrect) {
 			result.setText("Question " + questionNumber + ":   \"" + number + "\", Correct");
-			result.setTextFill(Color.LIGHTGREEN);
+			result.setTextFill(Color.GREEN);
 		} else {
 			result.setText("Question " + questionNumber + ":   \"" + number + "\", Wrong");
 			result.setTextFill(Color.RED);
