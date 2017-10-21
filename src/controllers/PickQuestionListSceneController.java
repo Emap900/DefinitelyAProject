@@ -1,7 +1,6 @@
 package controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import models.QuestionModel;
 
@@ -14,12 +13,7 @@ import javafx.event.ActionEvent;
 
 import com.jfoenix.controls.JFXListView;
 
-import application.Main;
-
 public class PickQuestionListSceneController {
-
-	@FXML
-	private StackPane _background;
 	@FXML
 	private JFXListView<String> _allQuestionsListView;
 	@FXML
@@ -32,13 +26,13 @@ public class PickQuestionListSceneController {
 	private JFXButton _confirmBtn;
 
 	private QuestionModel _qm;
-
+	
 	private Stage _selfStage;
-
+	
 	private String _setName;
 	private List<String> _allQuestions;
 	private List<String> _listOfQuestions;
-
+	
 	public void initData(Stage stage, String setName) {
 		_qm = QuestionModel.getInstance();
 		_selfStage = stage;
@@ -47,7 +41,6 @@ public class PickQuestionListSceneController {
 		_listOfQuestions = new ArrayList<String>();
 		loadQuestions();
 	}
-
 	public void loadQuestions() {
 		List<List<String>> rawData = _qm.getQuestionsFromSpecificSet(_setName);
 		for (int i = 0; i < rawData.size(); i++) {
@@ -57,45 +50,38 @@ public class PickQuestionListSceneController {
 		}
 		_allQuestionsListView.getItems().setAll(_allQuestions);
 	}
-
 	// Event Listener on JFXButton[#_addBtn].onAction
 	@FXML
 	public void addBtnClicked(ActionEvent event) {
-		// TODO add multiple questions
+		//TODO add multiple questions
 		String selectedQuestion = (String) _allQuestionsListView.getSelectionModel().getSelectedItem();
-		if (selectedQuestion != null) {
+		if(selectedQuestion != null) {
 			_listOfQuestions.add(selectedQuestion);
 			_userChoseListView.getItems().setAll(_listOfQuestions);
 		}
 	}
-
 	// Event Listener on JFXButton[#_deleteBtn].onAction
 	@FXML
 	public void deleteBtnClicked(ActionEvent event) {
 		String selectedQ = _userChoseListView.getSelectionModel().getSelectedItem();
-		if (selectedQ != null) {
+		if(selectedQ != null) {
 			_listOfQuestions.remove(selectedQ);
 			_userChoseListView.getItems().setAll(_listOfQuestions);
 		}
 	}
-
 	// Event Listener on JFXButton[#_confirmBtn].onAction
 	@FXML
 	public void confirmBtnClicked(ActionEvent event) {
-		if (_userChoseListView.getItems().isEmpty()) {
-			Main.showErrorDialog("Error!", "Please pick at least one question.", null, _background);
-		} else {
-			List<List> listGenerated = new ArrayList<List>();
-			for (int i = 0; i < _listOfQuestions.size(); i++) {
-				String question = _listOfQuestions.get(i).split("=")[0];
-				String answer = _listOfQuestions.get(i).split("=")[1];
-				List<String> QAPair = new ArrayList<String>();
-				QAPair.add(question);
-				QAPair.add(answer);
-				listGenerated.add(QAPair);
-			}
-			_qm.setUserPickedList(listGenerated);
-			_selfStage.close();
+		List<List> listGenerated = new ArrayList<List>();
+		for (int i=0; i<_listOfQuestions.size(); i++) {
+			String question = _listOfQuestions.get(i).split("=")[0];
+			String answer = _listOfQuestions.get(i).split("=")[1];
+			List<String> QAPair = new ArrayList<String>();
+			QAPair.add(question);
+			QAPair.add(answer);
+			listGenerated.add(QAPair);
 		}
+		_qm.setUserPickedList(listGenerated);
+		_selfStage.close();
 	}
 }
