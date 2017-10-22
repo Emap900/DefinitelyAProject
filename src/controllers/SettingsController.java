@@ -330,6 +330,7 @@ public class SettingsController implements Initializable {
 				_props.setProperty("QSet", setChosen);
 			}
 			if (listSize != null && !listSize.isEmpty() && Integer.parseInt(listSize) > 0) {
+				_questionModel.setLengthOfQuestionList(Integer.parseInt(listSize));
 				_props.setProperty("listSize", listSize);
 			}
 			if (recordingTime != null && !recordingTime.isEmpty()) {
