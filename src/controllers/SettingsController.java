@@ -12,6 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.QuestionModel;
 
@@ -158,7 +159,7 @@ public class SettingsController implements Initializable {
 
 	// Event Listener on Button[#addNewSetBtn].onAction
 	@FXML
-	public void addNewSet(ActionEvent event) { 
+	public void addNewSet(ActionEvent event) {
 		JFXDialogLayout content = new JFXDialogLayout();
 		content.setHeading(new Text("Please enter a name for your set: "));
 		TextField tf = new TextField();
@@ -178,6 +179,7 @@ public class SettingsController implements Initializable {
 						_questionModel.createLocalQuestionSet(tf.getText());
 						openeditPanel(tf.getText());
 						updateSetList();
+						quesitonSetComboBox.getSelectionModel().select(tf.getText());
 					}
 
 				};
@@ -186,7 +188,7 @@ public class SettingsController implements Initializable {
 					// ask user for confirmation of overwriting the existed question set
 					Main.showConfirmDialog("Confirm Overwrite",
 							"Do you want to overwrite the question set " + tf.getText()
-							+ "? The questions stored in the old set will be losted.",
+									+ "? The questions stored in the old set will be losted.",
 							okHandler, null, background);
 				} else {
 					okHandler.handle(event);
@@ -276,7 +278,7 @@ public class SettingsController implements Initializable {
 			Pane root = Main.loadScene("PickQuestionListScene.fxml", pickSceneController);
 			Main.showScene(_userPickingStage, root);
 			pickSceneController.initData(_userPickingStage, setName);
-		}catch(NullPointerException e){
+		} catch (NullPointerException e) {
 			permissionDeniededDialog();
 		}
 
@@ -324,14 +326,14 @@ public class SettingsController implements Initializable {
 		_editPanelStage = new Stage();
 		_editPanelStage.setMinHeight(400);
 		_editPanelStage.setMinWidth(400);
-		QuestionSetEditPanelController editPanelController = new QuestionSetEditPanelController(_editPanelStage);
+		QuestionSetEditPanelController editPanelController = new QuestionSetEditPanelController(this, _editPanelStage);
 		Pane root = Main.loadScene("QuestionSetEditPanel.fxml", editPanelController);
 		Main.showScene(_editPanelStage, root);
 		editPanelController.initData(setName);
 		// editPanelController.setParent(_main);
 	}
 
-	private void updateSetList() {
+	public void updateSetList() {
 		ObservableList<String> ol = FXCollections.observableArrayList(_questionModel.getListOfsets());
 		quesitonSetComboBox.setItems(ol);
 

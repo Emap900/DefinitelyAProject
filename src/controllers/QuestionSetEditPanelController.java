@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.event.ActionEvent;
-
+import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import models.QuestionModel;
 
@@ -49,21 +49,28 @@ public class QuestionSetEditPanelController {
 
 	private Main _main;
 
-	public QuestionSetEditPanelController(Stage editPanelStage) {
+	public QuestionSetEditPanelController(SettingsController settingsController, Stage editPanelStage) {
 		_editPanelStage = editPanelStage;
 		// stop the stage from closing if the question set is still empty and show an
 		// error panel
 		_editPanelStage.setOnCloseRequest(e -> {
 			if (_listOfQuestions == null || _listOfQuestions.isEmpty()) {
 				e.consume();
-				showEmptyErrorPanel();
+				// showEmptyErrorPanel();
+				Main.showConfirmDialog("Empty Question Set!",
+						"The question set should contain at least one question. You can choose OK to delete this empty set",
+						new EventHandler<ActionEvent>() {
+
+							@Override
+							public void handle(ActionEvent event) {
+								QuestionModel.getInstance().deleteLocalQuestionSet(_currentSetName);
+								settingsController.updateSetList();
+								_editPanelStage.close();
+							}
+						}, null, background);
 			}
 		});
 	}
-
-//	public void setParent(Main main) {
-//		_main = main;
-//	}
 
 	public void initData(String setName) {
 		_questionModel = QuestionModel.getInstance();
@@ -100,7 +107,7 @@ public class QuestionSetEditPanelController {
 	@FXML
 	public void confirmCreation(ActionEvent event) {
 		if (_listOfQuestions.isEmpty()) {
-			showEmptyErrorPanel();
+			Main.showErrorDialog("Error!", "The question set should contain at least one question.", null, background);
 		} else {
 			_editPanelStage.close();
 		}

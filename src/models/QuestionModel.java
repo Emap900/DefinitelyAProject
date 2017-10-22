@@ -186,29 +186,32 @@ public class QuestionModel {
 	// different
 	public void deleteLocalQuestionSet(String setName) {
 
-		if (isQuestionSetExist(setName)) {
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("confirm delete");
-			alert.setHeaderText("Look, a Confirmation Dialog");
-			alert.setContentText("Are you ok with this?");
+		// if (isQuestionSetExist(setName)) {
+		// Alert alert = new Alert(AlertType.CONFIRMATION);
+		// alert.setTitle("confirm delete");
+		// alert.setHeaderText("Look, a Confirmation Dialog");
+		// alert.setContentText("Are you ok with this?");
+		//
+		// Optional<ButtonType> result = alert.showAndWait();
+		// if (result.get() == ButtonType.OK) {
+		// _sets.get(setName).deleteLocalFile();
+		// _sets.remove(setName);
+		// System.out.println("This is the mileStone " + setName);
+		// // TODO find a way to delete local files by java?
+		// new BashProcess("./MagicStaff.sh", "delete", setName);
+		// _listOfSetNames.remove(setName);
+		// }
+		// } else {
+		// Alert alert = new Alert(AlertType.INFORMATION);
+		// alert.setTitle("setDidNotFound Dialog");
+		// alert.setHeaderText(null);
+		// alert.setContentText("I have a great message for you!");
+		//
+		// alert.showAndWait();
+		// }
 
-			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == ButtonType.OK) {
-				_sets.get(setName).deleteLocalFile();
-				_sets.remove(setName);
-				System.out.println("This is the mileStone " + setName);
-				// TODO find a way to delete local files by java?
-				new BashProcess("./MagicStaff.sh", "delete", setName);
-				_listOfSetNames.remove(setName);
-			}
-		} else {
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("setDidNotFound Dialog");
-			alert.setHeaderText(null);
-			alert.setContentText("I have a great message for you!");
-
-			alert.showAndWait();
-		}
+		new BashProcess("./MagicStaff.sh", "delete", setName);
+		_listOfSetNames.remove(setName);
 	}
 
 	// check if a questionSet is existed in sets
@@ -319,7 +322,7 @@ public class QuestionModel {
 
 	// getListOfQuestions in a specific set
 	public List<List<String>> getQuestionsFromSpecificSet(String setName) {
-		if(setName == "Default") {
+		if (setName == "Default") {
 			return _preloadSortedQuestionSet;
 		}
 		return _sets.get(setName).getQuestionsInSet();
