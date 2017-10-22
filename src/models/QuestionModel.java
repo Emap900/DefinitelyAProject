@@ -318,9 +318,9 @@ public class QuestionModel {
 
 	// getListOfQuestions in a specific set
 	public List<List<String>> getQuestionsFromSpecificSet(String setName) {
-	
-		System.out.println("Step 3 succeed.");
-	
+		if(setName.equals("Default")) {
+				return _preloadSortedQuestionSet;
+		}
 		return _sets.get(setName).getQuestionsInSet();
 	}
 
