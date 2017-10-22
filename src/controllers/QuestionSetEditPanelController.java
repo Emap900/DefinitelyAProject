@@ -26,7 +26,7 @@ public class QuestionSetEditPanelController {
 	private JFXListView<?> questionSetList;
 
 	@FXML
-	private JFXButton confirmBtn;
+	private JFXButton doneBtn;
 
 	@FXML
 	private JFXButton addQuestionBtn;
@@ -105,7 +105,7 @@ public class QuestionSetEditPanelController {
 	}
 
 	@FXML
-	public void confirmCreation(ActionEvent event) {
+	public void doneCreation(ActionEvent event) {
 		if (_listOfQuestions.isEmpty()) {
 			Main.showErrorDialog("Error!", "The question set should contain at least one question.", null, background);
 		} else {
