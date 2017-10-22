@@ -222,7 +222,14 @@ public class SettingsController implements Initializable {
 		if (!quesitonSetComboBox.getSelectionModel().isEmpty()
 				&& !quesitonSetComboBox.getValue().toString().equals("Default")) {
 			String setName = quesitonSetComboBox.getValue().toString();
-			_questionModel.deleteLocalQuestionSet(setName);
+			Main.showConfirmDialog("Confirmation Dialog", "Are you sure you want to delete this set?", new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					_questionModel.deleteLocalQuestionSet(setName);
+				}
+			}, null, background);
+			
 			updateSetList();
 		} else {
 			permissionDeniededDialog();
