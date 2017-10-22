@@ -11,6 +11,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.QuestionModel;
 
@@ -24,6 +25,9 @@ import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialog.DialogTransition;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXTextField;
 
 import application.Main;
@@ -154,40 +158,49 @@ public class SettingsController implements Initializable {
 
 	// Event Listener on Button[#addNewSetBtn].onAction
 	@FXML
-	public void addNewSet(ActionEvent event) {
-		TextInputDialog dialog = new TextInputDialog();
-		dialog.setTitle("Text Input Dialog");
-		dialog.setHeaderText("Look, a Text Input Dialog");
-		dialog.setContentText("Please enter your name:");
-
-		Optional<String> result = dialog.showAndWait();
-		if (result.isPresent()) {
-			if (result.get().equals("Default")) {
+	public void addNewSet(ActionEvent event) { 
+		JFXDialogLayout content = new JFXDialogLayout();
+		content.setHeading(new Text("Please enter a name for your set: "));
+		TextField tf = new TextField();
+		content.setBody(tf);
+		JFXButton okBtn = new JFXButton("OK");
+		JFXButton cancelBtn = new JFXButton("Cancel");
+		content.setActions(okBtn, cancelBtn);
+		JFXDialog jfxdialog = new JFXDialog(background, content, DialogTransition.CENTER);
+		okBtn.setOnAction(e -> {
+			if (tf.getText().equals("Default")) {
 				Main.showErrorDialog("Error!", "The new set cannot use the name Default.", null, background);
 			} else {
 				EventHandler<ActionEvent> okHandler = new EventHandler<ActionEvent>() {
 
 					@Override
 					public void handle(ActionEvent event) {
-						_questionModel.createLocalQuestionSet(result.get());
-						openeditPanel(result.get());
+						_questionModel.createLocalQuestionSet(tf.getText());
+						openeditPanel(tf.getText());
 						updateSetList();
 					}
 
 				};
 
-				if (quesitonSetComboBox.getItems().contains(result.get())) {
+				if (quesitonSetComboBox.getItems().contains(tf.getText())) {
 					// ask user for confirmation of overwriting the existed question set
 					Main.showConfirmDialog("Confirm Overwrite",
-							"Do you want to overwrite the question set " + result.get()
-									+ "? The questions stored in the old set will be losted.",
+							"Do you want to overwrite the question set " + tf.getText()
+							+ "? The questions stored in the old set will be losted.",
 							okHandler, null, background);
 				} else {
 					okHandler.handle(event);
 				}
 
 			}
-		}
+			jfxdialog.close();
+		});
+		cancelBtn.setOnAction(e -> {
+			jfxdialog.close();
+		});
+
+		jfxdialog.show();
+		//////////////////////////////////////
 	}
 
 	// Event Listener on Button[#editQuestionSetBtn].onAction
@@ -217,12 +230,7 @@ public class SettingsController implements Initializable {
 	}
 
 	private void permissionDeniededDialog() {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Information Dialog");
-		alert.setHeaderText("Look, an Information Dialog");
-		alert.setContentText("The set is not editable / empty");
-
-		alert.showAndWait();
+		Main.showErrorDialog("Information Dialog", "The set is not editable / empty", null, background);
 	}
 
 	// Event Listener on Button[#pickARandomListBtn].onAction
@@ -271,7 +279,7 @@ public class SettingsController implements Initializable {
 		}catch(NullPointerException e){
 			permissionDeniededDialog();
 		}
-		
+
 	}
 
 	// Event Listener on Button[#homeBtn].onAction
