@@ -45,12 +45,11 @@ public class AddNewQuestionDialogController implements Initializable {
 
 	@FXML
 	void addQuestion(ActionEvent event) {
-		// TODO add multiple questions bbb
+		// TODO add multiple questions
 		String question = questionTextField.getText();
 		String answer = answerTextField.getText();
 		QuestionModel.getInstance().addQuestionToQuestionSet(_setName, question, answer);
 		_parent.loadQuestions();
-		// _stage.close();
 	}
 
 	public void initData(String setName, Stage newQuestionStage) {

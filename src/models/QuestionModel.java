@@ -360,8 +360,10 @@ public class QuestionModel {
 	// of questions, this function may or may not be called multiple times for each
 	// run depends on the design choice
 	public void generateQuestionListRandom(String setName) {
-
-		if (_lengthOfQuestionList != null) {
+		if(_lengthOfQuestionList != null && setName.equals("Default")) {
+			generateQuestionListFromPreload("medium", _lengthOfQuestionList);
+		}
+		else if (_lengthOfQuestionList != null) {
 			_generatedQuestionList = _sets.get(setName).generateRandomQuestionList(_lengthOfQuestionList);
 		} else {
 			_generatedQuestionList = _sets.get(setName).generateRandomQuestionList(10);
