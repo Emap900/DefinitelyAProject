@@ -259,8 +259,13 @@ public class SettingsController implements Initializable {
 				// if is not activated, activate and ask question model to automatically pick
 				// questions
 				String setName = quesitonSetComboBox.getValue().toString();
-				_questionModel.setLengthOfQuestionList(Integer.parseInt(numOfQuestions));
-				_questionModel.generateQuestionListRandom(setName);
+				int numOfQs = Integer.parseInt(numOfQuestions);
+				if (setName.equals("Default")) {
+					_questionModel.generateQuestionListFromPreload("median", numOfQs);
+				} else {
+					_questionModel.setLengthOfQuestionList(numOfQs);
+					_questionModel.generateQuestionListRandom(setName);
+				}
 				pickARandomListBtn.setStyle("-fx-background-color: #424242; -fx-text-fill: #eeeeee;");
 				customizeQListBox.setDisable(true);
 			}
