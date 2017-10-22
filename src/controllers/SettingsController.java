@@ -56,6 +56,10 @@ public class SettingsController implements Initializable {
 	@FXML
 	private Label questionListLabel;
 	@FXML
+	private Label questionListSizeWarningMessage;
+	@FXML
+	private Label maxTrailNumSizeWarningMessage;
+	@FXML
 	private TextField numOfQuestionsTextFieldForRandom;
 	@FXML
 	private Button pickARandomListBtn;
@@ -103,6 +107,12 @@ public class SettingsController implements Initializable {
 				if (!isNumber) { // check is the input a number
 					// unto typing
 					numOfQuestionsTextFieldForRandom.setText(oldValue);
+				} else {
+					if (Integer.parseInt(newValue) < 1) {
+						questionListSizeWarningMessage.setVisible(true);
+					} else {
+						questionListSizeWarningMessage.setVisible(false);
+					}
 				}
 			}
 		});
@@ -119,6 +129,12 @@ public class SettingsController implements Initializable {
 				if (!isNumber) { // check is the input a number
 					// unto typing
 					maxTrailNumTextField.setText(oldValue);
+				} else {
+					if (Integer.parseInt(newValue) < 1) {
+						maxTrailNumSizeWarningMessage.setVisible(true);
+					} else {
+						maxTrailNumSizeWarningMessage.setVisible(false);
+					}
 				}
 			}
 		});
@@ -133,6 +149,9 @@ public class SettingsController implements Initializable {
 	public void initData() {
 		// update the question set combo box
 		updateSetList();
+		// set warning messages to be invisible
+		questionListSizeWarningMessage.setVisible(false);
+		maxTrailNumSizeWarningMessage.setVisible(false);
 
 		// set items in recording time combo box
 		recordingTimeComboBox.getItems().setAll("2.0", "2.5", "3.0", "4.0", "5.0");
@@ -310,7 +329,7 @@ public class SettingsController implements Initializable {
 			if (setChosen != null && !setChosen.isEmpty()) {
 				_props.setProperty("QSet", setChosen);
 			}
-			if (listSize != null && !listSize.isEmpty()) {
+			if (listSize != null && !listSize.isEmpty() && Integer.parseInt(listSize) > 0) {
 				_props.setProperty("listSize", listSize);
 			}
 			if (recordingTime != null && !recordingTime.isEmpty()) {
