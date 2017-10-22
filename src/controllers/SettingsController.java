@@ -171,16 +171,23 @@ public class SettingsController implements Initializable {
 					public void handle(ActionEvent event) {
 						_questionModel.createLocalQuestionSet(result.get());
 						openeditPanel(result.get());
+						updateSetList();
 					}
 
 				};
 
-				// ask user for confirmation of overwriting the existed question set
-				Main.showConfirmDialog("Confirm Overwrite", "Do you want to overwrite the question set " + result.get()
-						+ "? The questions stored in the old set will be losted.", okHandler, null, background);
+				if (quesitonSetComboBox.getItems().contains(result.get())) {
+					// ask user for confirmation of overwriting the existed question set
+					Main.showConfirmDialog("Confirm Overwrite",
+							"Do you want to overwrite the question set " + result.get()
+									+ "? The questions stored in the old set will be losted.",
+							okHandler, null, background);
+				} else {
+					okHandler.handle(event);
+				}
+
 			}
 		}
-		updateSetList();
 	}
 
 	// Event Listener on Button[#editQuestionSetBtn].onAction
