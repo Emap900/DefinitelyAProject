@@ -44,6 +44,7 @@ public class Main extends Application {
 	// constants
 	public static final int NUMLOWERBOUND = 1;
 	public static final int NUMUPPERBOUND = 99;
+	public static final String DEFAULTQUESTIONSETNAME = "Default";
 
 	// stages
 	private Stage _primaryStage;

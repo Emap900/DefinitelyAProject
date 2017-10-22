@@ -104,7 +104,7 @@ public class QuestionModel {
 		_sets = new HashMap<String, QuestionSet>();
 		_listOfSetNames = new ArrayList<String>();
 		// TODO testing code
-		_listOfSetNames.add("Default");
+		_listOfSetNames.add(Main.DEFAULTQUESTIONSETNAME);
 		_preloadSortedQuestionSet = new ArrayList<List<String>>();
 
 		_toDoList = new ArrayList<List>();
@@ -286,7 +286,7 @@ public class QuestionModel {
 
 	// getListOfQuestions in a specific set
 	public List<List<String>> getQuestionsFromSpecificSet(String setName) {
-		if (setName == "Default") {
+		if (setName == Main.DEFAULTQUESTIONSETNAME) {
 			return _preloadSortedQuestionSet;
 		}
 		return _sets.get(setName).getQuestionsInSet();

@@ -140,7 +140,7 @@ public class SettingsController implements Initializable {
 		_props = new Properties();
 		try {
 			_props.load(new FileInputStream("config.properties"));
-			String setChosen = _props.getProperty("QSet", "Default");
+			String setChosen = _props.getProperty("QSet", Main.DEFAULTQUESTIONSETNAME);
 			String listSize = _props.getProperty("listSize", "10");
 			String recordingTime = _props.getProperty("recordingTime", "3");
 			String maxTrailNumber = _props.getProperty("maxTrailNumber", "2");
@@ -169,7 +169,7 @@ public class SettingsController implements Initializable {
 		content.setActions(okBtn, cancelBtn);
 		JFXDialog jfxdialog = new JFXDialog(background, content, DialogTransition.CENTER);
 		okBtn.setOnAction(e -> {
-			if (tf.getText().equals("Default")) {
+			if (tf.getText().equals(Main.DEFAULTQUESTIONSETNAME)) {
 				Main.showErrorDialog("Error!", "The new set cannot use the name Default.", null, background);
 			} else {
 				EventHandler<ActionEvent> okHandler = new EventHandler<ActionEvent>() {
@@ -209,7 +209,7 @@ public class SettingsController implements Initializable {
 	@FXML
 	public void editAQuestionSet(ActionEvent event) {
 		if (!quesitonSetComboBox.getSelectionModel().isEmpty()
-				&& !quesitonSetComboBox.getValue().toString().equals("Default")) {
+				&& !quesitonSetComboBox.getValue().toString().equals(Main.DEFAULTQUESTIONSETNAME)) {
 			String currentSet = quesitonSetComboBox.getValue().toString();
 			System.out.println("Step 0 ... PATH start");
 			openeditPanel(currentSet);
@@ -222,7 +222,7 @@ public class SettingsController implements Initializable {
 	@FXML
 	public void deleteSet(ActionEvent event) {
 		if (!quesitonSetComboBox.getSelectionModel().isEmpty()
-				&& !quesitonSetComboBox.getValue().toString().equals("Default")) {
+				&& !quesitonSetComboBox.getValue().toString().equals(Main.DEFAULTQUESTIONSETNAME)) {
 			String setName = quesitonSetComboBox.getValue().toString();
 			Main.showConfirmDialog("Confirmation Dialog", "Are you sure you want to delete this set?",
 					new EventHandler<ActionEvent>() {
@@ -260,7 +260,7 @@ public class SettingsController implements Initializable {
 				// questions
 				String setName = quesitonSetComboBox.getValue().toString();
 				int numOfQs = Integer.parseInt(numOfQuestions);
-				if (setName.equals("Default")) {
+				if (setName.equals(Main.DEFAULTQUESTIONSETNAME)) {
 					_questionModel.generateQuestionListFromPreload("median", numOfQs);
 				} else {
 					_questionModel.setLengthOfQuestionList(numOfQs);
