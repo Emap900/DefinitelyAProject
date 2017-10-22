@@ -253,6 +253,8 @@ public class SettingsController implements Initializable {
 	@FXML
 	public void pickCustomizedList(ActionEvent event) {
 		_userPickingStage = new Stage();
+		_userPickingStage.setMinHeight(400);
+		_userPickingStage.setMinWidth(500);
 		PickQuestionListSceneController pickSceneController = new PickQuestionListSceneController();
 		Pane root = Main.loadScene("PickQuestionListScene.fxml", pickSceneController);
 		Main.showScene(_userPickingStage, root);
@@ -300,6 +302,8 @@ public class SettingsController implements Initializable {
 	public void openeditPanel(String setName) {
 		// TODO pass questionSetName to edit panel
 		_editPanelStage = new Stage();
+		_editPanelStage.setMinHeight(400);
+		_editPanelStage.setMinWidth(400);
 		QuestionSetEditPanelController editPanelController = new QuestionSetEditPanelController(_editPanelStage);
 		Pane root = Main.loadScene("QuestionSetEditPanel.fxml", editPanelController);
 		Main.showScene(_editPanelStage, root);
