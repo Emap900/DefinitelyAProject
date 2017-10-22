@@ -259,14 +259,19 @@ public class SettingsController implements Initializable {
 	// Event Listener on Button[#pickYourselfBtn].onAction
 	@FXML
 	public void pickCustomizedList(ActionEvent event) {
-		_userPickingStage = new Stage();
-		_userPickingStage.setMinHeight(400);
-		_userPickingStage.setMinWidth(500);
-		PickQuestionListSceneController pickSceneController = new PickQuestionListSceneController();
-		Pane root = Main.loadScene("PickQuestionListScene.fxml", pickSceneController);
-		Main.showScene(_userPickingStage, root);
-		String setName = quesitonSetComboBox.getValue().toString();
-		pickSceneController.initData(_userPickingStage, setName);
+		try {
+			String setName = quesitonSetComboBox.getValue().toString();
+			_userPickingStage = new Stage();
+			_userPickingStage.setMinHeight(400);
+			_userPickingStage.setMinWidth(500);
+			PickQuestionListSceneController pickSceneController = new PickQuestionListSceneController();
+			Pane root = Main.loadScene("PickQuestionListScene.fxml", pickSceneController);
+			Main.showScene(_userPickingStage, root);
+			pickSceneController.initData(_userPickingStage, setName);
+		}catch(NullPointerException e){
+			permissionDeniededDialog();
+		}
+		
 	}
 
 	// Event Listener on Button[#homeBtn].onAction
