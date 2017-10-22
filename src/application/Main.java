@@ -72,6 +72,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		_primaryStage = primaryStage;
+		_primaryStage.setTitle("Taatai!");
 		_primaryStage.setMinHeight(660);
 		_primaryStage.setMinWidth(1000);
 
@@ -135,6 +136,7 @@ public class Main extends Application {
 			_helpStage = new Stage();
 			_helpStage.setMinHeight(700);
 			_helpStage.setMinWidth(1200);
+			_helpStage.setTitle("Help");
 			showScene(_helpStage, _helpScene);
 			_helpSceneController.switchTo(f);
 		}

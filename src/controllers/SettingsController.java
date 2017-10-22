@@ -306,6 +306,7 @@ public class SettingsController implements Initializable {
 			_userPickingStage = new Stage();
 			_userPickingStage.setMinHeight(400);
 			_userPickingStage.setMinWidth(500);
+			_userPickingStage.setTitle("List picking window");
 			PickQuestionListSceneController pickSceneController = new PickQuestionListSceneController();
 			Pane root = Main.loadScene("PickQuestionListScene.fxml", pickSceneController);
 			Main.showScene(_userPickingStage, root);
@@ -359,11 +360,11 @@ public class SettingsController implements Initializable {
 		_editPanelStage = new Stage();
 		_editPanelStage.setMinHeight(400);
 		_editPanelStage.setMinWidth(400);
+		_editPanelStage.setTitle("Set editing page");
 		QuestionSetEditPanelController editPanelController = new QuestionSetEditPanelController(this, _editPanelStage);
 		Pane root = Main.loadScene("QuestionSetEditPanel.fxml", editPanelController);
 		Main.showScene(_editPanelStage, root);
 		editPanelController.initData(setName);
-		// editPanelController.setParent(_main);
 	}
 
 	public void updateSetList() {
