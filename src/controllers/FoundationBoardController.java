@@ -445,6 +445,7 @@ public class FoundationBoardController implements Initializable {
 			// reset question model and statistics
 			_statistics.reset();
 			_questionModel.clear();
+			_trailNum = 0;
 			_main.showHome();
 		} else {
 
@@ -461,6 +462,7 @@ public class FoundationBoardController implements Initializable {
 					// reset question model and statistics
 					_statistics.reset();
 					_questionModel.clear();
+					_trailNum = 0;
 					_main.showHome();
 				}
 			};

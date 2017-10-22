@@ -56,6 +56,10 @@ public class SettingsController implements Initializable {
 	@FXML
 	private Label questionListLabel;
 	@FXML
+	private Label questionListSizeWarningMessage;
+	@FXML
+	private Label maxTrailNumSizeWarningMessage;
+	@FXML
 	private TextField numOfQuestionsTextFieldForRandom;
 	@FXML
 	private Button pickARandomListBtn;
@@ -103,6 +107,12 @@ public class SettingsController implements Initializable {
 				if (!isNumber) { // check is the input a number
 					// unto typing
 					numOfQuestionsTextFieldForRandom.setText(oldValue);
+				} else {
+					if (Integer.parseInt(newValue) < 1) {
+						questionListSizeWarningMessage.setVisible(true);
+					} else {
+						questionListSizeWarningMessage.setVisible(false);
+					}
 				}
 			}
 		});
@@ -119,6 +129,12 @@ public class SettingsController implements Initializable {
 				if (!isNumber) { // check is the input a number
 					// unto typing
 					maxTrailNumTextField.setText(oldValue);
+				} else {
+					if (Integer.parseInt(newValue) < 1) {
+						maxTrailNumSizeWarningMessage.setVisible(true);
+					} else {
+						maxTrailNumSizeWarningMessage.setVisible(false);
+					}
 				}
 			}
 		});
@@ -133,6 +149,9 @@ public class SettingsController implements Initializable {
 	public void initData() {
 		// update the question set combo box
 		updateSetList();
+		// set warning messages to be invisible
+		questionListSizeWarningMessage.setVisible(false);
+		maxTrailNumSizeWarningMessage.setVisible(false);
 
 		// set items in recording time combo box
 		recordingTimeComboBox.getItems().setAll("2.0", "2.5", "3.0", "4.0", "5.0");
@@ -140,7 +159,7 @@ public class SettingsController implements Initializable {
 		_props = new Properties();
 		try {
 			_props.load(new FileInputStream("config.properties"));
-			String setChosen = _props.getProperty("QSet", "Default");
+			String setChosen = _props.getProperty("QSet", Main.DEFAULTQUESTIONSETNAME);
 			String listSize = _props.getProperty("listSize", "10");
 			String recordingTime = _props.getProperty("recordingTime", "3");
 			String maxTrailNumber = _props.getProperty("maxTrailNumber", "2");
@@ -169,7 +188,7 @@ public class SettingsController implements Initializable {
 		content.setActions(okBtn, cancelBtn);
 		JFXDialog jfxdialog = new JFXDialog(background, content, DialogTransition.CENTER);
 		okBtn.setOnAction(e -> {
-			if (tf.getText().equals("Default")) {
+			if (tf.getText().equals(Main.DEFAULTQUESTIONSETNAME)) {
 				Main.showErrorDialog("Error!", "The new set cannot use the name Default.", null, background);
 			} else {
 				EventHandler<ActionEvent> okHandler = new EventHandler<ActionEvent>() {
@@ -209,7 +228,7 @@ public class SettingsController implements Initializable {
 	@FXML
 	public void editAQuestionSet(ActionEvent event) {
 		if (!quesitonSetComboBox.getSelectionModel().isEmpty()
-				&& !quesitonSetComboBox.getValue().toString().equals("Default")) {
+				&& !quesitonSetComboBox.getValue().toString().equals(Main.DEFAULTQUESTIONSETNAME)) {
 			String currentSet = quesitonSetComboBox.getValue().toString();
 			System.out.println("Step 0 ... PATH start");
 			openeditPanel(currentSet);
@@ -222,7 +241,7 @@ public class SettingsController implements Initializable {
 	@FXML
 	public void deleteSet(ActionEvent event) {
 		if (!quesitonSetComboBox.getSelectionModel().isEmpty()
-				&& !quesitonSetComboBox.getValue().toString().equals("Default")) {
+				&& !quesitonSetComboBox.getValue().toString().equals(Main.DEFAULTQUESTIONSETNAME)) {
 			String setName = quesitonSetComboBox.getValue().toString();
 			Main.showConfirmDialog("Confirmation Dialog", "Are you sure you want to delete this set?",
 					new EventHandler<ActionEvent>() {
@@ -259,8 +278,13 @@ public class SettingsController implements Initializable {
 				// if is not activated, activate and ask question model to automatically pick
 				// questions
 				String setName = quesitonSetComboBox.getValue().toString();
-				_questionModel.setLengthOfQuestionList(Integer.parseInt(numOfQuestions));
-				_questionModel.generateQuestionListRandom(setName);
+				int numOfQs = Integer.parseInt(numOfQuestions);
+				if (setName.equals(Main.DEFAULTQUESTIONSETNAME)) {
+					_questionModel.generateQuestionListFromPreload("median", numOfQs);
+				} else {
+					_questionModel.setLengthOfQuestionList(numOfQs);
+					_questionModel.generateQuestionListRandom(setName);
+				}
 				pickARandomListBtn.setStyle("-fx-background-color: #424242; -fx-text-fill: #eeeeee;");
 				customizeQListBox.setDisable(true);
 			}
@@ -306,7 +330,7 @@ public class SettingsController implements Initializable {
 			if (setChosen != null && !setChosen.isEmpty()) {
 				_props.setProperty("QSet", setChosen);
 			}
-			if (listSize != null && !listSize.isEmpty()) {
+			if (listSize != null && !listSize.isEmpty() && Integer.parseInt(listSize) > 0) {
 				_props.setProperty("listSize", listSize);
 			}
 			if (recordingTime != null && !recordingTime.isEmpty()) {

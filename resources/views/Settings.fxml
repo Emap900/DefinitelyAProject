@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <StackPane fx:id="background" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="1000.0">
@@ -117,6 +116,11 @@
                                  </HBox.margin>
                               </Label>
                               <Region HBox.hgrow="ALWAYS" />
+                              <Label fx:id="questionListSizeWarningMessage" layoutX="498.0" layoutY="35.0" text="Size must be greater than 0." textFill="RED" visible="false">
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
                               <Label layoutX="51.0" layoutY="34.0" text="Size:" textFill="#424242">
                                  <font>
                                     <Font size="14.0" />
@@ -222,7 +226,7 @@
                               <Insets bottom="10.0" top="10.0" />
                            </padding>
                            <children>
-                              <Label text="Maximum retry number">
+                              <Label text="Maximum number of tries">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -231,6 +235,11 @@
                                  </HBox.margin>
                               </Label>
                               <Region HBox.hgrow="ALWAYS" />
+                              <Label fx:id="maxTrailNumSizeWarningMessage" text="Number must be greater than 0." textFill="RED" visible="false">
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
                               <JFXTextField fx:id="maxTrailNumTextField" alignment="CENTER" prefWidth="60.0" unFocusColor="#e0e0e0">
                                  <font>
                                     <Font size="14.0" />

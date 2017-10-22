@@ -26,7 +26,7 @@ public class QuestionSetEditPanelController {
 	private JFXListView<?> questionSetList;
 
 	@FXML
-	private JFXButton confirmBtn;
+	private JFXButton doneBtn;
 
 	@FXML
 	private JFXButton addQuestionBtn;
@@ -47,16 +47,16 @@ public class QuestionSetEditPanelController {
 
 	private String _currentSetName;
 
-	private Main _main;
+	private SettingsController _settingsController;
 
 	public QuestionSetEditPanelController(SettingsController settingsController, Stage editPanelStage) {
 		_editPanelStage = editPanelStage;
+		_settingsController = settingsController;
 		// stop the stage from closing if the question set is still empty and show an
 		// error panel
 		_editPanelStage.setOnCloseRequest(e -> {
 			if (_listOfQuestions == null || _listOfQuestions.isEmpty()) {
 				e.consume();
-				// showEmptyErrorPanel();
 				Main.showConfirmDialog("Empty Question Set!",
 						"The question set should contain at least one question. You can choose OK to delete this empty set",
 						new EventHandler<ActionEvent>() {
@@ -105,10 +105,11 @@ public class QuestionSetEditPanelController {
 	}
 
 	@FXML
-	public void confirmCreation(ActionEvent event) {
+	public void doneCreation(ActionEvent event) {
 		if (_listOfQuestions.isEmpty()) {
 			Main.showErrorDialog("Error!", "The question set should contain at least one question.", null, background);
 		} else {
+			_settingsController.updateSetList();
 			_editPanelStage.close();
 		}
 	}
@@ -120,13 +121,5 @@ public class QuestionSetEditPanelController {
 		System.out.println(key); // TODO
 		_questionModel.deleteQuestionFromQuestionSet(_currentSetName, key);
 		loadQuestions();
-	}
-
-	/**
-	 * Show an error panel when the set is empty, ask the user to add at least one
-	 * question.
-	 */
-	private void showEmptyErrorPanel() {
-		Main.showErrorDialog("Error!", "The question set should contain at least one question.", null, background);
 	}
 }
