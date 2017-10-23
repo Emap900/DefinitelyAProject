@@ -43,8 +43,8 @@ public class AddNewQuestionDialogController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		answerFormatWarningLabel
-				.setText("Answer must be a number between " + Main.NUMBER_LOWER_BOUND + " and " + Main.NUMBER_UPPER_BOUND);
+		answerFormatWarningLabel.setText(
+				"Answer must be a number between " + Main.NUMBER_LOWER_BOUND + " and " + Main.NUMBER_UPPER_BOUND);
 
 		questionTextField.textProperty().addListener((observable, oldValue, newValue) -> {
 
@@ -83,7 +83,7 @@ public class AddNewQuestionDialogController implements Initializable {
 		});
 	}
 
-	public void initData(String setName, Stage newQuestionStage) {
+	protected void initData(String setName, Stage newQuestionStage) {
 		_setName = setName;
 		_stage = newQuestionStage;
 	}
@@ -92,7 +92,7 @@ public class AddNewQuestionDialogController implements Initializable {
 	 * Add a key event handler to the scene to handle the shortcut. The shortcut is
 	 * "Esc" for closing the this add new question stage.
 	 */
-	public void enableShortcut() {
+	protected void enableShortcut() {
 		_stage.getScene().addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 
 			@Override
@@ -105,12 +105,12 @@ public class AddNewQuestionDialogController implements Initializable {
 		});
 	}
 
-	public void setParent(QuestionSetEditPanelController parent) {
+	protected void setParent(QuestionSetEditPanelController parent) {
 		_parent = parent;
 	}
 
 	@FXML
-	void addQuestion(ActionEvent event) {
+	private void addQuestion(ActionEvent event) {
 		// TODO add multiple questions
 		String question = questionTextField.getText();
 		String answer = answerTextField.getText();

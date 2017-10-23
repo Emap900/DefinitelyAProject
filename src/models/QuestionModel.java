@@ -239,9 +239,11 @@ public class QuestionModel {
 		_generatedQuestionList = listGenerated;
 	}
 
-	// append question to a list when user want to pick up their own list of
-	// questions Note: the field need to be cleared in certain stages at least
-	// before user want to rebuild a list
+	/**
+	 * append question to a list when user want to pick up their own list of
+	 * questions. Note: the field need to be cleared in certain stages at least
+	 * before user want to rebuild a list
+	 */
 	public void addQuestionToListForUserDefine(String question, String answer) {
 		List<String> pair = new ArrayList<String>();
 		pair.add(question);
@@ -249,8 +251,12 @@ public class QuestionModel {
 		_generatedQuestionList.add(pair);
 	}
 
-	// randomize the order of generated question list, necessarily for each run of
-	// game for user picked list
+	/**
+	 * Randomize the order of generated question list, necessarily for each run of
+	 * game for user picked list
+	 * 
+	 * @param randomize
+	 */
 	public void randomizeQuestionListFromUserDefineWithSelfPick(boolean randomize) {
 		if (_generatedQuestionList == null) {
 			Alert alert = new Alert(AlertType.WARNING);
@@ -324,10 +330,9 @@ public class QuestionModel {
 	// of questions, this function may or may not be called multiple times for each
 	// run depends on the design choice
 	public void generateQuestionListRandom(String setName) {
-		if(_lengthOfQuestionList != null && setName.equals("Default")) {
+		if (_lengthOfQuestionList != null && setName.equals("Default")) {
 			generateQuestionListFromPreload("medium", _lengthOfQuestionList);
-		}
-		else if (_lengthOfQuestionList != null) {
+		} else if (_lengthOfQuestionList != null) {
 			_generatedQuestionList = _sets.get(setName).generateRandomQuestionList(_lengthOfQuestionList);
 		} else {
 			_generatedQuestionList = _sets.get(setName).generateRandomQuestionList(10);

@@ -10,8 +10,14 @@ public class HelpController {
 	@FXML
 	private StackPane background;
 
+	/**
+	 * Event handler for button clicked. Show answer for "What is an Endless Mode
+	 * Math Game?".
+	 * 
+	 * @param event
+	 */
 	@FXML
-	void helpEndlessMode(ActionEvent event) {
+	private void helpEndlessMode(ActionEvent event) {
 		String title = "What is an Endless Mode Math Game?";
 		String body = "In an Endless Mode Math Game, you will be answering math questions \n"
 				+ "randomly picked from the default question set*. The game will not finish \n"
@@ -19,8 +25,14 @@ public class HelpController {
 		Main.showInfoDialog(title, body, null, background);
 	}
 
+	/**
+	 * Event handler for button clicked. Show answer for "How to set the maximum
+	 * number of tries?".
+	 * 
+	 * @param event
+	 */
 	@FXML
-	void helpMaxTrailNum(ActionEvent event) {
+	private void helpMaxTrailNum(ActionEvent event) {
 		String title = "How to set the maximum number of tries?";
 		String body = "1. Go to \"Settings\".\n"
 				+ "2. Under \"Recording time and maximum retry number\" block, find \"Maximum number of tries\" setting.\n"
@@ -30,8 +42,14 @@ public class HelpController {
 		Main.showInfoDialog(title, body, null, background);
 	}
 
+	/**
+	 * Event handler for button clicked. Show answer for "What is a Normal Mode Math
+	 * Game?".
+	 * 
+	 * @param event
+	 */
 	@FXML
-	void helpNormalMode(ActionEvent event) {
+	private void helpNormalMode(ActionEvent event) {
 		String title = "What is a Normal Mode Math Game?";
 		String body = "In an Normal Mode Math Game, you will be answering math questions randomly picked \n"
 				+ "from the selected question list if there is one*.\n"
@@ -42,8 +60,14 @@ public class HelpController {
 		Main.showInfoDialog(title, body, null, background);
 	}
 
+	/**
+	 * Event handler for button clicked. Show answer for "How to use Practise
+	 * Mode?".
+	 * 
+	 * @param event
+	 */
 	@FXML
-	void helpPractiseMode(ActionEvent event) {
+	private void helpPractiseMode(ActionEvent event) {
 		String title = "How to use Practise Mode?";
 		String body = "In Practise Mode, you can either choose to practise pronouncing a specific number in Maori \n"
 				+ "or let the system randomly generate numbers for you to practise. \n"
@@ -52,8 +76,13 @@ public class HelpController {
 		Main.showInfoDialog(title, body, null, background);
 	}
 
+	/**
+	 * Event handler for button clicked. Show answer for "What is a question list?".
+	 * 
+	 * @param event
+	 */
 	@FXML
-	void helpQuestionList(ActionEvent event) {
+	private void helpQuestionList(ActionEvent event) {
 		String title = "What is a question list?";
 		String body = "A question list is a list of math questions to be asked in a Normal Mode Math Game. \n"
 				+ "Both the size of the question list and the questions inside the question list can be customized*.\n\n"
@@ -61,8 +90,14 @@ public class HelpController {
 		Main.showInfoDialog(title, body, null, background);
 	}
 
+	/**
+	 * Event handler for button clicked. Show answer for "How to customize the
+	 * question list?".
+	 * 
+	 * @param event
+	 */
 	@FXML
-	void helpQuestionListCustomize(ActionEvent event) {
+	private void helpQuestionListCustomize(ActionEvent event) {
 		String title = "How to customize the question list?";
 		String body = "To customize the question list, you need to first select a question set in settings. \n"
 				+ "Then you can either set the length of the question list and let the system automatically \n "
@@ -86,8 +121,13 @@ public class HelpController {
 		Main.showInfoDialog(title, body, null, background);
 	}
 
+	/**
+	 * Event handler for button clicked. Show answer for "What is a question set?".
+	 * 
+	 * @param event
+	 */
 	@FXML
-	void helpQuestionSet(ActionEvent event) {
+	private void helpQuestionSet(ActionEvent event) {
 		String title = "What is a question set?";
 		String body = "A question set is a set of math questions that can be picked into a question list (see \n"
 				+ "\"What is a question list?\" for help) or be randomly chosen to be asked in math games. \n"
@@ -99,8 +139,14 @@ public class HelpController {
 		Main.showInfoDialog(title, body, null, background);
 	}
 
+	/**
+	 * Event handler for button clicked. Show answer for "How to edit/add/delete
+	 * your own question sets?".
+	 * 
+	 * @param event
+	 */
 	@FXML
-	void helpQuestionSetsEditAddDelete(ActionEvent event) {
+	private void helpQuestionSetsEditAddDelete(ActionEvent event) {
 		String title = "How to edit/add/delete your own question sets?";
 		String body = "The editing/adding/deleting question set functions are all in \"Settings\", under the \n"
 				+ "\"Choose a question set and generate your own question list\" block.\n\n"
@@ -117,8 +163,14 @@ public class HelpController {
 		Main.showInfoDialog(title, body, null, background);
 	}
 
+	/**
+	 * Event handler for button clicked. Show answer for "How to add/delete
+	 * questions in a question set?".
+	 * 
+	 * @param event
+	 */
 	@FXML
-	void helpEditAQuestionSet(ActionEvent event) {
+	private void helpEditAQuestionSet(ActionEvent event) {
 		String title = "How to add/delete questions in a question set?";
 		String body = "To add/delete questions in a question set, you need to open the questioon set in a \"Set\n"
 				+ "editing page\" window. For how to open this window, please have a look at \"How to\n"
@@ -136,8 +188,14 @@ public class HelpController {
 		Main.showInfoDialog(title, body, null, background);
 	}
 
+	/**
+	 * Event handler for button clicked. Show answer for "How to set the recording
+	 * time limit?".
+	 * 
+	 * @param event
+	 */
 	@FXML
-	void helpRecordingTime(ActionEvent event) {
+	private void helpRecordingTime(ActionEvent event) {
 		String title = "How to set the recording time limit?";
 		String body = "1. Go to \"Settings\".\n"
 				+ "2. Under \"Recording time and maximum retry number\" block, find \"Recording time\" setting.\n"
@@ -146,8 +204,14 @@ public class HelpController {
 		Main.showInfoDialog(title, body, null, background);
 	}
 
+	/**
+	 * Event handler for button clicked. Show answer for "How is my score calculated
+	 * for math games?".
+	 * 
+	 * @param event
+	 */
 	@FXML
-	void helpScore(ActionEvent event) {
+	private void helpScore(ActionEvent event) {
 		String title = "How is my score calculated for math games?";
 		String body = "Every question has a hardness factor, this factor is decided by the length of the Maori\n"
 				+ "pronounciation for the answer of the question. A one-word answer has a hardness factor of 1.0,\n"

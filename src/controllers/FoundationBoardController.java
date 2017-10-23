@@ -182,7 +182,7 @@ public class FoundationBoardController implements Initializable {
 	 * @param number
 	 *            (either a number or null)
 	 */
-	public void startPractise(Integer number) {
+	protected void startPractise(Integer number) {
 		_mode = Mode.PRACTISE;
 
 		System.out.println(number);
@@ -205,7 +205,7 @@ public class FoundationBoardController implements Initializable {
 	 *            the gameMode (either Normal or Endless)
 	 * @param playerName
 	 */
-	public void startMathGame(Mode gameMode, String playerName) {
+	protected void startMathGame(Mode gameMode, String playerName) {
 
 		_mode = gameMode;
 
@@ -248,7 +248,7 @@ public class FoundationBoardController implements Initializable {
 	/**
 	 * Show the QuestionScene on the main pane
 	 */
-	public void showQuestionScene() {
+	protected void showQuestionScene() {
 		_mainPane.getChildren().setAll(_questionScene);
 		// ask for current question and answer
 		_questionSceneController.setQuestion(_questionModel.currentQuestion(), _questionModel.currentAnswer());
@@ -258,14 +258,14 @@ public class FoundationBoardController implements Initializable {
 	 * Inform the foundation board controller that the number of trails the user
 	 * took increased by one
 	 */
-	public void incrementTrial() {
+	protected void incrementTrial() {
 		_trailNum++;
 	}
 
 	/**
 	 * Show the ResultScene on the main pane
 	 */
-	public void showResult() {
+	protected void showResult() {
 		Task<Void> check = new Task<Void>() {
 			@Override
 			public Void call() {
@@ -313,7 +313,7 @@ public class FoundationBoardController implements Initializable {
 	 * Record the correctness of the current question and show next question on the
 	 * question scene.
 	 */
-	public void showNextQuestion() {
+	protected void showNextQuestion() {
 
 		// append the new result
 		appendResult();
@@ -338,7 +338,7 @@ public class FoundationBoardController implements Initializable {
 	 * Finish practising/math gaming and go back to home (if is under practise mode)
 	 * or go to personal summary (if is under math mode).
 	 */
-	public void finish() {
+	protected void finish() {
 
 		String title = "Confirm Finish";
 		String body;

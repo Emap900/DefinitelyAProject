@@ -9,6 +9,11 @@ import java.util.Map;
 
 import enums.Mode;
 
+/**
+ * This class is the model that organizing users and their scores, ranks,
+ * histories along with the local files storing these information.
+ *
+ */
 public class UserModel {
 
 	private static UserModel _modelInstance;
@@ -19,7 +24,7 @@ public class UserModel {
 	private static Map<String, User> _users;
 
 	/**
-	 * Constructor
+	 * Private constructor
 	 */
 	private UserModel() {
 		_users = new HashMap<String, User>();

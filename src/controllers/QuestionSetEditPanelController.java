@@ -56,7 +56,7 @@ public class QuestionSetEditPanelController implements Initializable {
 
 	private SettingsController _settingsController;
 
-	public QuestionSetEditPanelController(SettingsController settingsController, Stage editPanelStage) {
+	protected QuestionSetEditPanelController(SettingsController settingsController, Stage editPanelStage) {
 		_editPanelStage = editPanelStage;
 		_settingsController = settingsController;
 		// stop the stage from closing if the question set is still empty and show an
@@ -97,7 +97,7 @@ public class QuestionSetEditPanelController implements Initializable {
 	 * shortcuts are: "Delete" for deleting the selected question, "Enter" for done
 	 * creation, and "Ctrl+N" to add a new question.
 	 */
-	public void enableShortcut() {
+	protected void enableShortcut() {
 		_editPanelStage.getScene().addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 
 			final KeyCombination keyComb = new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN);
@@ -116,14 +116,14 @@ public class QuestionSetEditPanelController implements Initializable {
 		});
 	}
 
-	public void initData(String setName) {
+	protected void initData(String setName) {
 		_questionModel = QuestionModel.getInstance();
 		_currentSetName = setName;
 		_listOfQuestions = new ArrayList<String>();
 		loadQuestions();
 	}
 
-	public void loadQuestions() {
+	protected void loadQuestions() {
 		_listOfQuestions.clear();
 		List<List<String>> rawData = _questionModel.getQuestionsFromSpecificSet(_currentSetName);
 		for (int i = 0; i < rawData.size(); i++) {
@@ -136,7 +136,7 @@ public class QuestionSetEditPanelController implements Initializable {
 	}
 
 	@FXML
-	public void addNewQuestion(ActionEvent event) {
+	private void addNewQuestion(ActionEvent event) {
 
 		_newQuestionStage = new Stage();
 		AddNewQuestionDialogController aqdController = new AddNewQuestionDialogController();
@@ -150,7 +150,7 @@ public class QuestionSetEditPanelController implements Initializable {
 	}
 
 	@FXML
-	public void doneCreation(ActionEvent event) {
+	private void doneCreation(ActionEvent event) {
 		if (_listOfQuestions.isEmpty()) {
 			Main.showErrorDialog("Error!", "The question set should contain at least one question.", null, background);
 		} else {
@@ -160,7 +160,7 @@ public class QuestionSetEditPanelController implements Initializable {
 	}
 
 	@FXML
-	public void deleteSelectedQuestion(ActionEvent event) {
+	private void deleteSelectedQuestion(ActionEvent event) {
 		String selectedQ = questionList.getSelectionModel().getSelectedItem();
 		if (selectedQ != null && !selectedQ.isEmpty()) {
 			String key = selectedQ.split("=")[0];
