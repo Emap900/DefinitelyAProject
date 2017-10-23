@@ -58,11 +58,9 @@ public class MathStartPageController implements Initializable {
 					_userNameTF.setText(oldValue);
 					_tipMessage.setTextFill(Color.RED);
 				} else {
-					// TODO need to set back to default, current just use black
 					_tipMessage.setTextFill(Color.BLACK);
 				}
 			} else { // if user input is empty
-				// TODO need to set back to default, current just use black
 				_tipMessage.setTextFill(Color.BLACK);
 			}
 

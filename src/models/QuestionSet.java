@@ -55,7 +55,6 @@ public class QuestionSet {
 	 * Sync the changes in the hashmap to the local file
 	 */
 	private void updateLocalFile() {
-		// TODO Auto-generated method stub
 		deleteLocalFile();
 		loadList();
 		for (Entry<String, String> entry : _QAPairs.entrySet()) {
@@ -68,7 +67,7 @@ public class QuestionSet {
 				e.printStackTrace();
 			}
 		}
-	
+
 	}
 
 	protected void addQAPair(String question, String answer) {
@@ -76,12 +75,8 @@ public class QuestionSet {
 		updateLocalFile();
 	}
 
-	protected List<List> generateUserDefined() {
-		return null;
-	}
-
-	protected List<List> generateRandomQuestionList(int numOfQuestions) {
-		List<List> randomList = new ArrayList<List>();
+	protected List<List<String>> generateRandomQuestionList(int numOfQuestions) {
+		List<List<String>> randomList = new ArrayList<List<String>>();
 		for (int i = 0; i < numOfQuestions; i++) {
 			String question = (String) _QAPairs.keySet().toArray()[new Random()
 					.nextInt(_QAPairs.keySet().toArray().length)];
@@ -123,9 +118,7 @@ public class QuestionSet {
 			newEntry.add(entry.getKey());
 			newEntry.add(entry.getValue());
 			listForEdit.add(newEntry);
-			System.out.println(entry.getKey() + "=" + entry.getValue());
 		}
-		System.out.println("The size is" + listForEdit.size());
 		return listForEdit;
 	}
 }

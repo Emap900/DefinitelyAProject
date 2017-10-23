@@ -11,7 +11,6 @@ import javafx.scene.layout.HBox;
 /**
  * This class is the customized list cell used in the list views of the
  * LeaderBoard.
- *
  */
 public class UserRankListViewCell extends ListCell<UserDataTuple> {
 

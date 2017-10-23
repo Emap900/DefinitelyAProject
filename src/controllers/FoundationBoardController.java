@@ -179,7 +179,6 @@ public class FoundationBoardController implements Initializable {
 	protected void startPractise(Integer number) {
 		_mode = Mode.PRACTISE;
 
-		System.out.println(number);
 		_questionModel.initializePractise(number);
 		_questionModel.NextQA();
 

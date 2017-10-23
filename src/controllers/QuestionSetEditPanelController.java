@@ -131,7 +131,6 @@ public class QuestionSetEditPanelController implements Initializable {
 			String Combined = temp.get(0) + "=" + temp.get(1);
 			_listOfQuestions.add(Combined);
 		}
-		System.out.println("Step 2 succeed.");
 		questionList.getItems().setAll(_listOfQuestions);
 	}
 
@@ -139,6 +138,7 @@ public class QuestionSetEditPanelController implements Initializable {
 	private void addNewQuestion(ActionEvent event) {
 
 		_newQuestionStage = new Stage();
+		_newQuestionStage.setTitle("New question");
 		AddNewQuestionDialogController aqdController = new AddNewQuestionDialogController();
 		Pane root = Main.loadScene("AddNewQuestionDialog.fxml", aqdController);
 		Main.showScene(_newQuestionStage, root);
@@ -164,7 +164,6 @@ public class QuestionSetEditPanelController implements Initializable {
 		String selectedQ = questionList.getSelectionModel().getSelectedItem();
 		if (selectedQ != null && !selectedQ.isEmpty()) {
 			String key = selectedQ.split("=")[0];
-			System.out.println(key); // TODO
 			_questionModel.deleteQuestionFromQuestionSet(_currentSetName, key);
 		}
 		loadQuestions();

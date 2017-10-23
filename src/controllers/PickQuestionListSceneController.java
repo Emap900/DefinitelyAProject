@@ -68,7 +68,7 @@ public class PickQuestionListSceneController {
 	@FXML
 	private void addBtnClicked(ActionEvent event) {
 		// TODO add multiple questions
-		String selectedQuestion = (String) _allQuestionsListView.getSelectionModel().getSelectedItem();
+		String selectedQuestion = _allQuestionsListView.getSelectionModel().getSelectedItem();
 		if (selectedQuestion != null) {
 			_listOfQuestions.add(selectedQuestion);
 			_userChoseListView.getItems().setAll(_listOfQuestions);
@@ -101,7 +101,7 @@ public class PickQuestionListSceneController {
 		if (_userChoseListView.getItems().isEmpty()) {
 			Main.showErrorDialog("Error!", "Please pick at least one question.", null, _background);
 		} else {
-			List<List> listGenerated = new ArrayList<List>();
+			List<List<String>> listGenerated = new ArrayList<List<String>>();
 			for (int i = 0; i < _listOfQuestions.size(); i++) {
 				String question = _listOfQuestions.get(i).split("=")[0];
 				String answer = _listOfQuestions.get(i).split("=")[1];

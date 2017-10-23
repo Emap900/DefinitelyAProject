@@ -50,9 +50,6 @@ public class Main extends Application {
 	private Stage _primaryStage;
 	private Stage _helpStage;
 
-	// background
-	private StackPane _background = new StackPane();
-
 	// scenes
 	private Pane _homePage;
 	private Pane _foundationBoard;

@@ -275,7 +275,6 @@ public class SettingsController implements Initializable {
 		if (!quesitonSetComboBox.getSelectionModel().isEmpty()
 				&& !quesitonSetComboBox.getValue().toString().equals(Main.DEFAULT_QUESTION_SET_NAME)) {
 			String currentSet = quesitonSetComboBox.getValue().toString();
-			System.out.println("Step 0 ... PATH start");
 			openeditPanel(currentSet);
 		} else {
 			permissionDeniededDialog();
@@ -385,7 +384,6 @@ public class SettingsController implements Initializable {
 	}
 
 	private void openeditPanel(String setName) {
-		// TODO pass questionSetName to edit panel
 		_editPanelStage = new Stage();
 		_editPanelStage.setMinHeight(400);
 		_editPanelStage.setMinWidth(400);
@@ -400,7 +398,5 @@ public class SettingsController implements Initializable {
 	protected void updateSetList() {
 		ObservableList<String> ol = FXCollections.observableArrayList(_questionModel.getListOfsets());
 		quesitonSetComboBox.setItems(ol);
-
-		System.out.println(_questionModel.getListOfsets().toString());
 	}
 }
