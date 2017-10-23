@@ -363,6 +363,11 @@ public class FoundationBoardController implements Initializable {
 					showPractiseSummary();
 				} else {
 					_userModel.appendRecord(_userName, _mode, _questionModel.getScore());
+					// reset question model and statistics
+					_statistics.reset();
+					_questionModel.clear();
+					_trailNum = 0;
+					_mode = null;
 					_main.showPersonalPanel(_userName);
 				}
 			}
@@ -463,6 +468,7 @@ public class FoundationBoardController implements Initializable {
 					_statistics.reset();
 					_questionModel.clear();
 					_trailNum = 0;
+					_mode = null;
 					_main.showHome();
 				}
 			};
@@ -495,44 +501,5 @@ public class FoundationBoardController implements Initializable {
 	private void showHelp(ActionEvent event) {
 		_main.showHelp(_function);
 	}
-
-	// /**
-	// * Show a jfoenix material confirmation dialog on the given background
-	// * stackPane.
-	// *
-	// * @param title
-	// * @param body
-	// * @param okHandler
-	// * @param cancelHandler
-	// * @param background
-	// */
-	// private void showConfirmDialog(String title, String body,
-	// EventHandler<ActionEvent> okHandler,
-	// EventHandler<ActionEvent> cancelHandler, StackPane background) {
-	// // ask user for confirm
-	// JFXDialogLayout content = new JFXDialogLayout();
-	// content.setHeading(new Text(title));
-	// content.setBody(new Text(body));
-	// JFXButton okBtn = new JFXButton("OK");
-	// JFXButton cancelBtn = new JFXButton("Cancel");
-	// content.setActions(okBtn, cancelBtn);
-	// JFXDialog dialog = new JFXDialog(background, content,
-	// DialogTransition.CENTER);
-	//
-	// okBtn.setOnAction(e -> {
-	// if (okHandler != null) {
-	// okHandler.handle(e);
-	// }
-	// dialog.close();
-	// });
-	// cancelBtn.setOnAction(e -> {
-	// if (cancelHandler != null) {
-	// cancelHandler.handle(e);
-	// }
-	// dialog.close();
-	// });
-	//
-	// dialog.show();
-	// }
 
 }
