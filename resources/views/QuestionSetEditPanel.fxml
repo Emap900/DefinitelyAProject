@@ -48,7 +48,7 @@
                   <Region HBox.hgrow="ALWAYS" />
                   <VBox alignment="CENTER">
                      <children>
-                        <JFXButton fx:id="doneBtn" buttonType="RAISED" onAction="#doneCreation" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: white;" text="Done">
+                        <JFXButton fx:id="doneBtn" buttonType="RAISED" defaultButton="true" onAction="#doneCreation" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: white;" text="Done">
                            <VBox.margin>
                               <Insets bottom="30.0" left="20.0" right="20.0" top="70.0" />
                            </VBox.margin>

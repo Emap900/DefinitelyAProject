@@ -236,6 +236,7 @@ public class Main extends Application {
 		content.setHeading(new Text(title));
 		content.setBody(new Text(body));
 		JFXButton okBtn = new JFXButton("OK");
+		okBtn.setDefaultButton(true);
 		JFXButton cancelBtn = new JFXButton("Cancel");
 		content.setActions(okBtn, cancelBtn);
 		JFXDialog dialog = new JFXDialog(background, content, DialogTransition.CENTER);
@@ -271,6 +272,7 @@ public class Main extends Application {
 		content.setHeading(new Text(title));
 		content.setBody(new Text(body));
 		JFXButton okBtn = new JFXButton("OK");
+		okBtn.setDefaultButton(true);
 		content.setActions(okBtn);
 		JFXDialog dialog = new JFXDialog(background, content, DialogTransition.CENTER);
 

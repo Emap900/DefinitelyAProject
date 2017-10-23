@@ -94,8 +94,8 @@ public class QuestionSetEditPanelController implements Initializable {
 
 	/**
 	 * Add key event handler to the scene to handle keyboard shortcuts. The
-	 * shortcuts are: "Delete" for deleting the selected question, and "Ctrl+N" to
-	 * add a new question.
+	 * shortcuts are: "Delete" for deleting the selected question, "Enter" for done
+	 * creation, and "Ctrl+N" to add a new question.
 	 */
 	public void enableShortcut() {
 		_editPanelStage.getScene().addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
@@ -106,6 +106,8 @@ public class QuestionSetEditPanelController implements Initializable {
 			public void handle(KeyEvent e) {
 				if (e.getCode() == KeyCode.DELETE) {
 					deleteSelectedQuestion(null);
+				} else if (e.getCode() == KeyCode.ENTER) {
+					doneCreation(null);
 				} else if (keyComb.match(e)) {
 					addNewQuestion(null);
 				}
@@ -141,6 +143,7 @@ public class QuestionSetEditPanelController implements Initializable {
 		Pane root = Main.loadScene("AddNewQuestionDialog.fxml", aqdController);
 		Main.showScene(_newQuestionStage, root);
 		aqdController.initData(_currentSetName, _newQuestionStage);
+		aqdController.enableShortcut();
 		aqdController.setParent(this);
 
 		loadQuestions();
