@@ -156,18 +156,12 @@ public class FoundationBoardController implements Initializable {
 		switch (function) {
 		case PRACTISE:
 			_modeLabel.setText("Practise");
-
-			// show practise start page
 			_mainPane.getChildren().setAll(_practiseStartPage);
 			break;
-
 		case MATH:
 			_modeLabel.setText("Math Game");
-
-			// show math start page
 			_mainPane.getChildren().setAll(_mathStartPage);
 			break;
-
 		default:
 			throw new RuntimeException("Function can only be PRACTISE or MATH");
 		}

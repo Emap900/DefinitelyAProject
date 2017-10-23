@@ -184,7 +184,7 @@ public class User {
 			}
 			return history;
 		} else {
-			// otherwise return null
+			// otherwise return an array with size one, where the value is 0
 			history = new int[1];
 			history[0] = 0;
 			return history;

@@ -129,24 +129,13 @@ public class UserModel {
 	 * @return the rank of the user in the given mode
 	 */
 	private int calculateRank(Mode gameMode, String userName) {
-		int rank;
-		Integer personalBest, usrBest;
 		switch (gameMode) {
 		case NORMALMATH:
-			personalBest = _users.get(userName).getPersonalBest(Mode.NORMALMATH);
-			rank = 1;
-			for (User usr : _users.values()) {
-				usrBest = usr.getPersonalBest(Mode.NORMALMATH);
-				if (usrBest != null && usrBest > personalBest) {
-					rank++;
-				}
-			}
-			return rank;
 		case ENDLESSMATH:
-			personalBest = _users.get(userName).getPersonalBest(Mode.ENDLESSMATH);
-			rank = 1;
+			Integer personalBest = _users.get(userName).getPersonalBest(gameMode);
+			int rank = 1;
 			for (User usr : _users.values()) {
-				usrBest = usr.getPersonalBest(Mode.ENDLESSMATH);
+				Integer usrBest = usr.getPersonalBest(gameMode);
 				if (usrBest != null && usrBest > personalBest) {
 					rank++;
 				}
@@ -182,14 +171,10 @@ public class UserModel {
 	 * @return the highest score of the user in the given game mode
 	 */
 	private int calculatePersonalBest(Mode gameMode, String userName) {
-		int personalBest;
 		switch (gameMode) {
 		case NORMALMATH:
-			personalBest = _users.get(userName).getPersonalBest(Mode.NORMALMATH);
-			return personalBest;
 		case ENDLESSMATH:
-			personalBest = _users.get(userName).getPersonalBest(Mode.ENDLESSMATH);
-			return personalBest;
+			return _users.get(userName).getPersonalBest(gameMode);
 		default:
 			throw new RuntimeException("Mode can only be NORMALMATH or ENDLESSMATH");
 		}
