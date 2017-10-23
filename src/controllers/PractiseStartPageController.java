@@ -39,8 +39,8 @@ public class PractiseStartPageController implements Initializable {
 		_specificPractiseButton.setDisable(true);
 		// set text in the button and tip message according to the number lower bound
 		// and upper bound
-		_tipMessage.setText("Please enter a number from " + Main.NUMLOWERBOUND + " to " + Main.NUMUPPERBOUND);
-		_autoGenerateButton.setText("Auto Generate (" + Main.NUMLOWERBOUND + " - " + Main.NUMUPPERBOUND + ")");
+		_tipMessage.setText("Please enter a number from " + Main.NUMBER_LOWER_BOUND + " to " + Main.NUMBER_UPPER_BOUND);
+		_autoGenerateButton.setText("Auto Generate (" + Main.NUMBER_LOWER_BOUND + " - " + Main.NUMBER_UPPER_BOUND + ")");
 
 		/*
 		 * Add a text change listener to the user name text field. When the user input
@@ -69,8 +69,8 @@ public class PractiseStartPageController implements Initializable {
 					_numberTextField.setText(oldValue);
 					_tipMessage.setTextFill(Color.RED);
 					// toBeDisabled = true;
-				} else if (Integer.parseInt(newValue) < Main.NUMLOWERBOUND
-						|| Integer.parseInt(newValue) > Main.NUMUPPERBOUND) { // check is the input in
+				} else if (Integer.parseInt(newValue) < Main.NUMBER_LOWER_BOUND
+						|| Integer.parseInt(newValue) > Main.NUMBER_UPPER_BOUND) { // check is the input in
 					_numberTextField.setText(oldValue); // the correct range
 					_tipMessage.setTextFill(Color.RED);
 

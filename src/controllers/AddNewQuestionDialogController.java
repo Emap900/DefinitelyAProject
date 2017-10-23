@@ -44,7 +44,7 @@ public class AddNewQuestionDialogController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		answerFormatWarningLabel
-				.setText("Answer must be a number between " + Main.NUMLOWERBOUND + " and " + Main.NUMUPPERBOUND);
+				.setText("Answer must be a number between " + Main.NUMBER_LOWER_BOUND + " and " + Main.NUMBER_UPPER_BOUND);
 
 		questionTextField.textProperty().addListener((observable, oldValue, newValue) -> {
 
@@ -55,7 +55,7 @@ public class AddNewQuestionDialogController implements Initializable {
 				ScriptEngine engine = mgr.getEngineByName("JavaScript");
 				try {
 					int answer = Integer.parseInt(engine.eval(newValue).toString());
-					if (answer >= Main.NUMLOWERBOUND && answer <= Main.NUMUPPERBOUND) {
+					if (answer >= Main.NUMBER_LOWER_BOUND && answer <= Main.NUMBER_UPPER_BOUND) {
 						answerTextField.setText(answer + "");
 					} else {
 						answerTextField.setText("");

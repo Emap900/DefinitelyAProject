@@ -91,7 +91,7 @@ public class HelpController {
 		String title = "What is a question set?";
 		String body = "A question set is a set of math questions that can be picked into a question list (see \n"
 				+ "\"What is a question list?\" for help) or be randomly chosen to be asked in math games. \n"
-				+ "The default question set is \"" + Main.DEFAULTQUESTIONSETNAME
+				+ "The default question set is \"" + Main.DEFAULT_QUESTION_SET_NAME
 				+ "\", this set contains 300 math questions of different \n"
 				+ "hardnesses and is not editable/deletable.\n"
 				+ "Apart from the default question set, you can edit/add/delete your own question sets*.\n\n"

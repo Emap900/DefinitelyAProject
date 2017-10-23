@@ -42,9 +42,9 @@ import javafx.fxml.JavaFXBuilderFactory;
 public class Main extends Application {
 
 	// constants
-	public static final int NUMLOWERBOUND = 1;
-	public static final int NUMUPPERBOUND = 99;
-	public static final String DEFAULTQUESTIONSETNAME = "Default";
+	public static final int NUMBER_LOWER_BOUND = 1;
+	public static final int NUMBER_UPPER_BOUND = 99;
+	public static final String DEFAULT_QUESTION_SET_NAME = "Default";
 
 	// stages
 	private Stage _primaryStage;
