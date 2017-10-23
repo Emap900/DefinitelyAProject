@@ -58,7 +58,8 @@ public class QuestionSetEditPanelController {
 			if (_listOfQuestions == null || _listOfQuestions.isEmpty()) {
 				e.consume();
 				Main.showConfirmDialog("Empty Question Set!",
-						"The question set should contain at least one question. You can choose OK to delete this empty set",
+						"The question set should contain at least one question.\n"
+								+ "You can choose OK to delete this empty set or Cancel to keep editing.",
 						new EventHandler<ActionEvent>() {
 
 							@Override

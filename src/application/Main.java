@@ -134,11 +134,11 @@ public class Main extends Application {
 			_helpStage.toFront();
 		} else {
 			_helpStage = new Stage();
-			_helpStage.setMinHeight(700);
-			_helpStage.setMinWidth(1200);
+			_helpStage.setMinHeight(500);
+			_helpStage.setMinWidth(700);
 			_helpStage.setTitle("Help");
 			showScene(_helpStage, _helpScene);
-			_helpSceneController.switchTo(f);
+			// _helpSceneController.switchTo(f);
 		}
 	}
 
@@ -201,6 +201,7 @@ public class Main extends Application {
 			Scene scene = stage.getScene();
 			if (scene == null) {
 				scene = new Scene(root);
+				scene.getStylesheets().add(Main.class.getResource("/views/application.css").toExternalForm());
 				stage.setScene(scene);
 			} else {
 				scene.setRoot(root);
@@ -281,6 +282,19 @@ public class Main extends Application {
 		});
 
 		dialog.show();
+	}
+
+	/**
+	 * Show a jfoenix material information dialog on the given background stackPane.
+	 * 
+	 * @param title
+	 * @param body
+	 * @param okHandler
+	 * @param background
+	 */
+	public static void showInfoDialog(String title, String body, EventHandler<ActionEvent> okHandler,
+			StackPane background) {
+		Main.showErrorDialog(title, body, okHandler, background);
 	}
 
 }
