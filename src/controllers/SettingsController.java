@@ -364,6 +364,7 @@ public class SettingsController implements Initializable {
 		QuestionSetEditPanelController editPanelController = new QuestionSetEditPanelController(this, _editPanelStage);
 		Pane root = Main.loadScene("QuestionSetEditPanel.fxml", editPanelController);
 		Main.showScene(_editPanelStage, root);
+		editPanelController.enableShortcut();
 		editPanelController.initData(setName);
 	}
 

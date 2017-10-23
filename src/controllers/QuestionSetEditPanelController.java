@@ -1,6 +1,11 @@
 package controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.event.ActionEvent;
@@ -8,15 +13,17 @@ import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import models.QuestionModel;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 
 import application.Main;
 
-public class QuestionSetEditPanelController {
+public class QuestionSetEditPanelController implements Initializable {
 
 	@FXML
 	private StackPane background;
@@ -35,7 +42,7 @@ public class QuestionSetEditPanelController {
 	private JFXListView<String> questionList;
 
 	@FXML
-	private JFXButton delteQuestionBtn;
+	private JFXButton deleteQuestionBtn;
 
 	private Stage _editPanelStage;
 
@@ -70,6 +77,40 @@ public class QuestionSetEditPanelController {
 							}
 						}, null, background);
 			}
+		});
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		deleteQuestionBtn.setDisable(true);
+		questionList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue != null && !newValue.isEmpty()) {
+				deleteQuestionBtn.setDisable(false);
+			} else {
+				deleteQuestionBtn.setDisable(true);
+			}
+		});
+	}
+
+	/**
+	 * Add key event handler to the scene to handle keyboard shortcuts. The
+	 * shortcuts are: "Delete" for deleting the selected question, and "Ctrl+N" to
+	 * add a new question.
+	 */
+	public void enableShortcut() {
+		_editPanelStage.getScene().addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+
+			final KeyCombination keyComb = new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN);
+
+			@Override
+			public void handle(KeyEvent e) {
+				if (e.getCode() == KeyCode.DELETE) {
+					deleteSelectedQuestion(null);
+				} else if (keyComb.match(e)) {
+					addNewQuestion(null);
+				}
+			}
+
 		});
 	}
 
@@ -118,9 +159,11 @@ public class QuestionSetEditPanelController {
 	@FXML
 	public void deleteSelectedQuestion(ActionEvent event) {
 		String selectedQ = questionList.getSelectionModel().getSelectedItem();
-		String key = selectedQ.split("=")[0];
-		System.out.println(key); // TODO
-		_questionModel.deleteQuestionFromQuestionSet(_currentSetName, key);
+		if (selectedQ != null && !selectedQ.isEmpty()) {
+			String key = selectedQ.split("=")[0];
+			System.out.println(key); // TODO
+			_questionModel.deleteQuestionFromQuestionSet(_currentSetName, key);
+		}
 		loadQuestions();
 	}
 }
