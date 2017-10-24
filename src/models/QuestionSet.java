@@ -43,6 +43,11 @@ public class QuestionSet {
 					for (String question : listOfQuestions) {
 						String[] entry = question.split(",");
 						if (entry.length == 2 && !entry[0].isEmpty() && !entry[1].isEmpty()) {
+							try {
+								Integer.parseInt(entry[1]);
+							} catch (NumberFormatException e) {
+								continue;
+							}
 							_QAPairs.put(entry[0], entry[1]);
 						}
 					}
