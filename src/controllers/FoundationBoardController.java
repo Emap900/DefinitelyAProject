@@ -283,12 +283,20 @@ public class FoundationBoardController implements Initializable {
 				_resultSceneController.setCanRetry(false);
 			}
 
-			// if is in practise mode and the user's answer in incorrect, show the
-			// correct answer in result scene
-			if (_mode == Mode.PRACTISE && !_questionModel.isUserCorrect()) {
-				_resultSceneController.showCorrectAnswer(_questionModel.correctWord());
-			} else {
+			if (_questionModel.isUserCorrect()) {
 				_resultSceneController.showCorrectAnswer(null);
+			} else {
+				switch (_mode) {
+				case PRACTISE:
+					_resultSceneController.showCorrectAnswer(_questionModel.correctWord());
+				case NORMALMATH:
+				case ENDLESSMATH:
+					if (_trailNum == _maxTrailNum) {
+						_resultSceneController.showCorrectAnswer(_questionModel.correctWord());
+					}else {
+						_resultSceneController.showCorrectAnswer(null);
+					}
+				}
 			}
 
 			// check is the question the final one
