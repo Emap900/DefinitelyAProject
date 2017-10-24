@@ -80,7 +80,7 @@ public class PersonalPanelController {
 		history = model.getPersonalHistory(Mode.ENDLESSMATH, userName);
 		series = new Series<String, Number>();
 		for (int i = 0; i < history.length; i++) {
-			series.getData().add(new Data<String, Number>("" + i, history[i]));
+			series.getData().add(new Data<String, Number>("" + (i + 1), history[i]));
 		}
 		_endlessModeChart.getData().add(series);
 
