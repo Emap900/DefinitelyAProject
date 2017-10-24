@@ -42,16 +42,13 @@ import javafx.fxml.JavaFXBuilderFactory;
 public class Main extends Application {
 
 	// constants
-	public static final int NUMLOWERBOUND = 1;
-	public static final int NUMUPPERBOUND = 99;
-	public static final String DEFAULTQUESTIONSETNAME = "Default";
+	public static final int NUMBER_LOWER_BOUND = 1;
+	public static final int NUMBER_UPPER_BOUND = 99;
+	public static final String DEFAULT_QUESTION_SET_NAME = "Default";
 
 	// stages
 	private Stage _primaryStage;
 	private Stage _helpStage;
-
-	// background
-	private StackPane _background = new StackPane();
 
 	// scenes
 	private Pane _homePage;
@@ -134,11 +131,11 @@ public class Main extends Application {
 			_helpStage.toFront();
 		} else {
 			_helpStage = new Stage();
-			_helpStage.setMinHeight(700);
-			_helpStage.setMinWidth(1200);
+			_helpStage.setMinHeight(500);
+			_helpStage.setMinWidth(700);
 			_helpStage.setTitle("Help");
 			showScene(_helpStage, _helpScene);
-			_helpSceneController.switchTo(f);
+			// _helpSceneController.switchTo(f);
 		}
 	}
 
@@ -201,6 +198,7 @@ public class Main extends Application {
 			Scene scene = stage.getScene();
 			if (scene == null) {
 				scene = new Scene(root);
+				scene.getStylesheets().add(Main.class.getResource("/views/application.css").toExternalForm());
 				stage.setScene(scene);
 			} else {
 				scene.setRoot(root);
@@ -235,6 +233,7 @@ public class Main extends Application {
 		content.setHeading(new Text(title));
 		content.setBody(new Text(body));
 		JFXButton okBtn = new JFXButton("OK");
+		okBtn.setDefaultButton(true);
 		JFXButton cancelBtn = new JFXButton("Cancel");
 		content.setActions(okBtn, cancelBtn);
 		JFXDialog dialog = new JFXDialog(background, content, DialogTransition.CENTER);
@@ -270,6 +269,7 @@ public class Main extends Application {
 		content.setHeading(new Text(title));
 		content.setBody(new Text(body));
 		JFXButton okBtn = new JFXButton("OK");
+		okBtn.setDefaultButton(true);
 		content.setActions(okBtn);
 		JFXDialog dialog = new JFXDialog(background, content, DialogTransition.CENTER);
 
@@ -281,6 +281,19 @@ public class Main extends Application {
 		});
 
 		dialog.show();
+	}
+
+	/**
+	 * Show a jfoenix material information dialog on the given background stackPane.
+	 * 
+	 * @param title
+	 * @param body
+	 * @param okHandler
+	 * @param background
+	 */
+	public static void showInfoDialog(String title, String body, EventHandler<ActionEvent> okHandler,
+			StackPane background) {
+		Main.showErrorDialog(title, body, okHandler, background);
 	}
 
 }
