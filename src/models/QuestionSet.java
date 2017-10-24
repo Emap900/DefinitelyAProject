@@ -18,7 +18,7 @@ public class QuestionSet {
 	private Map<String, String> _QAPairs = new HashMap<String, String>();
 	private File _theSet;
 
-	protected QuestionSet(String nameOfSet) {
+	public QuestionSet(String nameOfSet) {
 		_nameOfSet = nameOfSet;
 		_theSet = new File("QuestionSets/" + _nameOfSet + ".csv");
 		loadList();
@@ -42,9 +42,7 @@ public class QuestionSet {
 					// initialize a new questions' list
 					for (String question : listOfQuestions) {
 						String[] entry = question.split(",");
-						if (entry.length == 2 && !entry[0].isEmpty() && !entry[1].isEmpty()) {
-							_QAPairs.put(entry[0], entry[1]);
-						}
+						_QAPairs.put(entry[0], entry[1]);
 					}
 				}
 			} catch (IOException e) {
@@ -53,10 +51,16 @@ public class QuestionSet {
 		}
 	}
 
+	public void addQAPair(String question, String answer) {
+		_QAPairs.put(question, answer);
+		updateLocalFile();
+	}
+
 	/**
 	 * Sync the changes in the hashmap to the local file
 	 */
 	private void updateLocalFile() {
+		// TODO Auto-generated method stub
 		deleteLocalFile();
 		loadList();
 		for (Entry<String, String> entry : _QAPairs.entrySet()) {
@@ -72,16 +76,16 @@ public class QuestionSet {
 
 	}
 
-	protected void addQAPair(String question, String answer) {
-		_QAPairs.put(question, answer);
-		updateLocalFile();
+	public String getSetName() {
+		return _nameOfSet;
 	}
 
-	protected List<List<String>> generateRandomQuestionList(int numOfQuestions) throws EmptyQuestionSetException {
-		if (_QAPairs.isEmpty()) {
-			throw new EmptyQuestionSetException(_nameOfSet);
-		}
-		List<List<String>> randomList = new ArrayList<List<String>>();
+	public List<List> generateUserDefined() {
+		return null;
+	}
+
+	public List<List> generateRandomQuestionList(int numOfQuestions) {
+		List<List> randomList = new ArrayList<List>();
 		for (int i = 0; i < numOfQuestions; i++) {
 			String question = (String) _QAPairs.keySet().toArray()[new Random()
 					.nextInt(_QAPairs.keySet().toArray().length)];
@@ -94,28 +98,16 @@ public class QuestionSet {
 		return randomList;
 	}
 
-	protected void delete(String key) {
+	public void delete(String key) {
 		_QAPairs.remove(key);
 		updateLocalFile();
 	}
 
-	protected void deleteLocalFile() {
+	public void deleteLocalFile() {
 		_theSet.delete();
 	}
 
-	protected boolean questionExist(String key) {
-		String value = _QAPairs.get(key);
-		if (value != null) {
-			return true;
-		}
-		return false;
-	}
-
-	protected String getSetName() {
-		return _nameOfSet;
-	}
-
-	protected List<List<String>> getQuestionsInSet() {
+	public List<List<String>> getQuestionsInSet() {
 
 		List<List<String>> listForEdit = new ArrayList<List<String>>();
 		for (Entry<String, String> entry : _QAPairs.entrySet()) {
@@ -123,26 +115,17 @@ public class QuestionSet {
 			newEntry.add(entry.getKey());
 			newEntry.add(entry.getValue());
 			listForEdit.add(newEntry);
+			System.out.println(entry.getKey() + "=" + entry.getValue());
 		}
+		System.out.println("The size is" + listForEdit.size());
 		return listForEdit;
 	}
 
-	public class EmptyQuestionSetException extends Exception {
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		private String _nameOfSet;
-
-		public EmptyQuestionSetException(String nameOfSet) {
-			_nameOfSet = nameOfSet;
+	public boolean questionExist(String key) {
+		String value = _QAPairs.get(key);
+		if (value != null) {
+			return true;
 		}
-
-		@Override
-		public String getMessage() {
-			return "The question set " + _nameOfSet + " is empty.";
-		}
-
+		return false;
 	}
 }
