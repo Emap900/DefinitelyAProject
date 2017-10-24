@@ -1,28 +1,12 @@
 package models;
 
-/**
- * A tuple which contains a user name, the rank of the user, and the highest
- * score of the user. The conpareTo and equals method of this class override
- * methods from super classes. The compareTo method compares the rank of two
- * UserDataTuples and set the one with a higher rank (1 is higher than 2) to be
- * the ascendent of the other one. The equals method compares the users' names
- * and returns true if the users' names are the same.
- *
- */
 public class UserDataTuple implements Comparable<UserDataTuple> {
 
 	private final String _name;
 	private final int _rank;
 	private final int _highestScore;
 
-	/**
-	 * Construct a user data tuple instance.
-	 * 
-	 * @param userName
-	 * @param rank
-	 * @param highestScore
-	 */
-	protected UserDataTuple(String userName, int rank, int highestScore) {
+	public UserDataTuple(String userName, int rank, int highestScore) {
 		_name = userName;
 		_rank = rank;
 		_highestScore = highestScore;
@@ -40,7 +24,7 @@ public class UserDataTuple implements Comparable<UserDataTuple> {
 	 * 
 	 * @return rank of the user stored in this data tuple
 	 */
-	protected int getRank() {
+	public int getRank() {
 		return _rank;
 	}
 
@@ -48,7 +32,7 @@ public class UserDataTuple implements Comparable<UserDataTuple> {
 	 * 
 	 * @return highest score of the user stored in this data tuple
 	 */
-	protected int getHighestScore() {
+	public int getHighestScore() {
 		return _highestScore;
 	}
 
