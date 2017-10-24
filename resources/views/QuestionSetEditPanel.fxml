@@ -37,7 +37,7 @@
             <HBox alignment="CENTER">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <JFXButton fx:id="addQuestionBtn" buttonType="RAISED" onAction="#addNewQuestion" prefWidth="60.0" style="-fx-background-color: white;" text="Add">
+                  <JFXButton fx:id="addQuestionBtn" buttonType="RAISED" minWidth="60.0" onAction="#addNewQuestion" style="-fx-background-color: white;" text="Add">
                      <font>
                         <Font size="13.0" />
                      </font>
@@ -48,7 +48,7 @@
                   <Region HBox.hgrow="ALWAYS" />
                   <VBox alignment="CENTER">
                      <children>
-                        <JFXButton fx:id="doneBtn" buttonType="RAISED" onAction="#doneCreation" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: white;" text="Done">
+                        <JFXButton fx:id="doneBtn" buttonType="RAISED" defaultButton="true" minHeight="35.0" minWidth="150.0" onAction="#doneCreation" style="-fx-background-color: white;" text="Done">
                            <VBox.margin>
                               <Insets bottom="30.0" left="20.0" right="20.0" top="70.0" />
                            </VBox.margin>
@@ -59,7 +59,7 @@
                      </children>
                   </VBox>
                   <Region HBox.hgrow="ALWAYS" />
-                  <JFXButton fx:id="delteQuestionBtn" buttonType="RAISED" onAction="#deleteSelectedQuestion" prefWidth="60.0" style="-fx-background-color: white;" text="Delete">
+                  <JFXButton fx:id="deleteQuestionBtn" buttonType="RAISED" minWidth="60.0" onAction="#deleteSelectedQuestion" style="-fx-background-color: white;" text="Delete">
                      <HBox.margin>
                         <Insets bottom="40.0" />
                      </HBox.margin>

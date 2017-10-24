@@ -76,7 +76,7 @@
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                               </JFXComboBox>
-                              <JFXButton fx:id="editQuestionSetBtn" buttonType="RAISED" onAction="#editAQuestionSet" style="-fx-background-color: white;" text="edit">
+                              <JFXButton fx:id="editQuestionSetBtn" buttonType="RAISED" onAction="#editAQuestionSet" style="-fx-background-color: white;" text="Edit">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>

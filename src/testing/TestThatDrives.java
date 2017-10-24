@@ -19,7 +19,7 @@ public class TestThatDrives {
 		ScriptEngine engine = mgr.getEngineByName("JavaScript");
 		String foo = "40+2";
 		try {
-			String a = engine.eval(foo).toString();
+			// String a = engine.eval(foo).toString();
 			System.out.println(engine.eval(foo));
 		} catch (ScriptException e) {
 			e.printStackTrace();
