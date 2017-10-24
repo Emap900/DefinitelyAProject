@@ -21,7 +21,7 @@ public class HelpController {
 		String title = "What is an Endless Mode Math Game?";
 		String body = "In an Endless Mode Math Game, you will be answering math questions \n"
 				+ "randomly picked from the default question set*. The game will not finish \n"
-				+ "untill you clicked the 'Skip the rest and finish' button.\n\n" + "* See \"What is a question set?\"";
+				+ "until you clicked the 'Skip the rest and finish' button.\n\n" + "* See \"What is a question set?\"";
 		Main.showInfoDialog(title, body, null, background);
 	}
 
@@ -133,7 +133,7 @@ public class HelpController {
 				+ "\"What is a question list?\" for help) or be randomly chosen to be asked in math games. \n"
 				+ "The default question set is \"" + Main.DEFAULT_QUESTION_SET_NAME
 				+ "\", this set contains 300 math questions of different \n"
-				+ "hardnesses and is not editable/deletable.\n"
+				+ "hardness and is not editable/deletable.\n"
 				+ "Apart from the default question set, you can edit/add/delete your own question sets*.\n\n"
 				+ "* See \"How to edit/add/delete your own question sets?\" for more details.";
 		Main.showInfoDialog(title, body, null, background);
