@@ -103,6 +103,7 @@ public class QuestionModel {
 		// load pre-made question as a list into the program
 		_sets = new HashMap<String, QuestionSet>();
 		_listOfSetNames = new ArrayList<String>();
+		// TODO testing code
 		_listOfSetNames.add(Main.DEFAULTQUESTIONSETNAME);
 		_preloadSortedQuestionSet = new ArrayList<List<String>>();
 
@@ -110,16 +111,17 @@ public class QuestionModel {
 		_questionsDid = new ArrayList<List>();
 
 		_generatedQuestionList = new ArrayList<List>();
-		
+
 		_pronounciationHardnessFactor = 1;
 		_numOfquestionsGotCorrect = 0;
+
 		_currentScore = 0;
 
 		loadLocalLists();// TODO for size of _sets, load them all
-		//Read default list into the model
 		Scanner s;
 		InputStream in = Main.class.getResourceAsStream("/Default.csv");
 		s = new Scanner(in);
+		// s = new Scanner(new File("setABC.csv"));
 		ArrayList<String> list = new ArrayList<String>();
 		while (s.hasNext()) {
 			list.add(s.next());
@@ -136,9 +138,7 @@ public class QuestionModel {
 		generateQuestionListFromPreload("medium", 10);
 	}
 
-	/**
-	 *Read csv files which are the local question set to the model.
-	 */
+	// load local question sets
 	private void loadLocalLists() {
 		File folder = new File("QuestionSets");
 
@@ -146,9 +146,11 @@ public class QuestionModel {
 
 		for (File file : fileList) {
 			if (file.isFile()) {
+				// read the sets' name
 				String fileName = file.getName();
 				String setName = fileName.substring(0, fileName.lastIndexOf("."));
 				QuestionSet q = new QuestionSet(setName);
+				// loadQuestions(q.getSetName(), q);
 				_sets.put(q.getSetName(), new QuestionSet(setName));
 				_listOfSetNames.add(setName);
 			}
@@ -169,6 +171,8 @@ public class QuestionModel {
 	}
 
 	// delete existing question set
+	// TODO possibility of combining delete confirmation dialogs? How to handle with
+	// different
 	public void deleteLocalQuestionSet(String setName) {
 		new BashProcess("./MagicStaff.sh", "delete", setName);
 		_listOfSetNames.remove(setName);
@@ -259,6 +263,7 @@ public class QuestionModel {
 		}
 	}
 
+	// TODO the use of this function is to be determined
 	public void setLengthOfQuestionList(int length) {
 		_lengthOfQuestionList = length;
 	}
@@ -430,6 +435,10 @@ public class QuestionModel {
 	}
 
 	public void clear() {
+		// TODO testing code
+		System.out.println(_listOfSetNames.toString());
+		// _preloadSortedQuestionSet = new ArrayList<List<String>>();
+
 		_toDoList = _generatedQuestionList;
 		_questionsDid = new ArrayList<List>();
 
@@ -490,6 +499,7 @@ public class QuestionModel {
 		} else {
 			currentQuesHardness = 1.6;
 		}
+
 		double hardnessFactor = ((prevFactor * (_questionsDid.size())) + currentQuesHardness)
 				/ (_questionsDid.size() + 1);
 
