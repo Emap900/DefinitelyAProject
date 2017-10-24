@@ -100,7 +100,9 @@ public class QuestionSet {
 	}
 
 	protected void deleteLocalFile() {
-		_theSet.delete();
+		if (_theSet != null && _theSet.exists()) {
+			_theSet.delete();
+		}
 	}
 
 	protected boolean questionExist(String key) {

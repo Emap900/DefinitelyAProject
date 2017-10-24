@@ -174,7 +174,9 @@ public class QuestionModel {
 	// TODO possibility of combining delete confirmation dialogs? How to handle with
 	// different
 	public void deleteLocalQuestionSet(String setName) {
-		new BashProcess("./MagicStaff.sh", "delete", setName);
+		// new BashProcess("./MagicStaff.sh", "delete", setName);
+		_sets.get(setName).deleteLocalFile();
+		_sets.remove(setName);
 		_listOfSetNames.remove(setName);
 	}
 
