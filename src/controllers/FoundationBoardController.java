@@ -20,6 +20,7 @@ import enums.Mode;
 
 import com.jfoenix.controls.JFXDrawer;
 
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -156,18 +157,12 @@ public class FoundationBoardController implements Initializable {
 		switch (function) {
 		case PRACTISE:
 			_modeLabel.setText("Practise");
-
-			// show practise start page
 			_mainPane.getChildren().setAll(_practiseStartPage);
 			break;
-
 		case MATH:
 			_modeLabel.setText("Math Game");
-
-			// show math start page
 			_mainPane.getChildren().setAll(_mathStartPage);
 			break;
-
 		default:
 			throw new RuntimeException("Function can only be PRACTISE or MATH");
 		}
@@ -182,10 +177,9 @@ public class FoundationBoardController implements Initializable {
 	 * @param number
 	 *            (either a number or null)
 	 */
-	public void startPractise(Integer number) {
+	protected void startPractise(Integer number) {
 		_mode = Mode.PRACTISE;
 
-		System.out.println(number);
 		_questionModel.initializePractise(number);
 		_questionModel.NextQA();
 
@@ -205,7 +199,7 @@ public class FoundationBoardController implements Initializable {
 	 *            the gameMode (either Normal or Endless)
 	 * @param playerName
 	 */
-	public void startMathGame(Mode gameMode, String playerName) {
+	protected void startMathGame(Mode gameMode, String playerName) {
 
 		_mode = gameMode;
 
@@ -248,7 +242,7 @@ public class FoundationBoardController implements Initializable {
 	/**
 	 * Show the QuestionScene on the main pane
 	 */
-	public void showQuestionScene() {
+	protected void showQuestionScene() {
 		_mainPane.getChildren().setAll(_questionScene);
 		// ask for current question and answer
 		_questionSceneController.setQuestion(_questionModel.currentQuestion(), _questionModel.currentAnswer());
@@ -258,14 +252,14 @@ public class FoundationBoardController implements Initializable {
 	 * Inform the foundation board controller that the number of trails the user
 	 * took increased by one
 	 */
-	public void incrementTrial() {
+	protected void incrementTrial() {
 		_trailNum++;
 	}
 
 	/**
 	 * Show the ResultScene on the main pane
 	 */
-	public void showResult() {
+	protected void showResult() {
 		Task<Void> check = new Task<Void>() {
 			@Override
 			public Void call() {
@@ -290,12 +284,22 @@ public class FoundationBoardController implements Initializable {
 				_resultSceneController.setCanRetry(false);
 			}
 
-			// if is in practise mode and the user's answer in incorrect, show the
-			// correct answer in result scene
-			if (_mode == Mode.PRACTISE && !_questionModel.isUserCorrect()) {
-				_resultSceneController.showCorrectAnswer(_questionModel.correctWord());
-			} else {
+			if (_questionModel.isUserCorrect()) {
 				_resultSceneController.showCorrectAnswer(null);
+			} else {
+				switch (_mode) {
+				case PRACTISE:
+					_resultSceneController.showCorrectAnswer(_questionModel.correctWord());
+					break;
+				case NORMALMATH:
+				case ENDLESSMATH:
+					if (_trailNum == _maxTrailNum) {
+						_resultSceneController.showCorrectAnswer(_questionModel.correctWord());
+					} else {
+						_resultSceneController.showCorrectAnswer(null);
+					}
+					break;
+				}
 			}
 
 			// check is the question the final one
@@ -313,7 +317,7 @@ public class FoundationBoardController implements Initializable {
 	 * Record the correctness of the current question and show next question on the
 	 * question scene.
 	 */
-	public void showNextQuestion() {
+	protected void showNextQuestion() {
 
 		// append the new result
 		appendResult();
@@ -338,17 +342,18 @@ public class FoundationBoardController implements Initializable {
 	 * Finish practising/math gaming and go back to home (if is under practise mode)
 	 * or go to personal summary (if is under math mode).
 	 */
-	public void finish() {
+	protected void finish() {
 
 		String title = "Confirm Finish";
 		String body;
-		if (_mode == Mode.PRACTISE) {
+		switch (_mode) {
+		case PRACTISE:
 			body = "Do you want to finish practising and show summary?";
-		} else if (_mode == Mode.NORMALMATH) {
-			body = "Do you want to skip the rest questions and save your result? "
-					+ "(The rest of the questions will be marked wrong)";
-		} else {
-			body = "Do you want to skip the rest questions and save your current result?";
+			break;
+		default:
+			body = "Do you want to skip the rest of the questions and save your result? "
+					+ "(The rest of the questions will not be marked)";
+			break;
 		}
 
 		EventHandler<ActionEvent> okHandler = new EventHandler<ActionEvent>() {
@@ -361,15 +366,27 @@ public class FoundationBoardController implements Initializable {
 				if (_mode == Mode.PRACTISE) {
 					_mode = null;
 					showPractiseSummary();
+					_wrongQuestions.clear();
 				} else {
 					_userModel.appendRecord(_userName, _mode, _questionModel.getScore());
+					// reset question model and statistics
+					_statistics.reset();
+					_questionModel.clear();
+					_trailNum = 0;
+					_mode = null;
 					_main.showPersonalPanel(_userName);
 				}
+				Platform.runLater(() -> {
+					_statisticsBar.close();
+				});
 			}
 		};
 
-		Main.showConfirmDialog(title, body, okHandler, null, _background);
-
+		if (!_questionModel.hasNext()) {
+			okHandler.handle(null);
+		} else {
+			Main.showConfirmDialog(title, body, okHandler, null, _background);
+		}
 	}
 
 	/**
@@ -462,8 +479,13 @@ public class FoundationBoardController implements Initializable {
 					// reset question model and statistics
 					_statistics.reset();
 					_questionModel.clear();
+					_wrongQuestions.clear();
 					_trailNum = 0;
+					_mode = null;
 					_main.showHome();
+					Platform.runLater(() -> {
+						_statisticsBar.close();
+					});
 				}
 			};
 
@@ -480,11 +502,13 @@ public class FoundationBoardController implements Initializable {
 	 */
 	@FXML
 	private void showStatisticsBar(ActionEvent event) {
-		if (_statisticsBar.isHidden()) {
-			_statisticsBar.open();
-		} else {
-			_statisticsBar.close();
-		}
+		Platform.runLater(() -> {
+			if (_statisticsBar.isHidden()) {
+				_statisticsBar.open();
+			} else {
+				_statisticsBar.close();
+			}
+		});
 	}
 
 	/**
@@ -493,46 +517,9 @@ public class FoundationBoardController implements Initializable {
 	 */
 	@FXML
 	private void showHelp(ActionEvent event) {
-		_main.showHelp(_function);
+		Platform.runLater(() -> {
+			_main.showHelp(_function);
+		});
 	}
-
-	// /**
-	// * Show a jfoenix material confirmation dialog on the given background
-	// * stackPane.
-	// *
-	// * @param title
-	// * @param body
-	// * @param okHandler
-	// * @param cancelHandler
-	// * @param background
-	// */
-	// private void showConfirmDialog(String title, String body,
-	// EventHandler<ActionEvent> okHandler,
-	// EventHandler<ActionEvent> cancelHandler, StackPane background) {
-	// // ask user for confirm
-	// JFXDialogLayout content = new JFXDialogLayout();
-	// content.setHeading(new Text(title));
-	// content.setBody(new Text(body));
-	// JFXButton okBtn = new JFXButton("OK");
-	// JFXButton cancelBtn = new JFXButton("Cancel");
-	// content.setActions(okBtn, cancelBtn);
-	// JFXDialog dialog = new JFXDialog(background, content,
-	// DialogTransition.CENTER);
-	//
-	// okBtn.setOnAction(e -> {
-	// if (okHandler != null) {
-	// okHandler.handle(e);
-	// }
-	// dialog.close();
-	// });
-	// cancelBtn.setOnAction(e -> {
-	// if (cancelHandler != null) {
-	// cancelHandler.handle(e);
-	// }
-	// dialog.close();
-	// });
-	//
-	// dialog.show();
-	// }
 
 }

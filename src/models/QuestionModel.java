@@ -18,6 +18,7 @@ import enums.Mode;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import models.QuestionSet.EmptyQuestionSetException;
 
 /**
  * This class will handle local question list as well as question lists in the
@@ -69,13 +70,13 @@ public class QuestionModel {
 	// for practice
 	private Integer _numberToPractise;
 	// for question list
-	private List<List> _generatedQuestionList;
+	private List<List<String>> _generatedQuestionList;
 
 	// TODO I think below _toDoList can be a stack rather than a list, subject to
 	// change later
-	private List<List> _toDoList; // this should be a copy of generated list in the begining of each game but
-									// reduce its size as the game going
-	private List<List> _questionsDid;
+	private List<List<String>> _toDoList; // this should be a copy of generated list in the begining of each game but
+	// reduce its size as the game going
+	private List<List<String>> _questionsDid;
 	private Integer _lengthOfQuestionList;
 	private boolean _isFinished;
 	private Integer _numOfquestionsGotCorrect;
@@ -103,21 +104,20 @@ public class QuestionModel {
 		// load pre-made question as a list into the program
 		_sets = new HashMap<String, QuestionSet>();
 		_listOfSetNames = new ArrayList<String>();
-		// TODO testing code
-		_listOfSetNames.add(Main.DEFAULTQUESTIONSETNAME);
+		_listOfSetNames.add(Main.DEFAULT_QUESTION_SET_NAME);
 		_preloadSortedQuestionSet = new ArrayList<List<String>>();
 
-		_toDoList = new ArrayList<List>();
-		_questionsDid = new ArrayList<List>();
+		_toDoList = new ArrayList<List<String>>();
+		_questionsDid = new ArrayList<List<String>>();
 
-		_generatedQuestionList = new ArrayList<List>();
+		_generatedQuestionList = new ArrayList<List<String>>();
 
 		_pronounciationHardnessFactor = 1;
 		_numOfquestionsGotCorrect = 0;
 
 		_currentScore = 0;
 
-		loadLocalLists();// TODO for size of _sets, load them all
+		loadLocalLists();
 		Scanner s;
 		InputStream in = Main.class.getResourceAsStream("/Default.csv");
 		s = new Scanner(in);
@@ -235,13 +235,15 @@ public class QuestionModel {
 		return _listOfSetNames;
 	}
 
-	public void setUserPickedList(List<List> listGenerated) {
+	public void setUserPickedList(List<List<String>> listGenerated) {
 		_generatedQuestionList = listGenerated;
 	}
 
-	// append question to a list when user want to pick up their own list of
-	// questions Note: the field need to be cleared in certain stages at least
-	// before user want to rebuild a list
+	/**
+	 * append question to a list when user want to pick up their own list of
+	 * questions. Note: the field need to be cleared in certain stages at least
+	 * before user want to rebuild a list
+	 */
 	public void addQuestionToListForUserDefine(String question, String answer) {
 		List<String> pair = new ArrayList<String>();
 		pair.add(question);
@@ -249,8 +251,12 @@ public class QuestionModel {
 		_generatedQuestionList.add(pair);
 	}
 
-	// randomize the order of generated question list, necessarily for each run of
-	// game for user picked list
+	/**
+	 * Randomize the order of generated question list, necessarily for each run of
+	 * game for user picked list
+	 * 
+	 * @param randomize
+	 */
 	public void randomizeQuestionListFromUserDefineWithSelfPick(boolean randomize) {
 		if (_generatedQuestionList == null) {
 			Alert alert = new Alert(AlertType.WARNING);
@@ -263,7 +269,6 @@ public class QuestionModel {
 		}
 	}
 
-	// TODO the use of this function is to be determined
 	public void setLengthOfQuestionList(int length) {
 		_lengthOfQuestionList = length;
 	}
@@ -286,7 +291,7 @@ public class QuestionModel {
 
 	// getListOfQuestions in a specific set
 	public List<List<String>> getQuestionsFromSpecificSet(String setName) {
-		if (setName == Main.DEFAULTQUESTIONSETNAME) {
+		if (setName == Main.DEFAULT_QUESTION_SET_NAME) {
 			return _preloadSortedQuestionSet;
 		}
 		return _sets.get(setName).getQuestionsInSet();
@@ -323,16 +328,14 @@ public class QuestionModel {
 	// generate a random list of questions from selected question set given number
 	// of questions, this function may or may not be called multiple times for each
 	// run depends on the design choice
-	public void generateQuestionListRandom(String setName) {
-		if(_lengthOfQuestionList != null && setName.equals("Default")) {
+	public void generateQuestionListRandom(String setName) throws EmptyQuestionSetException {
+		if (_lengthOfQuestionList != null && setName.equals("Default")) {
 			generateQuestionListFromPreload("medium", _lengthOfQuestionList);
-		}
-		else if (_lengthOfQuestionList != null) {
+		} else if (_lengthOfQuestionList != null) {
 			_generatedQuestionList = _sets.get(setName).generateRandomQuestionList(_lengthOfQuestionList);
 		} else {
 			_generatedQuestionList = _sets.get(setName).generateRandomQuestionList(10);
 		}
-		System.out.println("Here is the list: " + _generatedQuestionList.toString());
 	}
 
 	// start question list processing for gaming part (not practise part)
@@ -340,7 +343,6 @@ public class QuestionModel {
 		if (_generatedQuestionList == null) {
 			System.err.println("there is no generated question list to start");
 		} else {
-			System.out.println("Here you are" + _generatedQuestionList.toString());
 			_toDoList = _generatedQuestionList;
 		}
 	}
@@ -435,12 +437,10 @@ public class QuestionModel {
 	}
 
 	public void clear() {
-		// TODO testing code
-		System.out.println(_listOfSetNames.toString());
 		// _preloadSortedQuestionSet = new ArrayList<List<String>>();
 
 		_toDoList = _generatedQuestionList;
-		_questionsDid = new ArrayList<List>();
+		_questionsDid = new ArrayList<List<String>>();
 
 		_pronounciationHardnessFactor = 1;
 		_numOfquestionsGotCorrect = 0;

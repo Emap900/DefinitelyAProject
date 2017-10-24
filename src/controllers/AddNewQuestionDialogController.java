@@ -12,9 +12,12 @@ import com.jfoenix.controls.JFXTextField;
 
 import application.Main;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.QuestionModel;
@@ -34,33 +37,14 @@ public class AddNewQuestionDialogController implements Initializable {
 
 	private String _setName;
 
-
 	private QuestionSetEditPanelController _parent;
 
 	private Stage _stage;
 
-	public void setParent(QuestionSetEditPanelController parent) {
-		_parent = parent;
-	}
-
-	@FXML
-	void addQuestion(ActionEvent event) {
-		// TODO add multiple questions
-		String question = questionTextField.getText();
-		String answer = answerTextField.getText();
-		QuestionModel.getInstance().addQuestionToQuestionSet(_setName, question, answer);
-		_parent.loadQuestions();
-	}
-
-	public void initData(String setName, Stage newQuestionStage) {
-		_setName = setName;
-		_stage = newQuestionStage;
-	}
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		answerFormatWarningLabel
-				.setText("Answer must be a number between " + Main.NUMLOWERBOUND + " and " + Main.NUMUPPERBOUND);
+		answerFormatWarningLabel.setText(
+				"Answer must be a number between " + Main.NUMBER_LOWER_BOUND + " and " + Main.NUMBER_UPPER_BOUND);
 
 		questionTextField.textProperty().addListener((observable, oldValue, newValue) -> {
 
@@ -71,7 +55,7 @@ public class AddNewQuestionDialogController implements Initializable {
 				ScriptEngine engine = mgr.getEngineByName("JavaScript");
 				try {
 					int answer = Integer.parseInt(engine.eval(newValue).toString());
-					if (answer >= Main.NUMLOWERBOUND && answer <= Main.NUMUPPERBOUND) {
+					if (answer >= Main.NUMBER_LOWER_BOUND && answer <= Main.NUMBER_UPPER_BOUND) {
 						answerTextField.setText(answer + "");
 					} else {
 						answerTextField.setText("");
@@ -97,6 +81,41 @@ public class AddNewQuestionDialogController implements Initializable {
 				confirmAdd.setDisable(true);
 			}
 		});
+	}
+
+	protected void initData(String setName, Stage newQuestionStage) {
+		_setName = setName;
+		_stage = newQuestionStage;
+	}
+
+	/**
+	 * Add a key event handler to the scene to handle the shortcut. The shortcut is
+	 * "Esc" for closing the this add new question stage.
+	 */
+	protected void enableShortcut() {
+		_stage.getScene().addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent e) {
+				if (e.getCode() == KeyCode.ESCAPE) {
+					_stage.close();
+				}
+			}
+
+		});
+	}
+
+	protected void setParent(QuestionSetEditPanelController parent) {
+		_parent = parent;
+	}
+
+	@FXML
+	private void addQuestion(ActionEvent event) {
+		// TODO add multiple questions
+		String question = questionTextField.getText();
+		String answer = answerTextField.getText();
+		QuestionModel.getInstance().addQuestionToQuestionSet(_setName, question, answer);
+		_parent.loadQuestions();
 	}
 
 }
