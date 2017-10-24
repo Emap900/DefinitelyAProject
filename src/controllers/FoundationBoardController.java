@@ -372,6 +372,7 @@ public class FoundationBoardController implements Initializable {
 					_mode = null;
 					_main.showPersonalPanel(_userName);
 				}
+				_statisticsBar.close();
 			}
 		};
 
@@ -476,6 +477,7 @@ public class FoundationBoardController implements Initializable {
 					_trailNum = 0;
 					_mode = null;
 					_main.showHome();
+					_statisticsBar.close();
 				}
 			};
 
