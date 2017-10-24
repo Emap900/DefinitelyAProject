@@ -1,9 +1,12 @@
 package testing;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 public class MockMain {
 	public static void main(String[] args) {
@@ -12,7 +15,7 @@ public class MockMain {
 		a.put("2", "as");
 		List<String> ls = new ArrayList<String>(a.keySet());
 		a.remove("2");
-		for (int i = 0; i < a.size(); i++) {
+		for (int i=0; i<a.size(); i++) {
 			System.out.println(ls.get(i));
 			System.out.println(a.get(ls.get(i)));
 		}

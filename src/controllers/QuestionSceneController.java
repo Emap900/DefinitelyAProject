@@ -27,21 +27,13 @@ public class QuestionSceneController {
 	@FXML
 	private Button _recordBtn;
 	private FoundationBoardController _parentController;
-	/**
-	 * Answer for current question showing
-	 */
 	private String _answer;
 
-	protected QuestionSceneController(FoundationBoardController foundationBoardController) {
+	public QuestionSceneController(FoundationBoardController foundationBoardController) {
 		_parentController = foundationBoardController;
 	}
 
-	/**
-	 * Event Listener on Button[#_recordBtn].onAction. Start recording user's
-	 * speech.
-	 * 
-	 * @param event
-	 */
+	// Event Listener on Button[#_recordBtn].onAction
 	@FXML
 	public void recordBtnClicked(ActionEvent event) {
 
@@ -95,7 +87,7 @@ public class QuestionSceneController {
 	 * 
 	 * @param question
 	 */
-	protected void setQuestion(String question, String answer) {
+	public void setQuestion(String question, String answer) {
 		_question.setText(question);
 		_answer = answer;
 		_progressBar.setProgress(0);

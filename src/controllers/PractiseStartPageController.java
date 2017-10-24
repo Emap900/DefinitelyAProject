@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import application.Main;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -28,7 +27,7 @@ public class PractiseStartPageController implements Initializable {
 
 	private FoundationBoardController _parentController;
 
-	protected PractiseStartPageController(FoundationBoardController foundationBoardController) {
+	public PractiseStartPageController(FoundationBoardController foundationBoardController) {
 		// TODO Auto-generated constructor stub
 		_parentController = foundationBoardController;
 	}
@@ -40,9 +39,8 @@ public class PractiseStartPageController implements Initializable {
 		_specificPractiseButton.setDisable(true);
 		// set text in the button and tip message according to the number lower bound
 		// and upper bound
-		_tipMessage.setText("Please enter a number from " + Main.NUMBER_LOWER_BOUND + " to " + Main.NUMBER_UPPER_BOUND);
-		_autoGenerateButton
-				.setText("Auto Generate (" + Main.NUMBER_LOWER_BOUND + " - " + Main.NUMBER_UPPER_BOUND + ")");
+		_tipMessage.setText("Please enter a number from " + Main.NUMLOWERBOUND + " to " + Main.NUMUPPERBOUND);
+		_autoGenerateButton.setText("Auto Generate (" + Main.NUMLOWERBOUND + " - " + Main.NUMUPPERBOUND + ")");
 
 		/*
 		 * Add a text change listener to the user name text field. When the user input
@@ -71,8 +69,8 @@ public class PractiseStartPageController implements Initializable {
 					_numberTextField.setText(oldValue);
 					_tipMessage.setTextFill(Color.RED);
 					// toBeDisabled = true;
-				} else if (Integer.parseInt(newValue) < Main.NUMBER_LOWER_BOUND
-						|| Integer.parseInt(newValue) > Main.NUMBER_UPPER_BOUND) { // check is the input in
+				} else if (Integer.parseInt(newValue) < Main.NUMLOWERBOUND
+						|| Integer.parseInt(newValue) > Main.NUMUPPERBOUND) { // check is the input in
 					_numberTextField.setText(oldValue); // the correct range
 					_tipMessage.setTextFill(Color.RED);
 
@@ -95,26 +93,13 @@ public class PractiseStartPageController implements Initializable {
 		});
 	}
 
-	/**
-	 * Event handler for specificPractiseButton on action. Asks
-	 * FoundationBoardController to start a practise use the number user entered in
-	 * the text field.
-	 * 
-	 * @param event
-	 */
 	@FXML
-	private void specificPractiseButtonClicked(ActionEvent event) {
+	public void specificPractiseButtonClicked() {
 		_parentController.startPractise(Integer.parseInt(_numberTextField.getText()));
 	}
 
-	/**
-	 * Event handler for autoGenerateButton on action. Asks
-	 * FoundationBoardController to start a practise use auto generated numbers.
-	 * 
-	 * @param event
-	 */
 	@FXML
-	private void autoGenerateButtonClicked(ActionEvent event) {
+	public void autoGenerateButtonClicked() {
 		_parentController.startPractise(null);
 	}
 

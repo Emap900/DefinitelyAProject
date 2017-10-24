@@ -38,6 +38,36 @@ public class LeaderBoardController implements Initializable {
 		_main = main;
 	}
 
+	@FXML
+	void backToHome(ActionEvent event) {
+		_main.showHome();
+	}
+
+	@FXML
+	void personalLogBtnClicked(ActionEvent event) {
+		_main.showPersonalPanel(_selectedUser);
+	}
+
+	@FXML
+	void showHelp(ActionEvent event) {
+		_main.showHelp(Function.SCORE);
+	}
+
+	/**
+	 * Get the rankings from the user model and load into the list view
+	 */
+	public void initData() {
+		// load observable lists
+		_normalRanking.setAll(UserModel.getInstance().getRankingList(Mode.NORMALMATH));
+		_endlessRanking.setAll(UserModel.getInstance().getRankingList(Mode.ENDLESSMATH));
+
+		// setup ListViews
+		_normalModeListView.setItems(_normalRanking);
+		_normalModeListView.setCellFactory(lv -> new UserRankListViewCell());
+		_endlessModeListView.setItems(_endlessRanking);
+		_endlessModeListView.setCellFactory(lv -> new UserRankListViewCell());
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// load the data for the leader board
@@ -46,10 +76,7 @@ public class LeaderBoardController implements Initializable {
 		// disable personal log button if there is no user been selected
 		_personalLogBtn.setDisable(true);
 
-		/*
-		 * Set selected item listener to make the user's selection in a list view
-		 * automatically reflect on the other list view
-		 */
+		// set selection model listeners
 		_normalModeListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue == null) {
 				_selectedUser = null;
@@ -86,10 +113,7 @@ public class LeaderBoardController implements Initializable {
 					}
 				});
 
-		/*
-		 * Add change listener to the name search field to make the list views show only
-		 * the users that match the search
-		 */
+		// add change listener to the name search field
 		_nameSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue.isEmpty()) {
 				// reset the list view to contain all records
@@ -119,51 +143,6 @@ public class LeaderBoardController implements Initializable {
 
 		});
 
-	}
-
-	/**
-	 * Get the rankings from the user model and load into the list view
-	 */
-	public void initData() {
-		// load observable lists
-		_normalRanking.setAll(UserModel.getInstance().getRankingList(Mode.NORMALMATH));
-		_endlessRanking.setAll(UserModel.getInstance().getRankingList(Mode.ENDLESSMATH));
-
-		// setup ListViews
-		_normalModeListView.setItems(_normalRanking);
-		_normalModeListView.setCellFactory(lv -> new UserRankListViewCell());
-		_endlessModeListView.setItems(_endlessRanking);
-		_endlessModeListView.setCellFactory(lv -> new UserRankListViewCell());
-	}
-
-	/**
-	 * Return to home page.
-	 * 
-	 * @param event
-	 */
-	@FXML
-	private void backToHome(ActionEvent event) {
-		_main.showHome();
-	}
-
-	/**
-	 * Show the personal panel for the selected user
-	 * 
-	 * @param event
-	 */
-	@FXML
-	private void personalLogBtnClicked(ActionEvent event) {
-		_main.showPersonalPanel(_selectedUser);
-	}
-
-	/**
-	 * Show help stage.
-	 * 
-	 * @param event
-	 */
-	@FXML
-	private void showHelp(ActionEvent event) {
-		_main.showHelp(Function.SCORE);
 	}
 
 }

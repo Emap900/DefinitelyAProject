@@ -86,33 +86,18 @@ public class PersonalPanelController {
 
 	}
 
-	/**
-	 * Event handler for home button on action. Return to the home page.
-	 * 
-	 * @param event
-	 */
 	@FXML
-	private void backToHome(ActionEvent event) {
+	void backToHome(ActionEvent event) {
 		_main.showHome();
 	}
 
-	/**
-	 * Event handler for show leader board button on action. Show the leader board.
-	 * 
-	 * @param event
-	 */
 	@FXML
-	private void showLeaderBoard(ActionEvent event) {
+	void showLeaderBoard(ActionEvent event) {
 		_main.switchScene(Function.SCORE);
 	}
 
-	/**
-	 * Event handler for help button on action. Show the help stage.
-	 * 
-	 * @param event
-	 */
 	@FXML
-	private void showHelp(ActionEvent event) {
+	void showHelp(ActionEvent event) {
 		_main.showHelp(Function.SCORE);
 	}
 

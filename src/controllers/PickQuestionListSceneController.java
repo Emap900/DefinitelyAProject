@@ -39,7 +39,7 @@ public class PickQuestionListSceneController {
 	private List<String> _allQuestions;
 	private List<String> _listOfQuestions;
 
-	protected void initData(Stage stage, String setName) {
+	public void initData(Stage stage, String setName) {
 		_qm = QuestionModel.getInstance();
 		_selfStage = stage;
 		_setName = setName;
@@ -48,7 +48,7 @@ public class PickQuestionListSceneController {
 		loadQuestions();
 	}
 
-	protected void loadQuestions() {
+	public void loadQuestions() {
 		List<List<String>> rawData = _qm.getQuestionsFromSpecificSet(_setName);
 		for (int i = 0; i < rawData.size(); i++) {
 			List<String> temp = rawData.get(i);
@@ -58,31 +58,20 @@ public class PickQuestionListSceneController {
 		_allQuestionsListView.getItems().setAll(_allQuestions);
 	}
 
-	/**
-	 * Event Listener on JFXButton[#_addBtn].onAction. Add the selected question
-	 * from the _allQuestionsListView to the _listOfQuestions and
-	 * _userChoseListView.
-	 * 
-	 * @param event
-	 */
+	// Event Listener on JFXButton[#_addBtn].onAction
 	@FXML
-	private void addBtnClicked(ActionEvent event) {
+	public void addBtnClicked(ActionEvent event) {
 		// TODO add multiple questions
-		String selectedQuestion = _allQuestionsListView.getSelectionModel().getSelectedItem();
+		String selectedQuestion = (String) _allQuestionsListView.getSelectionModel().getSelectedItem();
 		if (selectedQuestion != null) {
 			_listOfQuestions.add(selectedQuestion);
 			_userChoseListView.getItems().setAll(_listOfQuestions);
 		}
 	}
 
-	/**
-	 * Event Listener on JFXButton[#_deleteBtn].onAction. Remove the selected
-	 * question from the _userChoseListView and _listOfQuestions.
-	 * 
-	 * @param event
-	 */
+	// Event Listener on JFXButton[#_deleteBtn].onAction
 	@FXML
-	private void deleteBtnClicked(ActionEvent event) {
+	public void deleteBtnClicked(ActionEvent event) {
 		String selectedQ = _userChoseListView.getSelectionModel().getSelectedItem();
 		if (selectedQ != null) {
 			_listOfQuestions.remove(selectedQ);
@@ -90,18 +79,13 @@ public class PickQuestionListSceneController {
 		}
 	}
 
-	/**
-	 * Event Listener on JFXButton[#_confirmBtn].onAction. Confirm using the picked
-	 * list, set the picked list in QuestionModel.
-	 * 
-	 * @param event
-	 */
+	// Event Listener on JFXButton[#_confirmBtn].onAction
 	@FXML
-	private void confirmBtnClicked(ActionEvent event) {
+	public void confirmBtnClicked(ActionEvent event) {
 		if (_userChoseListView.getItems().isEmpty()) {
 			Main.showErrorDialog("Error!", "Please pick at least one question.", null, _background);
 		} else {
-			List<List<String>> listGenerated = new ArrayList<List<String>>();
+			List<List> listGenerated = new ArrayList<List>();
 			for (int i = 0; i < _listOfQuestions.size(); i++) {
 				String question = _listOfQuestions.get(i).split("=")[0];
 				String answer = _listOfQuestions.get(i).split("=")[1];
