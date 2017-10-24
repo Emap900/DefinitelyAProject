@@ -290,6 +290,7 @@ public class FoundationBoardController implements Initializable {
 				switch (_mode) {
 				case PRACTISE:
 					_resultSceneController.showCorrectAnswer(_questionModel.correctWord());
+					break;
 				case NORMALMATH:
 				case ENDLESSMATH:
 					if (_trailNum == _maxTrailNum) {
@@ -297,6 +298,7 @@ public class FoundationBoardController implements Initializable {
 					} else {
 						_resultSceneController.showCorrectAnswer(null);
 					}
+					break;
 				}
 			}
 
@@ -351,6 +353,7 @@ public class FoundationBoardController implements Initializable {
 		default:
 			body = "Do you want to skip the rest of the questions and save your result? "
 					+ "(The rest of the questions will not be marked)";
+			break;
 		}
 
 		EventHandler<ActionEvent> okHandler = new EventHandler<ActionEvent>() {
@@ -372,10 +375,10 @@ public class FoundationBoardController implements Initializable {
 					_trailNum = 0;
 					_mode = null;
 					_main.showPersonalPanel(_userName);
-					Platform.runLater(() -> {
-						_statisticsBar.close();
-					});
 				}
+				Platform.runLater(() -> {
+					_statisticsBar.close();
+				});
 			}
 		};
 
