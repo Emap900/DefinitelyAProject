@@ -20,6 +20,7 @@ import enums.Mode;
 
 import com.jfoenix.controls.JFXDrawer;
 
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -371,8 +372,10 @@ public class FoundationBoardController implements Initializable {
 					_trailNum = 0;
 					_mode = null;
 					_main.showPersonalPanel(_userName);
+					Platform.runLater(() -> {
+						_statisticsBar.close();
+					});
 				}
-				_statisticsBar.close();
 			}
 		};
 
@@ -477,7 +480,9 @@ public class FoundationBoardController implements Initializable {
 					_trailNum = 0;
 					_mode = null;
 					_main.showHome();
-					_statisticsBar.close();
+					Platform.runLater(() -> {
+						_statisticsBar.close();
+					});
 				}
 			};
 
@@ -494,11 +499,13 @@ public class FoundationBoardController implements Initializable {
 	 */
 	@FXML
 	private void showStatisticsBar(ActionEvent event) {
-		if (_statisticsBar.isHidden()) {
-			_statisticsBar.open();
-		} else {
-			_statisticsBar.close();
-		}
+		Platform.runLater(() -> {
+			if (_statisticsBar.isHidden()) {
+				_statisticsBar.open();
+			} else {
+				_statisticsBar.close();
+			}
+		});
 	}
 
 	/**
@@ -507,7 +514,9 @@ public class FoundationBoardController implements Initializable {
 	 */
 	@FXML
 	private void showHelp(ActionEvent event) {
-		_main.showHelp(_function);
+		Platform.runLater(() -> {
+			_main.showHelp(_function);
+		});
 	}
 
 }
