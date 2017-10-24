@@ -224,7 +224,7 @@ public class HelpController {
 				+ "- For Endless Mode Math Games**, the average hardness factor is calculated using the same procedure\n"
 				+ "  as Normal Mode Math Games. The factor is then timed by the number of questions you have got correct\n"
 				+ "  (e.g. if you have done 4 questions and got 3 of them correct, the factor will be timed by 3). Then\n"
-				+ "  the calculated number will be timed by 10 and this will be your currect score in the game.\n\n"
+				+ "  the calculated number will be timed by 10 and this will be your current score in the game.\n\n"
 				+ "* See \"What is a Normal Mode Math Game?\"\n" + "** See \"What is an Endless Mode Math Game?\"";
 		Main.showInfoDialog(title, body, null, background);
 	}
