@@ -346,6 +346,7 @@ public class FoundationBoardController implements Initializable {
 		switch (_mode) {
 		case PRACTISE:
 			body = "Do you want to finish practising and show summary?";
+			break;
 		default:
 			body = "Do you want to skip the rest of the questions and save your result? "
 					+ "(The rest of the questions will not be marked)";
@@ -471,6 +472,7 @@ public class FoundationBoardController implements Initializable {
 					// reset question model and statistics
 					_statistics.reset();
 					_questionModel.clear();
+					_wrongQuestions.clear();
 					_trailNum = 0;
 					_mode = null;
 					_main.showHome();
