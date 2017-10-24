@@ -18,6 +18,7 @@ import enums.Mode;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import models.QuestionSet.EmptyQuestionSetException;
 
 /**
  * This class will handle local question list as well as question lists in the
@@ -74,7 +75,7 @@ public class QuestionModel {
 	// TODO I think below _toDoList can be a stack rather than a list, subject to
 	// change later
 	private List<List<String>> _toDoList; // this should be a copy of generated list in the begining of each game but
-									// reduce its size as the game going
+	// reduce its size as the game going
 	private List<List<String>> _questionsDid;
 	private Integer _lengthOfQuestionList;
 	private boolean _isFinished;
@@ -327,7 +328,7 @@ public class QuestionModel {
 	// generate a random list of questions from selected question set given number
 	// of questions, this function may or may not be called multiple times for each
 	// run depends on the design choice
-	public void generateQuestionListRandom(String setName) {
+	public void generateQuestionListRandom(String setName) throws EmptyQuestionSetException {
 		if (_lengthOfQuestionList != null && setName.equals("Default")) {
 			generateQuestionListFromPreload("medium", _lengthOfQuestionList);
 		} else if (_lengthOfQuestionList != null) {
