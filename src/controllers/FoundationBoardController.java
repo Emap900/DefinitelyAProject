@@ -361,6 +361,7 @@ public class FoundationBoardController implements Initializable {
 				if (_mode == Mode.PRACTISE) {
 					_mode = null;
 					showPractiseSummary();
+					_wrongQuestions.clear();
 				} else {
 					_userModel.appendRecord(_userName, _mode, _questionModel.getScore());
 					// reset question model and statistics
