@@ -293,7 +293,7 @@ public class FoundationBoardController implements Initializable {
 				case ENDLESSMATH:
 					if (_trailNum == _maxTrailNum) {
 						_resultSceneController.showCorrectAnswer(_questionModel.correctWord());
-					}else {
+					} else {
 						_resultSceneController.showCorrectAnswer(null);
 					}
 				}
@@ -343,13 +343,12 @@ public class FoundationBoardController implements Initializable {
 
 		String title = "Confirm Finish";
 		String body;
-		if (_mode == Mode.PRACTISE) {
+		switch (_mode) {
+		case PRACTISE:
 			body = "Do you want to finish practising and show summary?";
-		} else if (_mode == Mode.NORMALMATH) {
-			body = "Do you want to skip the rest questions and save your result? "
-					+ "(The rest of the questions will be marked wrong)";
-		} else {
-			body = "Do you want to skip the rest questions and save your current result?";
+		default:
+			body = "Do you want to skip the rest of the questions and save your result? "
+					+ "(The rest of the questions will not be marked)";
 		}
 
 		EventHandler<ActionEvent> okHandler = new EventHandler<ActionEvent>() {
@@ -374,8 +373,11 @@ public class FoundationBoardController implements Initializable {
 			}
 		};
 
-		Main.showConfirmDialog(title, body, okHandler, null, _background);
-
+		if (!_questionModel.hasNext()) {
+			okHandler.handle(null);
+		} else {
+			Main.showConfirmDialog(title, body, okHandler, null, _background);
+		}
 	}
 
 	/**
