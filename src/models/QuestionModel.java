@@ -345,6 +345,7 @@ public class QuestionModel {
 		if (_generatedQuestionList == null) {
 			System.err.println("there is no generated question list to start");
 		} else {
+			this.randomizeQuestionListFromUserDefineWithSelfPick(true);
 			_toDoList = _generatedQuestionList;
 		}
 	}
