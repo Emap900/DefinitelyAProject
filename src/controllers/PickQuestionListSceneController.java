@@ -1,6 +1,10 @@
 package controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import models.QuestionModel;
@@ -11,6 +15,7 @@ import java.util.List;
 import com.jfoenix.controls.JFXButton;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 import com.jfoenix.controls.JFXListView;
 
@@ -56,6 +61,28 @@ public class PickQuestionListSceneController {
 			_allQuestions.add(Combined);
 		}
 		_allQuestionsListView.getItems().setAll(_allQuestions);
+	}
+
+	/**
+	 * Add a key event handler to handle shortcuts pressed. Shortcuts include: RIGHT
+	 * to add a question to the list, LEFT to remove the question, ENTER to confirm
+	 * the list.
+	 */
+	protected void enableShortcut() {
+		_selfStage.getScene().addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent e) {
+				if (e.getCode() == KeyCode.RIGHT) {
+					addBtnClicked(null);
+				} else if (e.getCode() == KeyCode.LEFT) {
+					deleteBtnClicked(null);
+				} else if (e.getCode() == KeyCode.ENTER) {
+					confirmBtnClicked(null);
+				}
+			}
+
+		});
 	}
 
 	/**
@@ -114,4 +141,12 @@ public class PickQuestionListSceneController {
 			_selfStage.close();
 		}
 	}
+	
+	@FXML
+    private void showShortcuts(ActionEvent event) {
+		String body = "Press RIGHT to add the selected question to the list.\n"
+				+ "Press LEFT to remove the selected question from the list.\n"
+				+ "Press ENTER to confirm use this question list.";
+		Main.showInfoDialog("Shortcuts", body, null, _background);
+    }
 }

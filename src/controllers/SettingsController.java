@@ -376,6 +376,7 @@ public class SettingsController implements Initializable {
 			Pane root = Main.loadScene("PickQuestionListScene.fxml", pickSceneController);
 			Main.showScene(_userPickingStage, root);
 			pickSceneController.initData(_userPickingStage, setName);
+			pickSceneController.enableShortcut();
 		} catch (NullPointerException e) {
 			permissionDeniededDialog();
 		}
