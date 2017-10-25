@@ -164,7 +164,18 @@ public class QuestionSetEditPanelController implements Initializable {
 		String selectedQ = questionList.getSelectionModel().getSelectedItem();
 		if (selectedQ != null && !selectedQ.isEmpty()) {
 			String key = selectedQ.split("=")[0];
-			_questionModel.deleteQuestionFromQuestionSet(_currentSetName, key);
+			if(_questionModel.checkIfaQuestionExistInSet(_currentSetName, key)) {
+				Main.showConfirmDialog("Confirm delete", "Are you sure you want to delete this:", new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent event) {
+						_questionModel.deleteQuestionFromQuestionSet(_currentSetName, key);
+					}
+					
+				}, null, background);
+			} else {
+				Main.showErrorDialog("Warning", "No question selected.", null, background);
+			}
 		}
 		loadQuestions();
 	}

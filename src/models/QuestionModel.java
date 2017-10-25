@@ -198,30 +198,16 @@ public class QuestionModel {
 		}
 	}
 
+	public boolean checkIfaQuestionExistInSet(String setName, String question) {
+		boolean flag = false;
+		if(isQuestionSetExist(setName) && _sets.get(setName).questionExist(question)) {
+			flag = true;
+		} 
+		return flag;
+	}
 	// delete question from existing question set
 	public void deleteQuestionFromQuestionSet(String setName, String question) {
-		if (!isQuestionSetExist(setName)) {
-			noSetFoundDialog();
-		} else {
-			if (_sets.get(setName).questionExist(question)) {
-				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("confirm delete");
-				alert.setHeaderText("Look, a Confirmation Dialog");
-				alert.setContentText("Are you ok with this?");
-
-				Optional<ButtonType> result = alert.showAndWait();
-				if (result.get() == ButtonType.OK) {
-					_sets.get(setName).delete(question);
-				}
-			} else {
-				Alert alert = new Alert(AlertType.WARNING);
-				alert.setTitle("Warning Dialog");
-				alert.setHeaderText("No question found");
-				alert.setContentText("Careful with the next step!");
-				alert.showAndWait();
-			}
-
-		}
+		_sets.get(setName).delete(question);
 	}
 
 	// no set found dialog
