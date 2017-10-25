@@ -170,6 +170,7 @@ public class QuestionSetEditPanelController implements Initializable {
 					@Override
 					public void handle(ActionEvent event) {
 						_questionModel.deleteQuestionFromQuestionSet(_currentSetName, key);
+						loadQuestions();
 					}
 					
 				}, null, background);
