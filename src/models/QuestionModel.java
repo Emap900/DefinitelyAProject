@@ -8,16 +8,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Random;
 import java.util.Scanner;
 
-import application.BashProcess;
 import application.Main;
 import enums.Mode;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
 import models.QuestionSet.EmptyQuestionSetException;
 
 /**

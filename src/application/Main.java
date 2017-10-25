@@ -135,7 +135,6 @@ public class Main extends Application {
 			_helpStage.setMinWidth(700);
 			_helpStage.setTitle("Help");
 			showScene(_helpStage, _helpScene);
-			// _helpSceneController.switchTo(f);
 		}
 	}
 

@@ -11,7 +11,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.QuestionModel;
-import models.QuestionSet;
 import models.QuestionSet.EmptyQuestionSetException;
 
 import java.io.FileInputStream;
