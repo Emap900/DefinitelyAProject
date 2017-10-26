@@ -16,6 +16,7 @@ import controllers.PersonalPanelController;
 import controllers.SettingsController;
 import enums.Function;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
@@ -119,8 +120,10 @@ public class Main extends Application {
 			break;
 		case PRACTISE:
 		case MATH:
-			showScene(_primaryStage, _foundationBoard);
 			_foundationBoardController.setFunction(function);
+			Platform.runLater(() -> {
+				showScene(_primaryStage, _foundationBoard);
+			});
 			break;
 		case SCORE:
 			showScene(_primaryStage, _leaderBoard);
@@ -149,7 +152,7 @@ public class Main extends Application {
 		} else {
 			_helpStage = new Stage();
 			_helpStage.setMinHeight(500);
-			_helpStage.setMinWidth(700);
+			_helpStage.setMinWidth(790);
 			_helpStage.setTitle("Help");
 			showScene(_helpStage, _helpScene);
 		}
@@ -224,6 +227,7 @@ public class Main extends Application {
 			Scene scene = stage.getScene();
 			if (scene == null) {
 				scene = new Scene(root);
+				root.resize(scene.getWidth(), scene.getHeight());
 				scene.getStylesheets().add(Main.class.getResource("/views/application.css").toExternalForm());
 				stage.setScene(scene);
 			} else {
