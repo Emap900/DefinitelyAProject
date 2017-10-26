@@ -173,7 +173,7 @@ public class PickQuestionListSceneController {
 	private void showShortcuts(ActionEvent event) {
 		String body = "Press RIGHT to add the selected question to the list.\n"
 				+ "Press LEFT to remove the selected question from the list.\n"
-				+ "Press ENTER to confirm use this question list.";
+				+ "Press ENTER or CTRL+S to confirm use this question list.";
 		Main.showInfoDialog("Shortcuts", body, (e) -> {
 			_isDialogShowing = false;
 		}, _background);

@@ -204,7 +204,7 @@ public class QuestionSetEditPanelController implements Initializable {
 	@FXML
 	private void showShortcuts(ActionEvent event) {
 		String body = "Press CTRL+N to add a new question.\n" + "Press DELETE to delete the selected question.\n"
-				+ "Press ENTER to finish editing and close this window.";
+				+ "Press ENTER or CTRL+S to finish editing and close this window.";
 		Main.showInfoDialog("Shortcuts", body, (e) -> {
 			_isDialogShowing = false;
 		}, background);

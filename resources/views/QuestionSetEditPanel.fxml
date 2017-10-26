@@ -67,7 +67,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                            <tooltip>
-                              <Tooltip text="Press ENTER to finish editing" />
+                              <Tooltip text="Press ENTER or CTRL+S to finish editing" />
                            </tooltip>
                         </JFXButton>
                      </children>
