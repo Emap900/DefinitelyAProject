@@ -135,7 +135,11 @@ public class PickQuestionListSceneController {
 				_userChoseListView.getSelectionModel().select(i - 1);
 			}
 			Platform.runLater(() -> {
-				_userChoseListView.requestFocus();
+				if (_userChoseListView.getItems().isEmpty()) {
+					_allQuestionsListView.requestFocus();
+				}else {
+					_userChoseListView.requestFocus();
+				}
 			});
 		}
 	}
