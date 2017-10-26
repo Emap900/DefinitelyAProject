@@ -21,23 +21,24 @@ import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import models.QuestionModel;
 import models.UserModel;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 
 /**
- * This Class is the entry point of the  program.
- * It handles the functionality of initialize base components of the program as well as the exchange of scenes in the program.
+ * This Class is the entry point of the program. It handles the functionality of
+ * initialize base components of the program as well as the exchange of scenes
+ * in the program.
  * 
  * @author Carl Tang & Wei Chen
  *
@@ -108,6 +109,7 @@ public class Main extends Application {
 
 	/**
 	 * Switch between scenes based on function passed in.
+	 * 
 	 * @param function
 	 */
 	public void switchScene(Function function) {
@@ -137,6 +139,7 @@ public class Main extends Application {
 
 	/**
 	 * Pops up a window that displays the help information.
+	 * 
 	 * @param f
 	 */
 	public void showHelp(Function f) {
@@ -158,9 +161,10 @@ public class Main extends Application {
 	public void showHome() {
 		switchScene(Function.HOME);
 	}
-	
+
 	/**
 	 * Switch to the personal statistic page of the program
+	 * 
 	 * @param userName
 	 */
 	public void showPersonalPanel(String userName) {
@@ -203,8 +207,10 @@ public class Main extends Application {
 
 	/**
 	 * Make the root showing on the scene of the stage.
-	 * @throws RuntimeException if the root is null
-	 * If the root cannot be set, an error dialog will be popped up.
+	 * 
+	 * @throws RuntimeException
+	 *             if the root is null If the root cannot be set, an error dialog
+	 *             will be popped up.
 	 * 
 	 * @param stage
 	 * @param root
@@ -237,7 +243,8 @@ public class Main extends Application {
 	}
 
 	/**
-	 * Show a JFoenix material confirmation dialog on the given background stackPane.
+	 * Show a JFoenix material confirmation dialog on the given background
+	 * stackPane.
 	 * 
 	 * @param title
 	 * @param body
@@ -247,30 +254,20 @@ public class Main extends Application {
 	 */
 	public static void showConfirmDialog(String title, String body, EventHandler<ActionEvent> okHandler,
 			EventHandler<ActionEvent> cancelHandler, StackPane background) {
-		// ask user for confirm
-		JFXDialogLayout content = new JFXDialogLayout();
-		content.setHeading(new Text(title));
-		content.setBody(new Text(body));
+
+		Text[] heading = { new Text(title) };
+		Text[] bodyNodes = { new Text(body) };
 		JFXButton okBtn = new JFXButton("OK");
 		JFXButton cancelBtn = new JFXButton("Cancel");
-		content.setActions(okBtn, cancelBtn);
-		JFXDialog dialog = new JFXDialog(background, content, DialogTransition.CENTER);
-		dialog.setOverlayClose(false);
+		if (okHandler != null) {
+			okBtn.addEventHandler(ActionEvent.ACTION, okHandler);
+		}
+		if (cancelHandler != null) {
+			cancelBtn.addEventHandler(ActionEvent.ACTION, cancelHandler);
+		}
+		Button[] actions = { okBtn, cancelBtn };
 
-		okBtn.setOnAction(e -> {
-			if (okHandler != null) {
-				okHandler.handle(e);
-			}
-			dialog.close();
-		});
-		cancelBtn.setOnAction(e -> {
-			if (cancelHandler != null) {
-				cancelHandler.handle(e);
-			}
-			dialog.close();
-		});
-
-		dialog.show();
+		Main.showCustomizableDialog(heading, bodyNodes, actions, background, false);
 	}
 
 	/**
@@ -283,24 +280,7 @@ public class Main extends Application {
 	 */
 	public static void showErrorDialog(String title, String body, EventHandler<ActionEvent> okHandler,
 			StackPane background) {
-		// ask user for confirm
-		JFXDialogLayout content = new JFXDialogLayout();
-		content.setHeading(new Text(title));
-		content.setBody(new Text(body));
-		JFXButton okBtn = new JFXButton("OK");
-		okBtn.setDefaultButton(true);
-		content.setActions(okBtn);
-		JFXDialog dialog = new JFXDialog(background, content, DialogTransition.CENTER);
-		dialog.setOverlayClose(false);
-
-		okBtn.setOnAction(e -> {
-			if (okHandler != null) {
-				okHandler.handle(e);
-			}
-			dialog.close();
-		});
-
-		dialog.show();
+		Main.showInfoDialog(title, body, okHandler, background);
 	}
 
 	/**
@@ -313,7 +293,55 @@ public class Main extends Application {
 	 */
 	public static void showInfoDialog(String title, String body, EventHandler<ActionEvent> okHandler,
 			StackPane background) {
-		Main.showErrorDialog(title, body, okHandler, background);
+		Text[] heading = { new Text(title) };
+		Text[] bodyNodes = { new Text(body) };
+		JFXButton okBtn = new JFXButton("OK");
+		if (okHandler != null) {
+			okBtn.addEventHandler(ActionEvent.ACTION, okHandler);
+		}
+		Button[] actions = { okBtn };
+
+		Main.showCustomizableDialog(heading, bodyNodes, actions, background, false);
+	}
+
+	/**
+	 * Show a customizable JFoenix material dialog on the given background
+	 * StackPane. You can customize event handlers on the actions. And if an action
+	 * node is a button, a new mouse clicked event handler which closes the dialog
+	 * will be added to the button.
+	 * 
+	 * @param heading
+	 *            - an array of nodes to show on the heading
+	 * @param body
+	 *            - an array of nodes to show on the body
+	 * @param actions
+	 *            - an array of nodes set as actions
+	 * @param background
+	 * @param overlayClose
+	 *            - to be passes into the setOverlayClose method of JFXDialog, to
+	 *            determine either the dialog will be closed if clicked anywhere
+	 *            else away from the dialog
+	 */
+	public static void showCustomizableDialog(Node[] heading, Node[] body, Node[] actions, StackPane background,
+			boolean overlayClose) {
+		JFXDialogLayout content = new JFXDialogLayout();
+		content.setHeading(heading);
+		content.setBody(body);
+		content.setActions(actions);
+
+		JFXDialog dialog = new JFXDialog(background, content, DialogTransition.CENTER);
+		dialog.setOverlayClose(overlayClose);
+
+		for (Node n : actions) {
+			if (n instanceof Button) {
+				n.addEventHandler(ActionEvent.ACTION, (e) -> {
+					dialog.close();
+				});
+			}
+		}
+
+		dialog.show();
+
 	}
 
 }
