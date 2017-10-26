@@ -43,6 +43,8 @@ import models.QuestionSet.EmptyQuestionSetException;
  * 
  * scoring system (to be detailed)
  * 
+ * @author Carl Tang & Wei Chen
+ * 
  */
 
 // generate question, trial number, correct answer, score of game, isfinished,
@@ -439,49 +441,64 @@ public class QuestionModel {
 		}
 	}
 
-	// get current question
+	/**
+	 *  get current question
+	 * @return
+	 */
 	public String currentQuestion() {
 		return _currentQuestion;
 	}
 
-	// get current answer
+	/**
+	 *  get current answer
+	 * @return
+	 */
 	public String currentAnswer() {
 
 		return _currentAnswer;
 	}
 
-	// return correct maori word
+	/**
+	 *  return correct maori word
+	 * @return
+	 */
 	public String correctWord() {
 		return _correctWord;
 	}
 
-	// return user answered word
+	/**
+	 *  return user answered word
+	 * @return
+	 */
 	public String answerOfUser() {
 		return _recognizedWord;
 
 	}
 
-	// return correctness
+	/**
+	 *  return correctness
+	 * @return
+	 */
 	public boolean isUserCorrect() {
 		return _correctness;
 	}
 
-	public boolean isFinished() {
-		return _isFinished;
-	}
-
+	/**
+	 * Storing result of a specific question from the speech recognizer.
+	 * @param recognizedWord
+	 * @param correctWord
+	 * @param correctness
+	 */
 	public void updateResult(String recognizedWord, String correctWord, boolean correctness) {
-		// if (correctness) {
-		// _numOfquestionsGotCorrect++;
-		// }
 		_recognizedWord = recognizedWord;
 		_correctWord = correctWord;
 		_correctness = correctness;
 	}
 
+	/**
+	 * reset variables for next use of some functionality of the class.
+	 */
 	public void clear() {
-		// _preloadSortedQuestionSet = new ArrayList<List<String>>();
-
 		_toDoList = _generatedQuestionList;
 		_questionsDid = new ArrayList<List<String>>();
 
@@ -495,10 +512,18 @@ public class QuestionModel {
 
 	}
 
+	/**
+	 * return the current score of current user, intended to be called only during the process of a gaming
+	 * @return
+	 */
 	public int getScore() {
 		return _currentScore;
 	}
 
+	/**
+	 * compute and update score of user based on a specific formula
+	 * @param mode
+	 */
 	private void computeScore(Mode mode) {
 		if (_currentScore == null) {
 			_currentScore = 0;
@@ -528,6 +553,9 @@ public class QuestionModel {
 
 	}
 
+	/**
+	 * calculating a factor of scoring system
+	 */
 	private void calculateHardnessFactor() {
 		double prevFactor = _pronounciationHardnessFactor;
 		double currentQuesHardness;
