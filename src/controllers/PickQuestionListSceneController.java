@@ -2,6 +2,8 @@ package controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -12,6 +14,7 @@ import java.util.List;
 
 import com.jfoenix.controls.JFXButton;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
@@ -42,6 +45,8 @@ public class PickQuestionListSceneController {
 	private List<String> _allQuestions;
 	private List<String> _listOfQuestions;
 
+	private boolean _isDialogShowing;
+
 	protected void initData(Stage stage, String setName) {
 		_qm = QuestionModel.getInstance();
 		_selfStage = stage;
@@ -49,6 +54,9 @@ public class PickQuestionListSceneController {
 		_allQuestions = new ArrayList<String>();
 		_listOfQuestions = new ArrayList<String>();
 		loadQuestions();
+		_allQuestionsListView.getSelectionModel().select(0);
+
+		_isDialogShowing = false;
 	}
 
 	protected void loadQuestions() {
@@ -63,20 +71,24 @@ public class PickQuestionListSceneController {
 
 	/**
 	 * Add a key event handler to handle shortcuts pressed. Shortcuts include: RIGHT
-	 * to add a question to the list, LEFT to remove the question, ENTER to confirm
-	 * the list.
+	 * to add a question to the list, LEFT to remove the question, ENTER or CTRL+S
+	 * to confirm the list.
 	 */
 	protected void enableShortcut() {
 		_selfStage.getScene().addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 
+			final KeyCombination CTRL_S = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
+
 			@Override
 			public void handle(KeyEvent e) {
-				if (e.getCode() == KeyCode.RIGHT) {
-					addBtnClicked(null);
-				} else if (e.getCode() == KeyCode.LEFT) {
-					deleteBtnClicked(null);
-				} else if (e.getCode() == KeyCode.ENTER) {
-					confirmBtnClicked(null);
+				if (!_isDialogShowing) {
+					if (e.getCode() == KeyCode.RIGHT) {
+						addBtnClicked(null);
+					} else if (e.getCode() == KeyCode.LEFT) {
+						deleteBtnClicked(null);
+					} else if (e.getCode() == KeyCode.ENTER || CTRL_S.match(e)) {
+						confirmBtnClicked(null);
+					}
 				}
 			}
 
@@ -97,6 +109,10 @@ public class PickQuestionListSceneController {
 		if (selectedQuestion != null) {
 			_listOfQuestions.add(selectedQuestion);
 			_userChoseListView.getItems().setAll(_listOfQuestions);
+			_userChoseListView.getSelectionModel().select(selectedQuestion);
+			Platform.runLater(() -> {
+				_allQuestionsListView.requestFocus();
+			});
 		}
 	}
 
@@ -110,8 +126,17 @@ public class PickQuestionListSceneController {
 	private void deleteBtnClicked(ActionEvent event) {
 		String selectedQ = _userChoseListView.getSelectionModel().getSelectedItem();
 		if (selectedQ != null) {
+			int i = _listOfQuestions.indexOf(selectedQ);
 			_listOfQuestions.remove(selectedQ);
 			_userChoseListView.getItems().setAll(_listOfQuestions);
+			if (_userChoseListView.getItems().size() > i) {
+				_userChoseListView.getSelectionModel().select(i);
+			} else if (_userChoseListView.getItems().size() == i) {
+				_userChoseListView.getSelectionModel().select(i - 1);
+			}
+			Platform.runLater(() -> {
+				_userChoseListView.requestFocus();
+			});
 		}
 	}
 
@@ -124,7 +149,11 @@ public class PickQuestionListSceneController {
 	@FXML
 	private void confirmBtnClicked(ActionEvent event) {
 		if (_userChoseListView.getItems().isEmpty()) {
-			Main.showErrorDialog("Error!", "Please pick at least one question.", null, _background);
+			Main.showErrorDialog("Error!", "Please pick at least one question.", (e) -> {
+				_isDialogShowing = false;
+			}, _background);
+			_isDialogShowing = true;
+
 		} else {
 			List<List<String>> listGenerated = new ArrayList<List<String>>();
 			for (int i = 0; i < _listOfQuestions.size(); i++) {
@@ -139,12 +168,15 @@ public class PickQuestionListSceneController {
 			_selfStage.close();
 		}
 	}
-	
+
 	@FXML
-    private void showShortcuts(ActionEvent event) {
+	private void showShortcuts(ActionEvent event) {
 		String body = "Press RIGHT to add the selected question to the list.\n"
 				+ "Press LEFT to remove the selected question from the list.\n"
 				+ "Press ENTER to confirm use this question list.";
-		Main.showInfoDialog("Shortcuts", body, null, _background);
-    }
+		Main.showInfoDialog("Shortcuts", body, (e) -> {
+			_isDialogShowing = false;
+		}, _background);
+		_isDialogShowing = true;
+	}
 }

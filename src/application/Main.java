@@ -24,6 +24,8 @@ import models.UserModel;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
@@ -232,10 +234,10 @@ public class Main extends Application {
 		content.setHeading(new Text(title));
 		content.setBody(new Text(body));
 		JFXButton okBtn = new JFXButton("OK");
-		okBtn.setDefaultButton(true);
 		JFXButton cancelBtn = new JFXButton("Cancel");
 		content.setActions(okBtn, cancelBtn);
 		JFXDialog dialog = new JFXDialog(background, content, DialogTransition.CENTER);
+		dialog.setOverlayClose(false);
 
 		okBtn.setOnAction(e -> {
 			if (okHandler != null) {
@@ -271,6 +273,7 @@ public class Main extends Application {
 		okBtn.setDefaultButton(true);
 		content.setActions(okBtn);
 		JFXDialog dialog = new JFXDialog(background, content, DialogTransition.CENTER);
+		dialog.setOverlayClose(false);
 
 		okBtn.setOnAction(e -> {
 			if (okHandler != null) {
