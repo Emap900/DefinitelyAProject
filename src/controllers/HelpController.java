@@ -5,6 +5,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 
+/**
+ * This
+ * @author Carl Tang & Wei Chen
+ *
+ */
 public class HelpController {
 
 	@FXML

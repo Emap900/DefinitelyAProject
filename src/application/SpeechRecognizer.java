@@ -9,7 +9,7 @@ import java.util.List;
 import models.QuestionModel;
 
 /**
- * This class is a speechRecognizer
+ * This class is a Maori speech recognizer based on the HTK toolBox and language model developed by Dr Catherine Watson @ University of Auckland
  * 
  * @author Carl Tang
  * 
@@ -22,7 +22,12 @@ public final class SpeechRecognizer {
 	private static final HashMap<String, String> _dictionary = loadDictionary();
 
 	private static final QuestionModel _questionModel = QuestionModel.getInstance();
-
+	
+	
+	/**
+	 * Returns the correctness of a given question
+	 * @return correctness of a given question based on speech recognize package and user input
+	 */
 	public static boolean checkCorrectness() {
 		String numberValue = _questionModel.currentAnswer();
 		String recognizedWord;
