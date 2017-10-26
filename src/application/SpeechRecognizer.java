@@ -11,7 +11,7 @@ import models.QuestionModel;
 /**
  * This class is a Maori speech recognizer based on the HTK toolBox and language model developed by Dr Catherine Watson @ University of Auckland
  * 
- * @author Carl Tang
+ * @author Carl Tang & Wei Chen
  * 
  */
 public final class SpeechRecognizer {

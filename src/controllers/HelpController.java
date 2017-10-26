@@ -7,6 +7,7 @@ import javafx.scene.layout.StackPane;
 
 /**
  * This class is the controller for help window which contains several dialogs describe the functionality of the program.
+ *
  * @author Carl Tang & Wei Chen
  *
  */

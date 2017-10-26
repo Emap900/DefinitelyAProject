@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * can take 1-3 parameters: 1 parameter: bash command as a string. 2 parameters:
  * relative location of sh file and bash command as 2 strings 3 parameters:
  * 
- * @author Wei Chen
+ * @author Carl Tang & Wei Chen
  *
  */
 public class BashProcess {

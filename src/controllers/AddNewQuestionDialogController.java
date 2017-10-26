@@ -26,7 +26,7 @@ import models.QuestionModel;
  * This class is the controller of adding new question page.
  * This class is called by action event of adding new set in Settings.
  * 
- * @author Eric Chen
+ * @author Carl Tang & Wei Chen
  *
  */
 public class AddNewQuestionDialogController implements Initializable {

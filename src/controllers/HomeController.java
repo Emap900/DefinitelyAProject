@@ -12,7 +12,11 @@ import java.util.ResourceBundle;
 import application.Main;
 import enums.Function;
 import javafx.event.ActionEvent;
-
+/**
+ * 
+ * @author Carl Tang & Wei Chen
+ *
+ */
 public class HomeController implements Initializable {
 	// buttons
 	@FXML
