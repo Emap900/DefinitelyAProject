@@ -24,8 +24,6 @@ import models.UserModel;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
@@ -36,9 +34,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 
 /**
- * Note: Casting used in creating new instance of controller, inappropriate use
- * may lead to a failure.
+ * This Class is the entry point of the  program.
+ * It handles the functionality of initialize base components of the program as well as the exchange of scenes in the program.
  * 
+ * @author Carl Tang & Eric Chen
  *
  */
 public class Main extends Application {
@@ -68,6 +67,9 @@ public class Main extends Application {
 	private HelpController _helpSceneController;
 	private PersonalPanelController _personalPanelController;
 
+	/**
+	 * Initialize some of classes that are needed of the program
+	 */
 	@Override
 	public void start(Stage primaryStage) {
 		_primaryStage = primaryStage;
@@ -102,6 +104,10 @@ public class Main extends Application {
 		showHome();
 	}
 
+	/**
+	 * Switch between scenes based on function passed in.
+	 * @param function
+	 */
 	public void switchScene(Function function) {
 		switch (function) {
 		case HOME:
@@ -127,6 +133,10 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * Pops up a window that displays the help information.
+	 * @param f
+	 */
 	public void showHelp(Function f) {
 		if (_helpStage != null) {
 			_helpStage.show();
@@ -140,10 +150,17 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * Switch to Home page of the program.
+	 */
 	public void showHome() {
 		switchScene(Function.HOME);
 	}
-
+	
+	/**
+	 * Switch to the personal statistic page of the program
+	 * @param userName
+	 */
 	public void showPersonalPanel(String userName) {
 		showScene(_primaryStage, _personalPanel);
 		_personalPanelController.showPersonalHistory(userName);
@@ -155,15 +172,15 @@ public class Main extends Application {
 	}
 
 	/**
-	 * Get a FXMLLoader that loads the fxml file into a root pane and set the
+	 * Get a FXMLLoader that loads the FXML file into a root pane and set the
 	 * controller passes in as its controller.
 	 * 
 	 * @param fxml
 	 * @param controller
-	 * @return Scene loaded from the fxml file
+	 * @return Scene loaded from the FXML file
 	 */
 	public static Pane loadScene(String fxml, Object controller) {
-		// loading fxml from FXML loader
+		// loading FXML from FXML loader
 		FXMLLoader loader = new FXMLLoader();
 		InputStream in = Main.class.getResourceAsStream("/views/" + fxml);
 		loader.setBuilderFactory(new JavaFXBuilderFactory());
@@ -183,10 +200,10 @@ public class Main extends Application {
 	}
 
 	/**
-	 * Make the root showing on the scene of the stage. If the root is null, a
-	 * runtime exception will be thrown. If the root cannot be set, an error dialog
-	 * will be popped up.
-	 *
+	 * Make the root showing on the scene of the stage.
+	 * @throws RuntimeException if the root is null
+	 * If the root cannot be set, an error dialog will be popped up.
+	 * 
 	 * @param stage
 	 * @param root
 	 */
@@ -218,8 +235,7 @@ public class Main extends Application {
 	}
 
 	/**
-	 * Show a jfoenix material confirmation dialog on the given background
-	 * stackPane.
+	 * Show a JFoenix material confirmation dialog on the given background stackPane.
 	 * 
 	 * @param title
 	 * @param body
@@ -256,7 +272,7 @@ public class Main extends Application {
 	}
 
 	/**
-	 * Show a jfoenix material error dialog on the given background stackPane.
+	 * Show a JFoenix material error dialog on the given background stackPane.
 	 * 
 	 * @param title
 	 * @param body
@@ -286,7 +302,7 @@ public class Main extends Application {
 	}
 
 	/**
-	 * Show a jfoenix material information dialog on the given background stackPane.
+	 * Show a JFoenix material information dialog on the given background stackPane.
 	 * 
 	 * @param title
 	 * @param body
