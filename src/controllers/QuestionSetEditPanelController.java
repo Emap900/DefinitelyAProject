@@ -22,7 +22,13 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 
 import application.Main;
-
+/**
+ * This class is the controller of QuestionSetEditPanel Scene which is also called set editing page in the program.
+ * This scene provides the functionality of editing a given/created question set. Note: Editing of default list is banned.
+ * 
+ * @author Carl Tang & Wei Chen
+ *
+ */
 public class QuestionSetEditPanelController implements Initializable {
 
 	@FXML

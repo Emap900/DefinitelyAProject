@@ -135,7 +135,9 @@ public class QuestionModel {
 		generateQuestionListFromPreload("medium", 10);
 	}
 
-	// load local question sets
+	/**
+	 *  load local question sets
+	 */
 	private void loadLocalLists() {
 		File folder = new File("QuestionSets");
 
@@ -154,8 +156,10 @@ public class QuestionModel {
 		}
 	}
 
-	// create new question set
-	// public boolean createLocalQuestionSet(String setName) {
+	/**
+	 *  create new question set
+	 * @param setName
+	 */
 	public void createLocalQuestionSet(String setName) {
 		if (isQuestionSetExist(setName)) {
 			_sets.get(setName).deleteLocalFile();
@@ -167,9 +171,10 @@ public class QuestionModel {
 		}
 	}
 
-	// delete existing question set
-	// TODO possibility of combining delete confirmation dialogs? How to handle with
-	// different
+	/**
+	 *  delete existing question set
+	 * @param setName
+	 */
 	public void deleteLocalQuestionSet(String setName) {
 		// new BashProcess("./MagicStaff.sh", "delete", setName);
 		_sets.get(setName).deleteLocalFile();
@@ -177,7 +182,11 @@ public class QuestionModel {
 		_listOfSetNames.remove(setName);
 	}
 
-	// check if a questionSet is existed in sets
+	/**
+	 *  check if a questionSet is existed in sets
+	 * @param setName
+	 * @return
+	 */
 	private boolean isQuestionSetExist(String setName) {
 		QuestionSet value = _sets.get(setName);
 		if (value != null) {
@@ -186,7 +195,12 @@ public class QuestionModel {
 		return false;
 	}
 
-	// add new question to existing question set
+	/**
+	 *  add new question to existing question set
+	 * @param setName
+	 * @param question
+	 * @param answer
+	 */
 	public void addQuestionToQuestionSet(String setName, String question, String answer) {
 		if (!isQuestionSetExist(setName)) {
 			noSetFoundDialog();
@@ -194,7 +208,12 @@ public class QuestionModel {
 			_sets.get(setName).addQAPair(question, answer);
 		}
 	}
-
+	/**
+	 * Check if a question is exist in a given question set
+	 * @param setName
+	 * @param question
+	 * @return
+	 */
 	public boolean checkIfaQuestionExistInSet(String setName, String question) {
 		boolean flag = false;
 		if(isQuestionSetExist(setName) && _sets.get(setName).questionExist(question)) {
@@ -202,12 +221,18 @@ public class QuestionModel {
 		} 
 		return flag;
 	}
-	// delete question from existing question set
+	/**
+	 *  delete question from existing question set
+	 * @param setName
+	 * @param question
+	 */
 	public void deleteQuestionFromQuestionSet(String setName, String question) {
 		_sets.get(setName).delete(question);
 	}
 
-	// no set found dialog
+	/**
+	 *  no set found dialog
+	 */
 	private void noSetFoundDialog() {
 		Alert alert = new Alert(AlertType.WARNING);
 		alert.setTitle("Warning Dialog");
@@ -215,11 +240,17 @@ public class QuestionModel {
 		alert.setContentText("Careful with the next step!");
 		alert.showAndWait();
 	}
-
+	/**
+	 * Return a list of set names
+	 */
 	public List<String> getListOfsets() {
 		return _listOfSetNames;
 	}
-
+	
+	/**
+	 * Update stored list to be used in the game from input
+	 * @param listGenerated
+	 */
 	public void setUserPickedList(List<List<String>> listGenerated) {
 		_generatedQuestionList = listGenerated;
 	}
@@ -253,7 +284,10 @@ public class QuestionModel {
 			Collections.shuffle(_generatedQuestionList);
 		}
 	}
-
+	/**
+	 * Store length of list of questions will be played
+	 * @param length
+	 */
 	public void setLengthOfQuestionList(int length) {
 		_lengthOfQuestionList = length;
 	}
@@ -268,13 +302,21 @@ public class QuestionModel {
 	public void setMode(Mode mode) {
 		_currentMode = mode;
 	}
-
+	
+	/**
+	 * setting up for practice mode
+	 * @param numToPractise
+	 */
 	public void initializePractise(Integer numToPractise) {
 		_currentMode = Mode.PRACTISE;
 		_numberToPractise = numToPractise;
 	}
 
-	// getListOfQuestions in a specific set
+	/**
+	 *  getListOfQuestions in a specific set
+	 * @param setName
+	 * @return
+	 */
 	public List<List<String>> getQuestionsFromSpecificSet(String setName) {
 		if (setName == Main.DEFAULT_QUESTION_SET_NAME) {
 			return _preloadSortedQuestionSet;
@@ -282,8 +324,12 @@ public class QuestionModel {
 		return _sets.get(setName).getQuestionsInSet();
 	}
 
-	// generate a random list of question with certain hardness given number of
-	// questions, using the preloadset of questions
+	/**
+	 *  generate a random list of question with certain hardness given number of questions, using the preload set of questions
+	 * @param hardness
+	 * @param numOfQuestions
+	 */
+	
 	public void generateQuestionListFromPreload(String hardness, int numOfQuestions) {
 		Random r = new Random();
 		int barrier = 100;
@@ -310,9 +356,10 @@ public class QuestionModel {
 		}
 	}
 
-	// generate a random list of questions from selected question set given number
-	// of questions, this function may or may not be called multiple times for each
-	// run depends on the design choice
+	/**
+	 *  generate a random list of questions from selected question set given number of questions, this function may or may not be called multiple times for each run depends on the design choice.
+	 */
+	 
 	public void generateQuestionListRandom(String setName) throws EmptyQuestionSetException {
 		if (_lengthOfQuestionList != null && setName.equals("Default")) {
 			generateQuestionListFromPreload("medium", _lengthOfQuestionList);
@@ -323,7 +370,9 @@ public class QuestionModel {
 		}
 	}
 
-	// start question list processing for gaming part (not practise part)
+	/**
+	 *  start question list processing for gaming part (not practise part)
+	 */
 	public void triggerGameStart() {
 		if (_generatedQuestionList == null) {
 			System.err.println("there is no generated question list to start");
@@ -333,12 +382,17 @@ public class QuestionModel {
 		}
 	}
 
-	// return number of questions left
+	/**
+	 *  return number of questions left
+	 * @return
+	 */
 	public int numOfQuestionsLeft() {
 		return _toDoList.size();
 	}
 
-	// retrieve a QA pair to use
+	/**
+	 *  retrieve a QA pair to use
+	 */
 	public void NextQA() {
 		computeScore(_currentMode);
 		switch (_currentMode) {
@@ -372,7 +426,10 @@ public class QuestionModel {
 
 	}
 
-	// check if all questions are done
+	/**
+	 *  check if all questions are done
+	 * @return
+	 */
 	public boolean hasNext() {
 		switch (_currentMode) {
 		case NORMALMATH:

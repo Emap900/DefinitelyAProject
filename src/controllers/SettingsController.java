@@ -36,7 +36,14 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 
 import javafx.scene.control.ComboBox;
-
+/**
+ * This class is the controller class for setttings scene of the program.
+ * This controller provides functionality of manipulating customized question sets as well as picking a list of questions to play with from a given question set.
+ * This controller also made a use of local config files to ensure that the change will retain even the GUI is closed.
+ * 
+ * @author Carl Tang & Wei Chen
+ *
+ */
 public class SettingsController implements Initializable {
 	// background stack pane
 	@FXML
@@ -392,6 +399,10 @@ public class SettingsController implements Initializable {
 		_main.showHelp(Function.SETTINGS);
 	}
 
+	/**
+	 * Open the window of editing question set on call.
+	 * @param setName
+	 */
 	private void openeditPanel(String setName) {
 		_editPanelStage = new Stage();
 		_editPanelStage.setMinHeight(400);
@@ -404,6 +415,9 @@ public class SettingsController implements Initializable {
 		editPanelController.initData(setName);
 	}
 
+	/**
+	 * Update displayed list by gathering updated version from the questionModel on call
+	 */
 	protected void updateSetList() {
 		ObservableList<String> ol = FXCollections.observableArrayList(_questionModel.getListOfsets());
 		quesitonSetComboBox.setItems(ol);
