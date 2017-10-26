@@ -114,7 +114,7 @@ public class QuestionModel {
 		_pronounciationHardnessFactor = 1;
 		_numOfquestionsGotCorrect = 0;
 
-		_currentScore = 0;
+		_currentScore = null;
 
 		loadLocalLists();
 		Scanner s;
@@ -410,11 +410,13 @@ public class QuestionModel {
 			}
 			break;
 		case NORMALMATH:
-			List<String> currentQA = _toDoList.get(0);
-			_currentQuestion = currentQA.get(0);
-			_currentAnswer = currentQA.get(1);
-			_questionsDid.add(currentQA);
-			_toDoList = _toDoList.subList(1, _toDoList.size());
+			if (!_toDoList.isEmpty()) {
+				List<String> currentQA = _toDoList.get(0);
+				_currentQuestion = currentQA.get(0);
+				_currentAnswer = currentQA.get(1);
+				_questionsDid.add(currentQA);
+				_toDoList = _toDoList.subList(1, _toDoList.size());
+			}
 
 			break;
 		case ENDLESSMATH:
@@ -505,9 +507,8 @@ public class QuestionModel {
 		_pronounciationHardnessFactor = 1;
 		_numOfquestionsGotCorrect = 0;
 
-		_currentScore = 0;
+		_currentScore = null;
 		_numOfquestionsGotCorrect = 0;
-		_currentScore = 0;
 		_isFinished = false;
 
 	}
