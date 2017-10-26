@@ -512,7 +512,7 @@ public class FoundationBoardController implements Initializable {
 	}
 
 	/**
-	 * Show the help information for practise or math questions depending on current
+	 * Show the help information for practice or math questions depending on current
 	 * function of the foundation board
 	 */
 	@FXML

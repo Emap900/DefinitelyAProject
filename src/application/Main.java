@@ -37,7 +37,7 @@ import javafx.fxml.JavaFXBuilderFactory;
  * This Class is the entry point of the  program.
  * It handles the functionality of initialize base components of the program as well as the exchange of scenes in the program.
  * 
- * @author Carl Tang & Eric Chen
+ * @author Carl Tang & Wei Chen
  *
  */
 public class Main extends Application {

@@ -8,6 +8,12 @@ import java.util.List;
 
 import models.QuestionModel;
 
+/**
+ * This class is a speechRecognizer
+ * 
+ * @author Carl Tang
+ * 
+ */
 public final class SpeechRecognizer {
 
 	/**
@@ -39,8 +45,8 @@ public final class SpeechRecognizer {
 	}
 
 	/**
-	 * This method uses a shell script which uses htk toolbox to do speech
-	 * recognition. It will load the wav recording saved locally and return the
+	 * This method uses a shell script which uses HTK toolBox to do speech
+	 * recognition. It will load the way recording saved locally and return the
 	 * recognized word.
 	 * 
 	 * @return recognized word from the locally saved (currentNumberValue).wav as a
