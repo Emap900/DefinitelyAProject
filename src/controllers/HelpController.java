@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 
 /**
- * This
+ * This class is the controller for help window which contains several dialogs describe the functionality of the program.
  * @author Carl Tang & Wei Chen
  *
  */
